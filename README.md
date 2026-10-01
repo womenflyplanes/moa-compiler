@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23090349.svg)](https://doi.org/10.5281/zenodo.23090349)
 # MoA as Universal Intermediate Language
 ### Dissertation 1988 → Papers I-V + 5-Device Closure 2026 — 38 Years
 

@@ -1,0 +1,116 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,geometry,graphicx,hyperref,listings,xcolor}
+\geometry{margin=0.8in}
+\usepackage{float}
+\lstdefinestyle{c}{language=C,basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single}
+\lstdefinestyle{fortran}{language=Fortran,basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single}
+\title{MoA as Universal Intermediate Language: Semantic Equivalence, Dimension Lifting, and Portable Deterministic Code Generation}
+\author{Lenore Mullin — Dissertation 1988 + Papers I-V + Predictive Model Papers + 5-Device Validation}
+\date{September 30, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+MoA provides a single universal intermediate representation with semantic equivalence preserved via Theorem 3.1 Storage Theorem. Source programs from Python, PyTorch, JAX, TensorFlow, Fortran, C, Julia, MoA itself compile once to Denotational Normal Form (DNF) — immutable semantic core. DNF is fixed; only Operational Normal Form (ONF) rewrites via gamma transform and dimension lifting produce target-specific optimizations. Dimension lifting maps data shape array rho(A)=<B,h,n,d\_k> to machine shape array pi=<numa\_nodes,cores\_per\_node,gpu\_warps,simd\_lanes> via partitioning rule rho(A) -> pi \# (rho(A) o/ pi) where o/ is elementwise division and \# is shape catenation from dissertation. Loops map to portable paradigms ONLY OpenMP, OpenACC, OpenMPI with deterministic shapes and flags -O2 -fno-fast-math -DOMP\_DETERMINISTIC fitting T approx alpha F+beta M beta>>alpha 100-1000x DRAM vs FLOP, closing prediction gap reached(d) on 5-device ensemble NCSA Delta A100, AMD MI100, PSC Bridges-2 H100, SDSC Expanse V100, TACC Stampede3 Intel Max 1550. Illustrations show AST convergence, shape partitioning, and pragma mapping with gamma start/stop/stride.
+\end{abstract}
+
+\section{MoA as Universal Intermediate Language — Many In, Many Out, Semantic Equivalence Preserved}
+
+From dissertation Mullin 1988: psi-selection <i>psi xi with partial indexing rho(i psi xi)=tau i drop rho xi, take uparrow, drop downarrow, reverse phi, rotate theta, transpose oslash, Lemmas L1-L5 psi distributes over catenation and unary ops. Omega lifting f\_Omega(sigma\_l,sigma\_r). DNF is unique up to reordering of independent index computations, minimal memory traffic Prop 4.1 O(nd\_k+nd\_v) vs O(n^2+nd\_k+nd\_v).
+
+Figure 1 illustrates MoA as universal IL: many source languages converge to single MoA AST/DNF with semantic equivalence preserved (Theorem 3.1), then diverge to many target backends. DNF is fixed — immutable semantic core. ONF rewrites only via normalized rewrites produce target optimizations without re-derivation. CUDA crossed out — portable only per requirement.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resource/image_20261001_072756.webp}
+\caption{MoA as Universal Intermediate Language: Many Languages In, Many Languages Out. Center MoA AST/DNF with psi, Omega, gamma, compose, semantic equivalence preserved Theorem 3.1. Left: Python, PyTorch, JAX, TensorFlow, Fortran, C, Julia, MoA itself. Right: C+OpenMP, Fortran+OpenACC, OpenMPI, LLVM IR, CUDA crossed out portable only. DNF fixed, ONF rewrites only.}
+\end{figure}
+
+Key: PyTorch Listing 1 stable\_softmax and attention, JAX jax.numpy, Fortran loops all parse to same take/drop/psi AST via Def 1.0,1.1,0.0,3.1. Verification Tables 1,2 Paper 1 exact match to 1e-4, backward Paper 2 ||err|| 1e-16, decode Paper 3 ||err|| 0 exact IEEE-754.
+
+\section{Dimension Lifting Using Shapes of Data In and Shapes of Data Out}
+
+Dimension lifting Section 3 Paper 1: hardware component modeled as array of known shape Pi. ONF iteration space N mapped to Pi \# (N o/ Pi) where o/ elementwise integer division, \# shape catenation (concat) operator from dissertation. Example: hardware p parallel processors arranged as array shape Pi, ONF loop nest iteration space N, dimension lifting maps N -> Pi \# (N o/ Pi), resulting structure expresses inter-processor parallelism outer loop over Pi and intra-processor inner loop over N o/ Pi in single algebraic expression.
+
+For higher-rank tensors: B batch, h heads, n sequence, d\_k head dim, shape <B,h,n,d\_k>. Transpose over innermost two dims is (transpose Omega<2>)K Eq11, score is Q ((+ x) Omega<2,2>) ((transpose Omega<2>)(K)) Eq12 distributing over leading <B,h> dims. Each 2-D partition assigned to separate processing element GPU warp, SIMD lane, compute node yielding provably correct parallel implementation directly from algebraic structure of Omega without additional scheduling.
+
+Partitioning each dimension of shape array:
+
+rho(A)=<B=8,h=12,n=64,d\_k=32> partitioned as B>>B0 \# B1 with 8=4 \#2, h>>h0 \# h1 12=3 \#4, n>>n0 \# n1 64=8 \#8, d\_k>>d\_k0 \# d\_k1 32=4 \#8 using shape-catenation operator \#.
+
+Machine shape pi=<numa\_nodes=2,cores\_per\_node=3,gpu\_warps=4,simd\_lanes=8> = <2,3,4,8>. Elementwise division rho(A) o/ pi = <8/2,12/3,64/4,32/8>=<4,4,8,4>. Lifted shape: rho(A) -> pi \# (rho(A) o/ pi) = <2,3,4,8> \# <4,4,8,4>.
+
+Gamma maps multi-index to linear offset: gamma(i\_B,i\_h,i\_n,i\_dk) = ((i^h\_0 pi1 pi2 pi3)+(i^h\_0 pi2 pi3)+(i^n\_0 pi3)-(i^{dk}\_0))*(4*4*8*4)+((i^h\_1 4*8*4)+(i^h\_1 8*4)+(i^h\_1 4)+(i^{dk}\_1)). Machine-shape index in pi=<2,3,4,8> and residual index in rho(A)o/pi=<4,4,8,4>.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{resource/image_20261001_072813.webp}
+\caption{Dimension Lifting using Shape Arrays: Mapping Data Shape rho(A)=<B,h,n,d\_k> to Machine Shape pi=<numa\_nodes,cores\_per\_node,gpu\_warps,simd\_lanes> via Partitioning and Element-wise Division. Data shape array partitioned along each dimension using shape-catenation operator \# . Machine shape array target parallelism. Gamma function maps multi-index to linear offset for execution. Lifted shape rho(A) -> pi \# (rho(A) o/ pi).}
+\end{figure}
+
+This explains 535x NUMA penalty vs <3x oversubscription Paper V: same DNF, different gamma costs when partitioning mis-aligned to numa\_nodes. Also explains C vs Fortran 3.17x time matches 3.35x stall: gamma\_row vs gamma\_col variant.
+
+\section{Loops Map to Paradigms — OpenMP Pragmas and Deterministic Shapes}
+
+ONF loop nest obtained from DNF by applying gamma primitive Eq3 to all index expressions translating multi-index Cartesian arithmetic into memory offset = base + stride0*i0+stride1*i1+... Eq7 captures storage convention row-major vs column-major contiguous vs strided enables standard loop-nest analysis.
+
+ONF loops map to portable paradigms ONLY OpenMP, OpenACC, OpenMPI with deterministic shapes to create code. Each pragma maps 1-1 to ONF start/stop/stride, so measured T fits predicted T=alpha F+beta M with beta>>alpha 100-1000x DRAM vs FLOP closing prediction gap reached(d) on 5-device ensemble.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resource/image_20261001_072759.webp}
+\caption{Loops Map to Paradigms: OpenMP, OpenACC, OpenMPI with Deterministic Shapes. ONF loop nest for i'' in <n>, k in <n>, j in <dk> with gamma(v,s) offset. Mapped to C OpenMP \#pragma omp parallel for schedule(static) proc\_bind(close) deterministic shape <n>, Fortran OpenACC \#pragma acc parallel loop gang worker vector\_length(64) independent shape <gang,worker,vector>, OpenMPI MPI\_Scatterv/Gatherv shape <n0 \# n1> partitioned. Each loop start/stop/stride from ONF gamma, deterministic flags -O2 -fno-fast-math -DOMP\_DETERMINISTIC, -acc -Minfo=accel -ta=tesla:cc80. All close prediction gap.}
+\end{figure}
+
+Emission examples — deterministic flags only fitting predictive model:
+
+C OpenMP:
+\begin{lstlisting}[style=c]
+// MoA DNF->ONF gamma Eq7, C OpenMP deterministic: -O2 -fno-fast-math -fopenmp -DOMP_DETERMINISTIC
+// rho(Q)=rho(K)=rho(V)=<3,4> Eq9, O(nd_k+nd_v) Prop4.1
+#pragma omp parallel for schedule(static) proc_bind(close) // deterministic, fits predictive model
+for (int i_pp=0; i_pp<3; i_pp++) {
+    double q_i[4];
+    for (int j=0;j<4;j++) q_i[j]=Q[i_pp*4+j]; // <i'',j>psi Q gamma
+    double scores[3];
+    for (int k=0;k<3;k++) {
+        double s=0.0;
+        for (int j=0;j<4;j++) s+=q_i[j]*K[k*4+j]; // Eq17 no K^T buffer
+        scores[k]=s/sqrt(4.0);
+    }
+    // ... softmax Eq16,19,20, Output Eq21
+}
+\end{lstlisting}
+
+Fortran OpenACC:
+\begin{lstlisting}[style=fortran]
+! Fortran OpenACC deterministic: -acc -Minfo=accel -ta=tesla:cc80 -fopenacc vector_length(64)
+!$acc parallel loop gang worker vector_length(64) independent
+do i_pp=1,3
+  q_i=Q(i_pp,:)
+  do k=1,3
+    s=0.0d0; do j=1,4; s=s+q_i(j)*K(k,j); end do
+    scores(k)=s/sqrt(4.0d0)
+  end do
+  max_row=maxval(scores); num=exp(scores-max_row); den=sum(num); Y=num/den
+  do jv=1,4; Output(i_pp,jv)=sum(Y(:)*V(:,jv)); end do
+end do
+!$acc end parallel
+\end{lstlisting}
+
+OpenMPI weighted comm-free partition hetero\_main: rho\_machine(d)=<n0 \# n1>:
+\begin{lstlisting}[style=c]
+// MPI Scatterv/Gatherv, X_d=0% construction, reached(d) 99.88% busy Level Zero Sysman
+MPI_Scatterv(Q_global,sendcounts,displs,MPI_DOUBLE,Q_local,n_local*dk,MPI_DOUBLE,0,MPI_COMM_WORLD);
+#pragma omp parallel for schedule(static)
+for(int i=0;i<n_local;i++){ /* same DNF local O(nd_k+nd_v) */ }
+MPI_Gatherv(Output_local,n_local*dv,MPI_DOUBLE,Output_global,recvcounts,displs,MPI_DOUBLE,0,MPI_COMM_WORLD);
+\end{lstlisting}
+
+All results: 2.00x atomics ->2.5x speedup via ONF rewrite only Paper V, 535x NUMA vs <3x oversubscription same DNF different gamma, C vs Fortran 3.17x time matches 3.35x stall as gamma\_row vs gamma\_col, predictive model closure reached(d) M1exp,Pd,Xd=0\%,Cd,Rd 0.004-0.028 measured directly bracket-and-locate sweep Level Zero Sysman 99.88\% busy Table X Sec XIII hetero\_main+closing\_prediction\_gap.
+
+\section{Conclusion}
+
+MoA as universal IL: many languages in, MoA AST/DNF semantic equivalence preserved Theorem 3.1, many languages out via dimension lifting mapping data shape arrays to machine shape arrays partitioning each dimension using \# and o/ and gamma offset. Loops map to portable paradigms OpenMP, OpenACC, OpenMPI with deterministic shapes and flags closing prediction gap. Foundation for exascale.
+
+\end{document}

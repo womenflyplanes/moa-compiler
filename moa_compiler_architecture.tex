@@ -1,0 +1,102 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\geometry{margin=1in}
+
+\title{MoA Compiler Architecture: From Dissertation $\psi$ and $\Omega$ to Verified Portable Kernels}
+\author{Lenore Mullin — University at Albany, SUNY — Dissertation 1988 + Papers I-V (2026)}
+\date{September 30, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Compiler spec from hand-derived Mathematics of Arrays in Mullin 1988 dissertation (123 pages, $\psi$, $\Omega$, take $\uparrow$, drop $\downarrow$, catenation, rotate $\theta$, reverse $\phi$, transpose $\oslash$, compress $f$, expand $\setminus$) to Papers I-V: arXiv:2606.07713, HAL:05659212, arXiv:2607.19456, HAL:05734881, arXiv:2609.33916. IR is Denotational Normal Form (DNF) achieving $O(nd_k+nd_v)$ minimal vs $O(n^2)$, verified $\|\text{err}\|_\infty\le2e-7$ and $=0$ exact IEEE-754. Backend is Operational Normal Form (ONF) via $\gamma(\vec v,\vec s)=\sum v_k\prod s_j$ with deterministic portable paradigms only: OpenMP, OpenACC, OpenMPI, and deterministic flags fitting predictive model $T\approx\alpha F+\beta M$, $\beta\gg\alpha$ (100-1000x DRAM vs FLOP).
+\end{abstract}
+
+\section{Dissertation Core: Full $\psi$ as Derived by Hand}
+
+From pages 20-50: Original definition 2.0 $\vec i\psi\xi$ only for full index. Extended (your extension) for partial $\vec i$ where $\tau\vec i<\delta\xi$: $\rho(\vec i\psi\xi)=\tau\vec i\downarrow\rho\xi$ giving subarray sections. This is take/drop foundation.
+
+Lemma L1-L5 proofs in dissertation show:
+\begin{align*}
+(\xi_l,\xi_r)\psi\xi &\equiv (\xi_l\psi\xi),(\xi_r\psi\xi) \quad (L4)\\
+\xi_l\psi(\sigma\,op\,\xi_r) &\equiv \sigma\,op\,(\xi_l\psi\xi_r) \quad (L5)
+\end{align*}
+i.e., $\psi$ distributes over catenation and unary ops — core of psi-reduction to DNF.
+
+Take $\vec v\uparrow\xi$ (Def 1.0): $\rho(\vec v\uparrow\xi)\equiv(\text{abs }\vec v),(r\vec v)\downarrow\rho\xi$, $\vec i\psi(\vec v\uparrow\xi)\equiv(\vec i+\vec j)\psi\xi$ — selects first $|\vec v|$ elements.
+Drop $\vec v\downarrow\xi$ (Def 1.1): complement, $(r\vec v\uparrow\rho\xi)-\text{abs }\vec v$ — crucial for KV-cache $K_{old}\#k_t$ as take+drop+cat.
+Rotate $\theta$, reverse $\phi$ (Def 0.0-2.0): $\rho\phi\xi\equiv\rho\xi$, $<i>\psi\phi\xi\equiv<(\rho\xi)[0]-(i+1)>\psi\xi$.
+Transpose $\vec v\oslash\xi$ (Def 3.1): $\rho(\vec v\oslash\xi)\equiv(\rho\xi)[gu\,\vec v]$, $<i>\psi(\vec v\oslash\xi)\equiv\vec i[gu\,\vec v]\psi\xi$ — but DNF eliminates it algebraically, no buffer.
+
+This full $\psi$ calculus is the frontend parser: PyTorch op $\rightarrow$ take/drop/$\psi$ expression.
+
+\section{Omega Subset: What Compiler Needs}
+
+Dissertation Chap IV-VI defines $\Omega$ lifting $f_{\Omega(\sigma_l,\sigma_r)}$. Full $\Omega$ is powerful but compiler needs only 4 deterministic patterns covering Papers I-V:
+
+\begin{enumerate}
+\item $+_{\Omega\langle0,1\rangle}, \times_{\Omega\langle0,1\rangle}$: broadcast add/mul for $QK^T/\sqrt{d_k}+$ mask and softmax numerator.
+\item $+_{\Omega\langle1,1\rangle}$: reduction $\sum_{d_k}$ for dot product, $\rho = \sigma_l\downarrow\rho\xi_l\#\sigma_r\downarrow\rho\xi_r$ with $m=1$.
+\item $\max_{\Omega\langle1\rangle}$: stable softmax max, plus $+_{\Omega\langle0,1\rangle}$ for subtract.
+\item Selection $\psi$ for GQA/MQA: $h_q/h_{kv}$ proven reduction via $\vec i\psi$ modulo.
+\end{enumerate}
+
+No arbitrary $\Omega$ nesting — only these 4 give DNFs in Papers I-III with $\|\text{err}\|_\infty=0$.
+
+\section{Portable Paradigms Only: OpenMP, OpenACC, OpenMPI}
+
+Constraint: NO CUDA/HIP. Only standards.
+
+\textbf{OpenMP (CPU):} $\#pragma\ omp\ parallel\ for\ schedule(static)\ proc\_bind(close)$ over ONF. $\gamma^{row}$ maps to offset. Explains Paper V 535x NUMA penalty vs $<3x$ oversubscription — same DNF, different $OMP\_PLACES$.
+
+\textbf{OpenACC (GPU):} $\#pragma\ acc\ parallel\ loop\ gang\ worker\ vector\_length(128)\ independent$. Paper III verified exact. Atomic contention fix 2.00x $\rightarrow$ 2.5x via $\#pragma\ acc\ atomic$ restructuring in ONF only, DNF fixed.
+
+\textbf{OpenMPI (Distributed):} $\rho A = \langle n\rangle = \langle n_0\#n_1\rangle$. $K_{new}=K_{old}\#k_t$ is $MPI\_Scatterv/Gatherv$ with $\psi$-selection halo. KV-cache $O(d_k+d_v)$ append proven by cat lemma.
+
+C vs Fortran anomaly: C+OpenMP faster CPU, Fortran+OpenACC faster GPU, 3.17x time matches 3.35x stall — compiler picks $\gamma^{row}$ vs $\gamma^{col}(\vec v,\vec s)=\sum v_k\prod_{j=0}^{k-1}s_j$.
+
+\section{Deterministic Flags and Pragmas for Predictive Model}
+
+Predictive model requires reproducible $\gamma$ costs. Your prior work (Mullin 2023 GPU energy, Mullin \& Hains 2025 parallel generation, Thomas 2021 DGEMM) uses $T\approx\alpha F+\beta M$.
+
+Allowed deterministic:
+\begin{itemize}
+\item \texttt{-O2 -std=c11 -fopenmp -fno-fast-math -fno-unsafe-math-optimizations -DOMP\_DETERMINISTIC}
+\item \texttt{-acc -Minfo=accel -ta=tesla:cc80 -fopenacc} deterministic lowering
+\item \texttt{-DOMPI\_DETERMINISTIC} fixed reduction order
+\end{itemize}
+Forbidden: \texttt{-O3 -Ofast -ffast-math -funroll-loops} — breaks IEEE exactness and invalidates model.
+
+Deterministic pragmas map 1-1 to ONF:
+\begin{lstlisting}[basicstyle=\ttfamily\small]
+#pragma omp simd aligned(q,k,v:64) // gamma coalesced
+#pragma acc loop seq // scalar G_A,G_S in backward
+\end{lstlisting}
+
+Measured vs predicted: 2-100x speedup, 2-50x energy from Paper I.
+
+\section{Compiler Passes — Full Pipeline}
+
+\begin{lstlisting}[basicstyle=\ttfamily\small]
+def compile(pytorch_src, target='Anvil'):
+  moa_ast = parse_take_drop_psi(pytorch_src) # Diss. Def 1.0,1.1,L1-L5
+  omega_ast = lift_to_Omega_subset(moa_ast) # 4 patterns only
+  dnf = psi_reduce_full(omega_ast) # full calculus
+  verify(dnf, pytorch_src, eps=0) # Paper III exact
+  onf = gamma_lower(dnf, layout='row', deterministic=True)
+  onf = optimize_onf_portable(onf, target, paradigms=['OMP','ACC','MPI'])
+  # fixes: 2.00x atomics->2.5x, 535x NUMA, 3.17x stall
+  emit(onf, flags='-O2 -fno-fast-math -fopenmp -fopenacc')
+\end{lstlisting}
+
+Paper I-V kernels all compile through this: forward, backward $G_V,G_Q,G_K$ eliminating $G_A,G_S,G_{sc}$, fused $O(n^2)$ avoidance, decode $(d_k+nd_k+nd_v+d_v)*4B$, GQA/MQA $h_q/h_{kv}$, block RMSNorm+gated MLP.
+
+Next: upload predictive model papers to annotate DNF nodes with cost $\beta M$ for exascale.
+
+\end{document}

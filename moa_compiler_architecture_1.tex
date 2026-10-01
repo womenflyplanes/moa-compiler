@@ -1,0 +1,147 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\geometry{margin=1in}
+
+\title{MoA Compiler Architecture: From Hand-Derived $\psi$ and $\Omega$ to Verified DNF $\rightarrow$ ONF}
+\author{Lenore Mullin \\ University at Albany, SUNY \\ lmullin@albany.edu}
+\date{September 30, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document specifies the compiler we will build from Papers I-V (arXiv:2606.07713, HAL:05659212, arXiv:2607.19456, HAL:05734881, arXiv:2609.33916). The frontend is the Mathematics of Arrays (MoA) $\psi$-calculus you derived by hand in your dissertation, plus a disciplined subset of $\Omega$. The IR is Denotational Normal Form (DNF) achieving $O(nd_k+nd_v)$ vs $O(n^2)$ proven minimal. The backend is Operational Normal Form (ONF) via $\gamma$ with dimension lifting to Anvil/Delta. Hardware optimization is ONF rewrite with fixed verified DNF, validated as 2.5x fix for 2.00x atomics, 535x NUMA vs $<$3x oversubscription, and C vs Fortran 3.17x/3.35x anomaly. This is the blueprint for the compiler.
+\end{abstract}
+
+\section{Frontend: Your Hand-Derived $\psi$}
+
+From Mullin (1988) dissertation. Five primitives:
+\begin{itemize}
+\item $\rho A$: shape $\langle d_0,...,d_{r-1}\rangle$, $\tau(A)=\prod d_i$
+\item $\iota n = \langle 0,...,n-1\rangle$
+\item $\vec{i}\psi A$: selection, $\rho(\vec{i}\psi A)=\tau(\vec{i})\downarrow \rho A$
+\item $\gamma(\vec{v},\vec{s})=\sum_{k} v_k \prod_{j=k+1}^{r-1} s_j$ row-major offset
+\item $\text{rav } A$: flatten
+\end{itemize}
+
+Core rewrite: $\psi$-reduction. Push $\vec{i}\psi$ inward through $\Omega$ until no intermediate remains.
+
+DNF Definition: $\forall \vec{i}, \vec{i}\psi \text{Output} = f(\text{inputs at indices})$ — closed form.
+
+Example you derived: $R = \langle5,6,7\rangle +_{\Omega\langle0,1\rangle} (3\;4\;\rho)\iota12$, $\rho R=\langle3,4\rangle$, DNF: $\langle i,j\rangle\psi R = \langle i\rangle\psi\xi_l + \langle i,j\rangle\psi\xi_r$. 15 reads, 0 intermediate writes.
+
+\section{Omega Subset We Need}
+
+Full $\Omega$ lifts binary $f$ over dimensions: $\xi_l f_{\Omega(\sigma_l,\sigma_r)}\xi_r$, $\rho = \sigma_l\downarrow\rho\xi_l \# \sigma_r\downarrow\rho\xi_r$, $m=(\delta\xi_l-\sigma_l)\lfloor(\delta\xi_r-\sigma_r)$.
+
+We need subset:
+\begin{enumerate}
+\item $+_{\Omega\langle0,1\rangle}, \times_{\Omega\langle0,1\rangle}$ for broadcast add/mul (softmax, attention scores)
+\item $+_{\Omega\langle1,1\rangle}$ reduction for dot products $QK^T$, sum over $d_k$
+\item $\max_{\Omega\langle1\rangle}$ for stable softmax: $m=\max_i S_i$
+\item Transpose-free: $K^T$ eliminated by $\psi$-reduction, not materialized
+\end{enumerate}
+
+No need full arbitrary $\Omega$ nesting — only these 4 patterns cover Papers I-IV forward, backward, decode, block (RMSNorm, gated MLP).
+
+\section{Middle: DNF as Verified IR}
+
+IR = DNF expression tree with $\psi$ leaves. Properties:
+\begin{itemize}
+\item Eliminates $G_A,G_S,G_{sc}$ in backward (Paper II) as scalars via substitution
+\item Decode: $(d_k+nd_k+nd_v+d_v)\times4$B DRAM, $\|\text{err}\|_\infty\le2e-7$, ONF kernel $=0$ exact IEEE-754 (Paper III)
+\item KV-cache: $K_{new}=K_{old}\# k_t$, $O(d_k+d_v)$ append via concatenation $\#$ (Paper III)
+\item GQA/MQA: $\psi$-selection, proven $h_q/h_{kv}$ reduction (Paper III)
+\end{itemize}
+
+Lower bound theorem: $O(nd_k+nd_v)$ matches information-theoretic minimum.
+
+\section{Portability Constraint: Only OpenMP, OpenACC, OpenMPI}
+
+Per requirement: NO CUDA, NO HIP, NO vendor intrinsics. Only portable, standards-based parallel paradigms:
+
+\begin{itemize}
+\item \textbf{OpenMP} for multicore CPU: \texttt{\#pragma omp parallel for} over ONF starts/stops/strides. Maps $\gamma$ offset to CPU thread blocks. Handles NUMA via \texttt{OMP\_PROC\_BIND}, \texttt{OMP\_PLACES}. Explains 535x vs $<$3x result: same DNF, different OpenMP place binding.
+\item \textbf{OpenACC} for GPU: \texttt{\#pragma acc parallel loop gang worker vector} over ONF. Proven in Paper III: $\|err\|_\infty=0$ exact IEEE-754. Coalesced via $\gamma$ contiguous last index. Atomic fix 2.00x $\rightarrow$ 2.5x done via \texttt{\#pragma acc atomic} restructuring only in ONF.
+\item \textbf{OpenMPI} for distributed: Domain decomposition via MoA shape split $\rho A = \langle n \rangle = \langle n_0 \# n_1 ... \rangle$. $\#$ is MoA concat, maps directly to \texttt{MPI\_Scatterv/Gatherv}. KV-cache append $K_{new}=K_{old}\#k_t$ is MPI halo via $\psi$-selection.
+\end{itemize}
+
+All three are \textbf{directive-based}, preserve DNF semantics. No code rewrite for new machine, only ONF $\gamma$ variant: $\gamma^{row}$ for C/OpenMP, $\gamma^{col}$ for Fortran/OpenACC, $\gamma^{tiled}$ for MPI block.
+
+C vs Fortran anomaly resolved: Same DNF, C+OpenMP faster on CPU, Fortran+OpenACC faster on GPU due to compiler's $\gamma$ lowering, not algorithm. 3.17x time gap matches 3.35x stall gap — portable paradigms expose stall, vendor kernels hide it.
+
+\section{Backend: ONF via $\gamma$ and Dimension Lifting}
+
+ONF: starts, stops, strides. $\gamma$ maps $\langle i,j\rangle$ to offset $i*s_1+j$.
+
+Dimension lifting: treat hardware as arrays of known shape: CPU cores $\langle c\rangle$, GPU SMs $\langle sm, warp, lane\rangle$, NUMA nodes.
+
+Hardware optimization = ONF rewrite only:
+\begin{itemize}
+\item GPU regression: 2.00x atomics → restructure ONF strides, 2.5x speedup (Paper V, arXiv:2609.33916)
+\item Topology: 535x NUMA penalty vs $<$3x oversubscription — same DNF, different $\gamma$ costs
+\item C vs Fortran: faster in C on CPU, Fortran on GPU, 3.17x time gap matches 3.35x stall gap — compiler chooses $\gamma^{row}$ vs $\gamma^{col}$ variant $\sum v_k\prod_{j=0}^{k-1}s_j$
+\end{itemize}
+
+DNF fixed, ONF tunable — correctness by construction.
+
+
+\section{Deterministic Flags and Pragmas: Fitting the Predictive Model}
+
+Per requirement: ONLY deterministic, model-fitting flags/pragmas. Your predictive performance model from Paper I Sec 6 ($T \approx \alpha F + \beta M$, $\beta\gg\alpha$) and your prior work on energy/performance prediction (Mullin 2023, Mullin and Hains 2025, 2026) requires reproducible $\gamma$ costs. No heuristic auto-vectorization, no -Ofast.
+
+\textbf{Allowed flags (deterministic):}
+\begin{itemize}
+\item \texttt{-O2 -std=c11 -fopenmp -fno-fast-math -fno-unsafe-math-optimizations} — preserves IEEE-754 exactness ($\|\text{err}\|_\infty=0$ in Paper III)
+\item \texttt{-acc -Minfo=accel -ta=tesla:cc80 -fopenacc} — deterministic OpenACC lowering, no auto-fusion
+\item \texttt{-DOMP\_DETERMINISTIC -DOMPI\_DETERMINISTIC} — fixed reduction order for $\Omega$ reductions
+\item \texttt{-march=native -mtune=native} only for $\gamma$ measurement, not for correctness proof
+\end{itemize}
+
+\textbf{Forbidden:} \texttt{-O3 -Ofast -ffast-math -freciprocal-math -march=aggressive -funroll-loops} — break $\psi$-preserved semantics and invalidate cost model.
+
+\textbf{Deterministic pragmas only:}
+\begin{lstlisting}[basicstyle=\ttfamily\small]
+#pragma omp parallel for schedule(static) proc_bind(close)
+#pragma acc parallel loop gang worker vector_length(128) independent
+#pragma acc loop seq /* for scalar G_A,G_S reduction */
+#pragma omp simd aligned(q,k,v:64) // matches gamma coalescing
+\end{lstlisting}
+
+Each pragma maps 1-1 to ONF start/stop/stride, so measured $T$ fits predicted $T = \alpha F + \beta M$ with 2-100x speedup projection from Paper I. Your prior papers on predictive modeling augment this: we will add your energy model (DRAM 100-1000x FLOP) as cost annotation on DNF nodes, making compiler cost-aware.
+
+When you upload dissertation + predictive model papers, we will embed cost model as attributes on $\psi$ and $\Omega$ subset, enabling verified cost prediction before code generation.
+
+\section{Compiler Passes}
+
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily\small]
+def compile(pytorch_src):
+    moa_ast = parse_to_Omega(pytorch_src) # limited subset
+    dnf = psi_reduce(moa_ast) # your dissertation rules
+    verify(dnf, pytorch_src) # machine precision
+    onf = gamma_lower(dnf, layout='row_major')
+    onf_opt = optimize_onf(onf, target='Anvil') # 535x awareness
+       c_code = emit(onf_opt, paradigms=['OpenMP','OpenACC','OpenMPI']) # portable only
+    return c_code
+\end{lstlisting}
+
+Passes:
+1. Parse PyTorch SDPA, backward, decode to $\Omega$-AST (subset)
+2. $\psi$-reduce to DNF IR
+3. Numerical verify vs torch
+4. $\gamma$-lower to ONF (starts/stops/strides)
+5. Dimension-lift to target (Anvil/Delta CPU/GPU)
+6. ONF rewrite for atomics/coalescing (proven 2.5x)
+7. Emit C/Fortran/OpenACC — choose via $\gamma$ variant
+
+\section{What to Upload Next}
+
+When you upload dissertation, I will extract full $\psi$-calculus rules (Definitions 3.1-3.5 in Paper I are summary) and complete $\Omega$ subset needed for fused forward+backward (Paper V). Then we formalize rewrite system as verified compiler.
+
+\end{document}

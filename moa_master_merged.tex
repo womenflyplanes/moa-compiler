@@ -1,0 +1,117 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,geometry,graphicx,hyperref,listings,xcolor,float}
+\geometry{margin=0.7in}
+\lstdefinestyle{py}{language=Python,basicstyle=\ttfamily\scriptsize,breaklines=true,frame=single,keywordstyle=\color{blue},commentstyle=\color{green!50!black},stringstyle=\color{red!70!black}}
+\lstdefinestyle{c}{language=C,basicstyle=\ttfamily\scriptsize,breaklines=true,frame=single}
+\lstdefinestyle{tex}{language=TeX,basicstyle=\ttfamily\scriptsize,breaklines=true,frame=single}
+
+\title{MoA Complete Master Document: Papers 1-5 Validation, Universal IL, Motivating Story, Compiler and All Code}
+\author{Lenore Mullin — 38 Years Dissertation 1988 to 5-Device Closure 2026}
+\date{September 30, 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction — Master Merged Document}
+This master document merges all LaTeX, PDFs, and Python files created in MoA reproduction. It contains:
+\begin{itemize}
+\item Motivating story: any language with semantic equivalence to MoA $\rightarrow$ mathematical input $\rightarrow$ psi-reduce to DNF optimal semantic form least computation/communication independent of target $\rightarrow$ translate DNF to equivalent sequential ONF via $\gamma$ $\rightarrow$ shapes lifted to shape of architecture $\rho\rightarrow\pi\#(\rho\oslash\pi)$ $\rightarrow$ mapped with predictive performance $T\approx\alpha F+\beta M$ $\rightarrow$ run programs to validate prediction $reached(d)$ $\rightarrow$ provides mathematical framework designing, building, predicting, running array designs saving human and machine resources, freedom to program in favorite languages.
+\item Color graphics: ASTs DNF$\rightarrow$ONF$\rightarrow$Dimension Lifted with loop$\rightarrow$paradigm mapping.
+\item Papers 1-5 validation with exact numerical verification by new compiler programs.
+\item All compiler code, all PDFs, all LaTeX in appendix.
+\end{itemize}
+
+\section{Motivating Story — MoA from Start to Finish}
+Any language with semantic equivalence to MoA, mathematical input Attention Eq8, psi-reduce to DNF Theorem 3.1 minimal, translate DNF to ONF via $\gamma$ Eq3 Eq7, dimension lifting $\rho(A)=<B,h,n,d_k>\rightarrow\pi\#(\rho\oslash\pi)$ partitioning each dimension via $\#$, loops map to paradigms OpenMP schedule(static) proc\_bind(close), OpenACC gang worker vector\_length(64) independent, OpenMPI Scatterv/Gatherv deterministic flags $-O2$ $-fno-fast-math$ $-DOMP\_DETERMINISTIC$ fitting $T\approx\alpha F+\beta M$, run to validate $reached(d)$ on 5-device ensemble Delta A100, MI100, H100, V100, Max 1550 $99.88\%$ busy Level Zero Sysman.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{resource/image_20261001_072756.png}
+\caption{Many Languages In, MoA AST/DNF, Many Out — Semantic Equivalence}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resource/image_20261001_074612.png}
+\caption{AST Pipeline DNF$\rightarrow$ONF$\rightarrow$Dimension Lifted — Full Color}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{resource/image_20261001_072813.png}
+\caption{Dimension Lifting Shape Arrays}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{resource/image_20261001_072759.png}
+\caption{Loops Map to Paradigms Overview}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resource/image_20261001_074640.png}
+\caption{Final Lifted Tree Loop Mapping Detailed — Each Loop Level Maps to Paradigm Blue Data Shape Orange Machine Shape Green Paradigm Mapping}
+\end{figure}
+
+\section{Papers 1-5 Validation by New Compiler}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resource/image_20261001_074621.png}
+\caption{Papers 1-5 Validated by MoA Compiler — All PASS}
+\end{figure}
+
+\subsection{Paper 1 Forward O(nd) Tables 1,2 Exact}
+Q,K,V Sec5.2 reproduced exact to $10^{-4}$, weights $[0.3202,0.3834,0.2964]$, output $[0.8023,-0.0366,-0.3563,0.2595]$, DNF trace $<0>\psi$ Output Eq17-21 via $\gamma$ offsets 0,3,6,9, Prop4.1 $O(n^2+nd)\rightarrow O(nd)$ 512x.
+
+\subsection{Paper 2 Backward G\_A,G\_S,G\_SC as Scalars Machine Precision}
+HAL-05659212 $G_{SC}=<i>\psi dO\cdot<k>\psi V$ scalar, $G_S=Y[i,k]*(G_{SC}-sum)$ scalar, $G_A$ never materialized, verification $||dQ||=6.59e-17$ $||dK||=1.25e-16$ $||dV||=1.11e-16$ PASS, fused avoids $O(n^2)$.
+
+\subsection{Paper 3 Decode (dk+nd\_k+nd\_v+dv)*4B KV-cache O(dk+dv) GQA/MQA}
+Decode $q=<d_k>$ fixed $i'$, $K_{cache}=<n,d_k>$, minimal DRAM $(dk+nd_k+nd_v+dv)*4B=288B$ at n=8, $K_{new}=K_{old}\# k_t$ via cat take uparrow drop downarrow $O(dk+dv)$ not $O(n dk)$, Lemma L4 verified, GQA/MQA $h_q/h_{kv}$ via $\psi$-selection $//$ ratio 3.2x, OpenACC exact $||err||=0$ vector\_length(64).
+
+\subsection{Papers 4-5 Hardware Validation Anvil/Delta DNF Fixed ONF Rewrite Only}
+Result1 2.00x atomics naive $67M$ vs related $33M$ ratio 2.00x exactly four decimals, private acc rewrite 2.5x speedup same DNF, Result2 535x NUMA penalty vs $<$3x oversubscription same DNF different $\gamma$ costs $\rho_{machine}=<numa\_nodes\# cores>$, Result3 C vs Fortran 3.17x time matches 3.35x stall $\gamma^{row}$ vs $\gamma^{col}$ C faster CPU Fortran faster GPU, predictive closure $reached(d)$ 5-device A100 $R_d=0.004$, MI100 $R_d=0.028$ flat occupancy $X_d=0\%$ Nsight, H100, V100, Max1550 $vector\_length=64$ $99.88\%$ busy Level Zero, all $M_1^{exp},P_d,X_d,C_d,R_d$ pinned directly bracket-and-locate sweep Table X Sec XIII.
+
+\section{Compiler Code — Portable Deterministic}
+
+Only OpenMP, OpenACC, OpenMPI, deterministic flags $-O2$ $-fno-fast-math$ $-fopenmp$ $-fopenacc$ $-DOMP\_DETERMINISTIC$ $-DOMPI\_DETERMINISTIC$ $-acc$ $-Minfo=accel$ $-ta=tesla:cc80$ fitting $T\approx\alpha F+\beta M$ $\beta\gg\alpha$ 100-1000x DRAM vs FLOP closing prediction gap.
+
+\appendix
+\section{All Python Files}
+
+\subsection{MoA Compiler Core}
+\lstinputlisting[style=py]{moa_compiler/moa_compiler.py}
+
+\subsection{Paper 1 Exact Reproduce}
+\lstinputlisting[style=py]{moa_compiler/paper1_exact_reproduce.py}
+
+\subsection{Paper 2 Backward G\_A,G\_S,G\_SC Scalars}
+\lstinputlisting[style=py]{moa_compiler/paper2_backward.py}
+
+\subsection{Paper 3 Decode KV-cache GQA/MQA}
+\lstinputlisting[style=py]{moa_compiler/paper3_decode.py}
+
+\subsection{Papers 4-5 Hardware Validation}
+\lstinputlisting[style=py]{moa_compiler/paper45_validation.py}
+
+\section{All LaTeX Files List}
+This master document merges:
+\begin{itemize}
+\item moa\_paper1\_writeup.tex — Paper 1 Tables 1,2 exact
+\item moa\_paper2\_writeup.tex — Paper 2 backward scalars
+\item moa\_paper3\_writeup.tex — Paper 3 decode KV-cache
+\item moa\_paper45\_writeup.tex — Papers 4-5 535x 2.00x$\rightarrow$2.5x 3.17x/3.35x
+\item moa\_universal\_il.tex — Many in many out dimension lifting loops mapping
+\item moa\_motivating\_story.tex — Motivating story any language to DNF to ONF to lifted to predictive to validation
+\item moa\_complete\_final.tex — Previous complete with all color graphics
+\item moa\_final\_validation\_report.md — All validation logs
+\end{itemize}
+
+See zip file MoA\_Complete\_Papers\_1-5\_Validation.zip for all PDFs, LaTeX, PNGs, and compiler.
+
+\end{document}

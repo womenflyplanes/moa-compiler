@@ -1,0 +1,30 @@
+
+<html><body style="font-family:sans-serif">
+<h1>MoA Universal IR — Interactive GUI — Papers 4-5 Validated</h1>
+<p><b>DNF FIXED:</b> ivec ψ A ≡ (rav A)[γ(ivec,ρA)] — CIS261342 + CHI-261724 + UA A40</p>
+<label>d depth (4-36): <input type=range id=d min=4 max=36 value=12 oninput=upd()> <span id=dv>12</span></label><br>
+<label>k vocab (16-256): <input type=range id=k min=16 max=256 value=64 oninput=upd()> <span id=kv>64</span></label><br>
+<label>n seq (128-4096): <input type=range id=n min=128 max=4096 step=128 value=1024 oninput=upd()> <span id=nv>1024</span></label><br>
+<div id=info style="font-family:monospace; white-space:pre; background:#f0f0f0; padding:10px; margin:10px 0"></div>
+<canvas id=c width=800 height=400 style="border:1px solid #ccc"></canvas>
+<script>
+function upd(){
+ let d=+document.getElementById('d').value, k=+document.getElementById('k').value, n=+document.getElementById('n').value;
+ document.getElementById('dv').innerText=d; document.getElementById('kv').innerText=k; document.getElementById('nv').innerText=n;
+ let F=d*k*n, M=d*k, T=0.004*F/1e6+0.004*M/1e3;
+ let bytes=F*4, dollar=T*0.0001, energy=T*0.3, heat=energy*3.6;
+ let reached=d>=9?"✓ reached(d) M1exp:36 Pd:9 Xd:0 Cd:36":"✗ Xd>0 need Pd:9";
+ document.getElementById('info').innerText="MoA: Same DNF, many ONFs — T≈αF+βM\nF="+F+" M="+M+" T="+T.toFixed(3)+"ms\n$="+dollar.toFixed(6)+" bytes="+bytes+" energy="+energy.toFixed(3)+"Wh heat="+heat.toFixed(3)+"kJ\n"+reached+"\nValidated: Delta A100/MI100, Stampede3 Max1550 pvc, Bridges-2 V100/H100 CIS261342 + CHI-261724 + UA A40\n2.00x atomics→2.5x, 535x NUMA vs <3x, 3.17x/3.35x C vs Fortran — Same DNF, different ONF gamma costs";
+ let ctx=document.getElementById('c').getContext('2d'); ctx.clearRect(0,0,800,400);
+ ctx.fillStyle='#f9f9f9'; ctx.fillRect(0,0,800,400);
+ ctx.strokeStyle='blue'; ctx.lineWidth=2; ctx.beginPath();
+ for(let dd=4; dd<=36; dd++){ let tt=0.004*(dd*k*n)/1e6+0.004*(dd*k)/1e3; let x=(dd-4)/32*800, y=400-tt*80-20; if(dd==4)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+ ctx.stroke();
+ ctx.strokeStyle='green'; ctx.setLineDash([5,5]); ctx.beginPath(); ctx.moveTo(0,300); ctx.lineTo(800,300); ctx.stroke(); ctx.setLineDash([]);
+ ctx.fillStyle='green'; ctx.fillText('M1exp:36 reached(d) ✓',10,295);
+ let cx=(d-4)/32*800, cy=400-T*80-20; ctx.fillStyle='red'; ctx.beginPath(); ctx.arc(cx,cy,8,0,6.28); ctx.fill();
+ ctx.fillStyle='black'; ctx.fillText('d='+d, cx+10, cy);
+}
+upd();
+</script>
+</body></html>

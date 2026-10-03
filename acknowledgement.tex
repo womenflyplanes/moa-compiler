@@ -6,6 +6,32 @@ The author also acknowledges the University at Albany research technology staff 
 
 This work used NCSA Delta (NVIDIA A100 and AMD Instinct MI100 partitions), TACC Stampede3 (Intel Data Center GPU Max 1550, pvc partition), and PSC Bridges-2 (NVIDIA V100 and H100 GPUs), through allocation CIS261342 from the Advanced Cyberinfrastructure Coordination Ecosystem: Services \& Support (ACCESS) program, which is supported by U.S. National Science Foundation grants \#2138259, \#2138286, \#2138307, \#2137603, and \#2138296. Results presented in this paper were also obtained using the Chameleon testbed [3] (bare-metal Intel Data Center GPU Max 1550 nodes, project CHI-261724), supported by the National Science Foundation.
 
-Software and reproducibility: \url{https://github.com/womenflyplanes/moa-compiler} --- \texttt{moa\_compiler/paper1\_exact\_reproduce.py}, \texttt{paper2\_backward.py}, \texttt{paper3\_decode.py}, \texttt{paper45\_validation.py --reference}, \texttt{moa\_sc\_demo.ipynb}, plus executable GUI/Jupyter artifacts.
+# Add to acknowledgement.tex
+echo "
+% Interactive GUI artifact
+This work includes an interactive artifact moa_compiler/gui.html visualizing 
+the cost model T approx alpha F + beta M and reached(d) on the 5-device ensemble 
+validated under NSF ACCESS CIS261342 (Delta A100, MI100, Bridges-2 H100/V100, 
+Stampede3 Max1550) and Chameleon CHI-261724 plus UA SUNY A40. 
+See MOA_GUI_USER_GUIDE.md for how to drag for maxes.
+Think in MoA -> faster, formal, beautiful.
+" >> acknowledgement.tex
+
+# Also copy gui.html to repo if not there
+cp /tmp/moa_gui.html moa_compiler/gui.html
+ls moa_compiler/gui.html
+
+Software and reproducibility: \url{https://github.com/womenflyplanes/moa-compiler} --- \texttt{moa\_compiler/paper1\_exact\_reproduce.py}, \texttt{paper2\_backward.py}, \texttt{paper3\_decode.py},
+
+\texttt{paper45\_validation.py --reference}, \texttt{moa\_sc\_demo.ipynb}, plus executable GUI/Jupyter artifacts.
 
 \end{acknowledgments}
+
+% Interactive GUI artifact
+This work includes an interactive artifact moa_compiler/gui.html visualizing 
+the cost model T approx alpha F + beta M and reached(d) on the 5-device ensemble 
+validated under NSF ACCESS CIS261342 (Delta A100, MI100, Bridges-2 H100/V100, 
+Stampede3 Max1550) and Chameleon CHI-261724 plus UA SUNY A40. 
+See MOA_GUI_USER_GUIDE.md for how to drag for maxes.
+Think in MoA -> faster, formal, beautiful.
+

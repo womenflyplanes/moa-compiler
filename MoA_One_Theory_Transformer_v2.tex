@@ -1,0 +1,907 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.82in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,longtable}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+
+\title{\textbf{One Mathematics of Arrays from Transformer Semantics to Machine Execution}\\
+\large Shape, Indexing, Normal Forms, Machine Translation, Prediction, and Cross-Validation}
+\author{Lenore M. Mullin\\
+College of Nanotechnology, Science, and Engineering\\
+University at Albany, SUNY, Albany, NY\\
+\texttt{lmullin@albany.edu}}
+\date{Working derivation -- October 2026}
+
+\newcommand{\DNF}{\mathrm{DNF}}
+\newcommand{\ONF}{\mathrm{ONF}}
+\newcommand{\rav}{\operatorname{rav}}
+\newcommand{\SiLU}{\operatorname{SiLU}}
+\newcommand{\Norm}{\operatorname{Norm}}
+\newcommand{\Attn}{\operatorname{Attn}}
+\newcommand{\FFN}{\operatorname{FFN}}
+\newcommand{\redplus}{+_{\mathrm{red}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This working document unifies the current Mathematics of Arrays (MoA) Transformer derivation
+with the larger experimental and compiler program.  The governing claim is deliberately simple:
+there is one array mathematics from semantic data to shaped machines.  Arrays are defined by
+shape; valid index spaces are generated from shape; components are selected by $\psi$; and
+computation is reduced to a machine-independent Denotational Normal Form (DNF).  Only after the
+DNF is fixed is a realization introduced through reshape/dimension lifting, a chosen member of
+the $\gamma$ family, and \(\rav\).  Row-major $\gamma$ is used as the default concrete example,
+but column-major and other layout functions are equally definable.  A change from one $\gamma$
+to another is an explicit translation and its cost must be derived rather than hidden.
+
+The same theory is required to explain and predict the independent CPU, GPU, multi-GPU,
+distributed, and heterogeneous CPU--GPU experiments.  Those experiments are not separate
+performance models.  They are independent tests of the same shape/index/mapping theory and
+therefore must mutually corroborate its semantic, resource, communication, and predictive
+consequences.  The Transformer is developed under the same discipline.  The existing MoA
+attention-family derivations are treated as established components and are composed with
+normalization, residual, and feed-forward definitions to obtain a complete block DNF before any
+machine is introduced.
+\end{abstract}
+
+\section{One Theory, All the Way}
+
+The governing research chain is
+\[
+\boxed{\begin{aligned}
+\text{FORMULATE}&\rightarrow\text{DERIVE/OPTIMIZE}\rightarrow\DNF\\
+&\xrightarrow{\gamma}\text{SEQUENTIAL ONF}\rightarrow\text{LIFTED ONF}\\
+&\rightarrow\text{MACHINE ARRAY}\rightarrow\text{PREDICT/FREEZE}\rightarrow\text{EXECUTE/VALIDATE}.
+\end{aligned}}
+\]
+
+The central invariant is
+\[
+\boxed{\textbf{The DNF never changes when the target machine changes.}}
+\]
+
+The algorithm, its data, its dependency structure, and the target machine are all viewed as
+arrays.  The same MoA rules apply on both sides of the conventional hardware/software boundary.
+The backend may be CPU, GPU, multi-GPU, MPI+OpenMP, OpenACC, CUDA, or concurrent CPU--GPU;
+the mathematical semantics are not replaced by a backend-specific theory.
+
+\subsection{The minimal semantic vocabulary}
+
+For an array \(A\), its shape is
+\[
+\boxed{\rho A.}
+\]
+Its valid multidimensional index domain is generated from that shape:
+\[
+\boxed{\iota(\rho A).}
+\]
+For every valid index \(\vec i\in\iota(\rho A)\), the corresponding component is
+\[
+\boxed{\vec i\psi A.}
+\]
+The complete valid index structure reconstructs the array:
+\[
+\boxed{(\iota(\rho A))\psi A\equiv A.}
+\]
+
+The canonical catenation operator is \(\#\).  Dimensionality is scalar:
+\[
+\boxed{\delta(A)=\tau(\rho A).}
+\]
+
+These definitions do not depend on whether \(A\) represents data, a dependency object, a
+partition, a processor array, a cache hierarchy, a set of GPUs, a collection of nodes, or another
+machine property.
+
+\subsection{The machine is an array too}
+
+Let the target machine be \(M\), with
+\[
+\boxed{
+\rho M=\langle m_0\;m_1\;\cdots\;m_{r-1}\rangle .
+}
+\]
+Then
+\[
+\iota(\rho M)
+\]
+is its shaped machine-index space, and a valid machine component is selected by the same
+operation
+\[
+\vec p\psi M,\qquad \vec p\in\iota(\rho M).
+\]
+
+Thus the common foundation is
+\[
+\boxed{
+\begin{array}{c}
+\text{DATA ARRAY}\\
+\rho,\iota,\psi
+\end{array}
+\quad\longleftrightarrow\quad
+\begin{array}{c}
+\text{COMPUTATION ARRAY}\\
+\rho,\iota,\psi
+\end{array}
+\quad\longleftrightarrow\quad
+\begin{array}{c}
+\text{MACHINE ARRAY}\\
+\rho,\iota,\psi .
+\end{array}}
+\]
+
+\section{DNF, Sequential ONF, and the \(\gamma\) Family}
+
+The DNF contains the architecture-independent index/value computation.  No concrete machine
+address belongs in the DNF.  The first operational realization is always the one-to-one sequential
+ONF:
+\[
+\boxed{\DNF}
+\xrightarrow[\text{one-to-one}]{\gamma}
+\boxed{\text{Sequential ONF}}.
+\]
+
+\subsection{First use of \(\gamma\): storage-order convention}
+
+The function \(\gamma\) translates a multidimensional index, together with an array shape, to a
+linear address in a raveled representation.  Unless otherwise stated, concrete examples in this
+document use a \textbf{row-major \(\gamma\)}.  This is a realization choice, not a restriction of
+MoA.  A column-major \(\gamma\) is also defined, and other \(\gamma\)'s may be designed for tiled,
+blocked, strided, sparse, hierarchical, or architecture-specific layouts.
+
+For
+\[
+\rho A=\langle n\;m\rangle,
+\]
+the row-major member is
+\[
+\boxed{
+\gamma_{\rm rm}(\langle i\#j\rangle;\rho A)
+=
+(i\times m)+j,
+}
+\]
+and
+\[
+\boxed{
+\langle i\#j\rangle\psi A
+\longrightarrow
+(\rav A)[(i\times m)+j].
+}
+\]
+
+For the same abstract array, a column-major member is
+\[
+\boxed{
+\gamma_{\rm cm}(\langle i\#j\rangle;\rho A)
+=
+i+(j\times n).
+}
+\]
+
+Hence the DNF may have multiple legal operational realizations:
+\[
+\boxed{\DNF(F)}
+\xrightarrow{\gamma_{\rm rm}}
+\ONF_{\rm rm}(F),
+\qquad
+\boxed{\DNF(F)}
+\xrightarrow{\gamma_{\rm cm}}
+\ONF_{\rm cm}(F).
+\]
+
+\subsection{Changing \(\gamma\) has a cost}
+
+If one stage is realized under \(\gamma_a\) and a later stage requires \(\gamma_b\), the change is
+not silently free.  Either the new access can be interpreted without physical reorganization, or
+an explicit translation is required:
+\[
+\boxed{
+\gamma_a
+\longrightarrow
+T_{a\rightarrow b}
+\longrightarrow
+\gamma_b .
+}
+\]
+
+The translation has a deterministic resource consequence
+\[
+\boxed{C(T_{a\rightarrow b})}
+\]
+that must be included in the mapped cost.  Thus layout becomes a mathematical design variable.
+A predictive realization may compare
+\[
+\gamma_1,\gamma_2,\ldots,\gamma_k
+\quad\longrightarrow\quad
+C_1,C_2,\ldots,C_k
+\]
+before execution.
+
+\section{Reshape and Dimension Lifting}
+
+Dimension lifting occurs \emph{after} the sequential ONF has been formed and verified.  It does
+not alter the DNF.
+
+If a sequential execution index space has shape \(\rho P\), a legal lifted shape
+\(\rho P^L\) must preserve the number of represented components:
+\[
+\boxed{\tau(\rho P^L)=\tau(\rho P).}
+\]
+
+A canonical lifting pattern is
+\[
+\boxed{N\rightarrow \Pi\#(N\div\Pi),}
+\]
+with the lifted application
+\[
+\boxed{
+(f\Omega^{\langle1\rangle})
+\left(
+(\Pi\#(N\div\Pi))\rho N
+\right).
+}
+\]
+
+The semantic invariant is
+\[
+\boxed{
+\vec i\psi Output_{\DNF}
+=
+\vec i\psi Output_{\rm seq}
+=
+\vec i\psi Output_{\rm lifted}.
+}
+\]
+
+Therefore
+\[
+\boxed{\textbf{Dimension lifting changes execution shape, not semantic meaning.}}
+\]
+
+The lifted shape also supplies the legal loop/index bounds.  For
+\[
+\rho P^L=\langle p_0\;p_1\;\cdots\;p_{k-1}\rangle,
+\]
+the corresponding bounds are
+\[
+0\le i_0<p_0,\ldots,0\le i_{k-1}<p_{k-1}.
+\]
+
+\section{Prediction and Independent Experimental Cross-Validation}
+
+The experimental discipline is
+\[
+\boxed{
+\text{derive}
+\rightarrow
+\text{map}
+\rightarrow
+\text{predict}
+\rightarrow
+\textbf{FREEZE}
+\rightarrow
+\text{first execution}
+\rightarrow
+\text{validate}.
+}
+\]
+
+The independent experiments must not become unrelated empirical models.  Each experiment
+instantiates the same MoA theory with a different computation shape and/or machine shape.
+Consequently, the experiments cross-validate the theory by testing different consequences of the
+same definitions.
+
+The separation is:
+\begin{center}
+\begin{tabular}{p{.28\textwidth}p{.62\textwidth}}
+\textbf{Exact semantic quantities} & shapes, valid indices, dependencies, work, ownership, bytes, communication\\
+\textbf{Machine realization properties} & capacities, rates, paths, latency, bandwidth, realization factors\\
+\textbf{Validation quantities} & correctness, first execution, measured traffic/time, prediction error
+\end{tabular}
+\end{center}
+
+No target measurement used for validation may be retroactively inserted into the frozen
+prediction.
+
+\subsection{What the CPU experiments teach}
+
+The multicore CPU experiments instantiate shaped processors, cache domains, NUMA domains,
+and memory resources.  The same computation DNF produces different realized behavior when its
+ONF is mapped to different machine shapes.  Controlled compact-versus-balanced NUMA experiments
+show that worker count alone is insufficient: the actual indexed machine shape and first-touch
+placement matter.
+
+At \(16384^2\), representative 1-to-64-core measurements include:
+\[
+\begin{array}{lrrrr}
+\toprule
+\text{Program} & T_1\;(\mathrm{s}) & T_{64}\;(\mathrm{s}) & \text{Speedup} & \text{Efficiency}\\
+\midrule
+\text{Sobel} & 1.178684 & 0.018703 & 63.02 & 98.5\%\\
+\text{Reduce} & 0.366707 & 0.005836 & 62.84 & 98.2\%\\
+\text{Histogram} & 0.157111 & 0.002637 & 59.59 & 93.1\%\\
+\text{Pipeline} & 0.844528 & 0.015650 & 53.96 & 84.3\%\\
+\text{Otsu} & 0.186954 & 0.003935 & 47.51 & 74.2\%\\
+\text{RGB2Gray} & 0.105370 & 0.002781 & 37.89 & 59.2\%\\
+\text{Threshold} & 0.030802 & 0.001728 & 17.82 & 27.8\%\\
+\bottomrule
+\end{array}
+\]
+The different scaling curves are consequences to be explained from different \(\psi\)-derived
+dependency structures under the same machine.
+
+\subsection{What the GPU and multi-GPU experiments teach}
+
+GPU experiments retain the semantic DNF while replacing the machine array and operational
+mapping.  Pointwise work, neighborhood work, reductions, shape-changing remaps, and composed
+pipelines therefore become independent tests of the same theory.
+
+For a row-partitioned pointwise array,
+\[
+\rho A=\langle H\;W\rangle,\qquad
+\rho A_p=\left\langle H/P\;W\right\rangle,
+\]
+aligned ownership gives no semantic halo:
+\[
+\boxed{H_p=\varnothing.}
+\]
+
+For Sobel, the \(3\times3\) dependency causes required indices to cross an ownership boundary.
+For a two-way row split the exact overlap is two rows:
+\[
+\boxed{N_{\rm halo}=2W.}
+\]
+The distinction is derived from indexing, not from a GPU-specific communication rule.
+
+\subsection{What heterogeneous CPU--GPU experiments teach}
+
+Concurrent CPU--GPU execution tests a stronger consequence: the same semantic index space may
+be divided across unlike machine components.  The mapped completion time must account for the
+distinct machine realization functions and any communication implied by the dependency structure.
+
+For the pointwise Threshold experiment with \(N=2^{30}\), the frozen heterogeneous split was
+\[
+\boxed{
+N_C=689{,}968{,}322,\qquad
+N_G=383{,}773{,}502,
+}
+\]
+with
+\[
+\boxed{\widehat T_{\rm Threshold}=86.2055821\ {\rm ms}.}
+\]
+The first measured completion was
+\[
+\boxed{T_{\rm measured}=85.816671\ {\rm ms},}
+\]
+giving
+\[
+\boxed{\text{prospective error}=-0.451\%.}
+\]
+
+A separately frozen heterogeneous Halide Sobel mapping predicted
+\[
+\boxed{\widehat T_{\rm Sobel}=6.495540\ {\rm ms}}
+\]
+and measured
+\[
+\boxed{T_{\rm measured}=6.465319\ {\rm ms},}
+\]
+for
+\[
+\boxed{\text{prospective error}=-0.4653\%.}
+\]
+The Sobel case additionally exposed a critical MoA point: nominal CPU identifiers did not initially
+represent the intended physical-core machine shape.  Correcting the \emph{machine mapping}, while
+leaving the frozen semantic design unchanged, restored correspondence between prediction and
+execution.
+
+These experiments therefore validate different parts of one chain:
+\[
+\boxed{
+\text{indexing}
+\rightarrow
+\text{dependency}
+\rightarrow
+\text{ownership}
+\rightarrow
+\text{communication}
+\rightarrow
+\text{machine mapping}
+\rightarrow
+\text{prediction}.
+}
+\]
+
+\subsection{Composition validates a resource tradeoff, not automatic speedup}
+
+The composed RGB2Gray--Reduce--Sobel work reduced principal storage approximately from
+\[
+M_{\rm separate}\approx 11N
+\qquad\text{to}\qquad
+M_{\rm composed}\approx 7N.
+\]
+The largest successful square side increased from \(87{,}552\) to \(109{,}824\), corresponding
+to a \(57.3\%\) increase in feasible pixel count.  At \(2048^2\), however, the composed kernel was
+about \(24\%\) slower because grayscale values were recomputed.  This is exactly the kind of
+tradeoff the theory must expose: storage reduction is a provable semantic/resource consequence;
+execution time follows from the selected realization and machine properties.
+
+\section{The Existing Attention Family Is Part of the Same Theory}
+
+The attention papers are not external kernels to be wrapped by a new Transformer theory.  They
+are prior MoA derivations to be composed.
+
+The established progression is
+\[
+\boxed{\begin{aligned}
+\text{forward attention}&\rightarrow\text{backward/fused training}\\
+&\rightarrow\text{decode/KV cache/GQA/MQA}\rightarrow\text{complete pre-norm block}.
+\end{aligned}}
+\]
+
+Forward attention uses systematic \(\psi\) reduction to access \(Q,K,V\) directly, eliminating an
+explicit \(K^T\) buffer and unnecessary score/softmax intermediates.  Backward attention applies
+the same discipline to the softmax VJP and gradients.  Decode specializes the DNF to a current
+query row, expresses KV-cache accumulation with canonical catenation \(\#\), and expresses
+GQA/MQA through \(\psi\) selection.  The normalization/FFN work extends the same method to
+RMSNorm/LayerNorm and gated MLP/SwiGLU.
+
+Thus the Transformer work below must reuse those derivations rather than recreate conventional
+tensor formulas and translate them afterward.
+
+\section{Complete Transformer Block: Architecture-Independent Formulation}
+
+Let the input to block \(l\) be
+\[
+\boxed{
+\rho X^{(l-1)}=\langle B\;N\;D\rangle
+}
+\]
+and the output satisfy
+\[
+\boxed{
+\rho X^{(l)}=\langle B\;N\;D\rangle.
+}
+\]
+
+For the pre-norm block, introduce names only for expressions that will subsequently be substituted:
+\[
+Z^{(l)}=\Norm_1^{(l)}(X^{(l-1)}),
+\]
+\[
+A^{(l)}=\Attn^{(l)}(Z^{(l)}),
+\]
+\[
+R^{(l)}=X^{(l-1)}+A^{(l)},
+\]
+\[
+W^{(l)}=\Norm_2^{(l)}(R^{(l)}),
+\]
+\[
+F^{(l)}=\FFN^{(l)}(W^{(l)}),
+\]
+and
+\[
+\boxed{X^{(l)}=R^{(l)}+F^{(l)}.}
+\]
+
+These names do not assert materialized arrays.  They are substitution points on the path to DNF.
+
+\subsection{Block boundary in \(\psi\) notation}
+
+For every
+\[
+\langle b\#n\#d\rangle\in\iota(\rho X^{(l)}),
+\]
+\[
+\boxed{
+\begin{aligned}
+\langle b\#n\#d\rangle\psi X^{(l)}
+={}&
+\langle b\#n\#d\rangle\psi X^{(l-1)}
+\\
+&+
+\langle b\#n\#d\rangle\psi A^{(l)}
+\\
+&+
+\langle b\#n\#d\rangle\psi F^{(l)}.
+\end{aligned}}
+\]
+
+This is the component from which the complete block DNF is derived.
+
+\section{Normalization Defined by Shape}
+
+To avoid collision with the fundamental translator \(\gamma\), this working document denotes the
+learned RMSNorm scale by \(\vec g_1^{(l)}\) and \(\vec g_2^{(l)}\).  The symbol \(\gamma\) is
+reserved for the DNF-to-ONF address/layout family.
+
+For fixed \(\langle b\#n\rangle\), define the first normalization statistic
+\[
+\boxed{
+r^{(l)}_{1,b,n}
+=
+\sqrt{
+\frac{1}{D}
+\sum_{e\in\iota(D)}
+\left(
+\langle b\#n\#e\rangle\psi X^{(l-1)}
+\right)^2+\epsilon
+}.
+}
+\]
+Then
+\[
+\boxed{
+\langle b\#n\#d\rangle\psi Z^{(l)}
+=
+g^{(l)}_{1,d}
+\frac{
+\langle b\#n\#d\rangle\psi X^{(l-1)}
+}{
+r^{(l)}_{1,b,n}
+}.
+}
+\]
+
+The residual component is
+\[
+\boxed{
+\langle b\#n\#d\rangle\psi R^{(l)}
+=
+\langle b\#n\#d\rangle\psi X^{(l-1)}
++
+\langle b\#n\#d\rangle\psi A^{(l)}.
+}
+\]
+
+The second normalization statistic is therefore
+\[
+\boxed{
+r^{(l)}_{2,b,n}
+=
+\sqrt{
+\frac{1}{D}
+\sum_{e\in\iota(D)}
+\left(
+\langle b\#n\#e\rangle\psi R^{(l)}
+\right)^2+\epsilon
+}.
+}
+\]
+and
+\[
+\boxed{
+\langle b\#n\#d\rangle\psi W^{(l)}
+=
+g^{(l)}_{2,d}
+\frac{
+\langle b\#n\#d\rangle\psi R^{(l)}
+}{
+r^{(l)}_{2,b,n}
+}.
+}
+\]
+
+All bounds arise from shapes.  No machine dimension has been introduced.
+
+\section{FFN Defined by Shape and \(\psi\)}
+
+Let
+\[
+\rho W_{\rm gate}^{(l)}
+=
+\rho W_{\rm up}^{(l)}
+=
+\langle D\;D_{\rm ff}\rangle,
+\qquad
+\rho W_{\rm down}^{(l)}
+=
+\langle D_{\rm ff}\;D\rangle.
+\]
+
+For
+\[
+f\in\iota(D_{\rm ff}),
+\]
+define
+\[
+u^{(l)}_{b,n,f}
+=
+\sum_{d'\in\iota(D)}
+(\langle b\#n\#d'\rangle\psi W^{(l)})
+\times
+(\langle d'\#f\rangle\psi W_{\rm gate}^{(l)}),
+\]
+\[
+v^{(l)}_{b,n,f}
+=
+\sum_{d'\in\iota(D)}
+(\langle b\#n\#d'\rangle\psi W^{(l)})
+\times
+(\langle d'\#f\rangle\psi W_{\rm up}^{(l)}),
+\]
+and
+\[
+h^{(l)}_{b,n,f}
+=
+\SiLU(u^{(l)}_{b,n,f})
+\times
+v^{(l)}_{b,n,f}.
+\]
+
+Then
+\[
+\boxed{
+\langle b\#n\#d\rangle\psi F^{(l)}
+=
+\sum_{f\in\iota(D_{\rm ff})}
+h^{(l)}_{b,n,f}
+\times
+(\langle f\#d\rangle\psi W_{\rm down}^{(l)}).
+}
+\]
+
+Substitution removes \(U,V,H\) as required semantic intermediates:
+\[
+\boxed{
+\begin{aligned}
+\langle b\#n\#d\rangle\psi F^{(l)}
+={}&
+\sum_{f\in\iota(D_{\rm ff})}
+\Bigg[
+\SiLU\!\left(
+\sum_{d'\in\iota(D)}
+(\langle b\#n\#d'\rangle\psi W^{(l)})
+(\langle d'\#f\rangle\psi W_{\rm gate}^{(l)})
+\right)
+\\
+&\quad\times
+\left(
+\sum_{d'\in\iota(D)}
+(\langle b\#n\#d'\rangle\psi W^{(l)})
+(\langle d'\#f\rangle\psi W_{\rm up}^{(l)})
+\right)
+\\
+&\quad\times
+(\langle f\#d\rangle\psi W_{\rm down}^{(l)})
+\Bigg].
+\end{aligned}}
+\]
+
+The remaining \(W^{(l)}\) occurrences are then replaced by the second-normalization component
+definition, and \(R^{(l)}\) is replaced by its residual component definition.
+
+\section{Attention Is Substituted from the Established MoA DNF}
+
+The next step is not to invent another attention formula.  Every occurrence of \(Z^{(l)}\) in the
+established attention-family DNF is replaced by the first-normalization \(\psi\) expression above.
+The attention result \(A^{(l)}\) is then substituted into both the residual and the FFN path.
+
+The derivation therefore proceeds
+\[
+\boxed{\begin{aligned}
+\text{Transformer formulation}
+&\rightarrow \text{established MoA attention DNF}\rightarrow \text{residual/norm substitution}\\
+&\rightarrow \text{FFN substitution}\rightarrow \psi\text{ reduction}\rightarrow \text{candidate block DNF}.
+\end{aligned}}
+\]
+
+The candidate DNF is frozen only after component, shape, and numerical verification.
+
+\section{Transformer Invariants and Verification Gate}
+
+The first block invariant is
+\[
+\boxed{
+\rho X^{(l)}
+=
+\rho X^{(l-1)}
+=
+\langle B\;N\;D\rangle.
+}
+\]
+
+Thus blocks compose:
+\[
+X^{(0)}
+\xrightarrow{B^{(1)}}
+X^{(1)}
+\xrightarrow{B^{(2)}}
+\cdots
+\xrightarrow{B^{(L)}}
+X^{(L)},
+\]
+with
+\[
+\boxed{
+\rho X^{(0)}=\rho X^{(1)}=\cdots=\rho X^{(L)}
+=
+\langle B\;N\;D\rangle.
+}
+\]
+
+At every transformation boundary the verification rule is
+\[
+\boxed{
+\text{same semantic function}
++
+\text{same result shape}
++
+\text{same components}.
+}
+\]
+
+After dimension lifting, add the execution-space invariant
+\[
+\boxed{\tau(\rho P^L)=\tau(\rho P).}
+\]
+
+Therefore the complete gate is
+\[
+\boxed{
+\text{derive}
+\rightarrow
+\text{verify semantics}
+\rightarrow
+\text{verify shape}
+\rightarrow
+\text{verify components}
+\rightarrow
+\text{FREEZE}
+\rightarrow
+\text{continue}.
+}
+\]
+
+Only after the complete Transformer-block DNF passes this gate do we introduce a chosen
+\(\gamma\), sequential ONF, dimension lifting, and a target machine array.
+
+\section{The Unified Scientific Test}
+
+The CPU, GPU, multi-GPU, distributed, CPU--GPU, attention, decode, and Transformer experiments
+must validate one another in the following precise sense: each is an independent instantiation of
+the same theory and therefore tests a different implication of the same invariant definitions.
+
+\[
+\boxed{
+\begin{array}{c}
+\text{pointwise}\\
+\text{neighborhood}\\
+\text{reduction}\\
+\text{composition}\\
+\text{attention}\\
+\text{Transformer}
+\end{array}}
+\quad
+\xrightarrow{\rho,\iota,\psi}
+\quad
+\boxed{\text{DNF}}
+\quad
+\xrightarrow{\gamma,\;\text{reshape},\;\rav}
+\quad
+\boxed{
+\begin{array}{c}
+\text{CPU}\\
+\text{GPU}\\
+\text{multi-GPU}\\
+\text{distributed}\\
+\text{CPU--GPU}
+\end{array}}
+\]
+
+A contradiction between independently derived experiments is therefore scientifically useful:
+it identifies either an incorrect semantic derivation, an incorrect machine description, an
+incorrect mapping, or an incomplete machine-cost property.  It must not be repaired by changing
+the theory independently for each backend.
+
+Conversely, agreement across independently frozen experiments strengthens the common theory
+because the same definitions survive changes in algorithm class, dimensionality, machine shape,
+and realization.
+
+\section{Next Mathematical Step}
+
+The immediate next step is to complete the substitution
+\[
+\boxed{\langle b\#n\#d\rangle\psi X^{(l)}}
+\]
+using the established MoA attention-family DNF until only true block inputs, weights, scalar
+operations, reductions, \(\rho\), \(\iota\), and \(\psi\) remain.
+
+At that point:
+\[
+\boxed{\text{complete Transformer-block DNF}}
+\]
+is verified and frozen.
+
+Only afterward:
+\[
+\boxed{\begin{aligned}
+\DNF &\xrightarrow{\gamma_{\rm chosen}} \text{Sequential ONF}
+\xrightarrow{\text{verify}} \text{Dimension Lift}\\
+&\xrightarrow{\text{map}} \text{Machine Array}
+\xrightarrow{\text{predict/freeze}} \text{execute/validate}.
+\end{aligned}}
+\]
+
+The same procedure then scales from one block to multiple blocks and eventually to complete
+models without changing the underlying mathematics.
+
+\section*{Working Principle}
+
+\[
+\boxed{\textbf{Define by shape. Generate indices with \(\iota\). Select with \(\psi\).}}
+\]
+\[
+\boxed{\textbf{Reduce to one invariant DNF.}}
+\]
+\[
+\boxed{\textbf{Translate with an explicit \(\gamma\), reshape/lift, and \(\rav\).}}
+\]
+\[
+\boxed{\textbf{Treat the machine as an array. Predict, freeze, execute, validate.}}
+\]
+\[
+\boxed{\textbf{One theory. Independent experiments. Mutual validation. MoA all the way.}}
+\]
+
+\begin{thebibliography}{99}
+
+\bibitem{mullin1988}
+L. M. Mullin,
+\emph{A Mathematics of Arrays},
+Ph.D. dissertation, Syracuse University, 1988.
+
+\bibitem{mullinjenkins1996}
+L. M. Mullin and M. A. Jenkins,
+``Effective Data Parallel Computation Using the Psi Calculus,''
+\emph{Concurrency: Practice and Experience}, 8(7), 499--515, 1996.
+
+\bibitem{mullin2005}
+L. Mullin,
+``A Uniform Way of Reasoning about Array-Based Computation in Radar:
+Algebraically Connecting the Hardware/Software Boundary,''
+\emph{Digital Signal Processing}, 15(5), 466--520, 2005.
+
+\bibitem{attentionforward}
+L. M. Mullin and G. Hains,
+``Attention at the Theoretical Minimum: A Mathematics of Arrays Framework
+for Memory-Optimal Transformer Kernels,'' 2026.
+
+\bibitem{attentionbackward}
+L. M. Mullin and G. Hains,
+``Attention at the Theoretical Minimum: Backward Pass MoA DNF Derivation,
+PyTorch Implementation, and Numerical Verification,'' 2026.
+
+\bibitem{decode}
+L. M. Mullin and G. Hains,
+``MoA-Structured Decode Attention: DNF Derivation, KV-Cache Accumulation,
+GQA/MQA, and OpenACC Kernel,'' 2026.
+
+\bibitem{transformerblock}
+L. M. Mullin and G. Hains,
+``The Transformer Block at the Theoretical Minimum: Memory-Optimal
+Normalization and Feed-Forward Layers via the Mathematics of Arrays,'' 2026.
+
+\bibitem{compiler}
+L. M. Mullin,
+\emph{MoA Compiler Research Repository},
+\url{https://github.com/womenflyplanes/moa-compiler}, 2026.
+
+\end{thebibliography}
+
+\section*{Acknowledgment}
+The author acknowledges the computational resources and research-computing support used across
+the CPU, GPU, multi-GPU, distributed, and heterogeneous CPU--GPU experiments, including
+University at Albany and ACCESS-supported resources where applicable.  These independent
+machine realizations provide the experimental basis for testing one common MoA theory.
+
+\end{document}

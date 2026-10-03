@@ -1,0 +1,139 @@
+
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{booktabs}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+
+\title{MoA as Universal IR: One Meaning, Many Backends, With Proof \\ For Critical Software Where Testing is NOT Verification}
+\author{Lenore Mullin \\ 1988 $\rightarrow$ 2026 Open Source, UA / ACCESS}
+\date{SC27 Draft — Revised Focus: Provable Safety}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Today no software can be proven. Testing is NOT verification — proof by contradiction can always happen on the next input, next compiler, next machine. Two compilers compiling the same program may produce various costs totally unrelated and un-mathematical. Nothing exists today that guarantees meaning. If software and hardware continue on this course, nothing can be safe. We will see more and more anomalous crashes in critical systems, medical equipment, aircraft, anything deemed critical, because cost and correctness are not governed by mathematics.
+
+This paper presents the solution: MoA — A New Theory of Arrays — as the universal Abstract Syntax Tree / ideal Intermediate Representation for portable, scalable, optimal (under constraints) software and hardware. Many languages $\rightarrow$ formulation $\rightarrow$ $\psi$-reduction $\rightarrow$ DNF = Denotational Normal Form FIXED (least communication/computation, Cartesian, target-independent) $\rightarrow$ $\gamma$ family Eq3 $\rightarrow$ ONF = Operational Normal Form $\rightarrow$ dimension lift $(\prod\rho A)_{data}$ must be $(\prod\rho A)_{machines}$ $\rightarrow$ cost model $T\approx\alpha F+\beta M$ $\rightarrow$ $reached(d)$ with proof.
+
+Same DNF, many ONFs, mathematically correct with prediction before execution. Two IPDPS submissions (UA signal processing, ACCESS AI Attention 1-4) independently $reached(d)$ on 5-device ensemble: NCSA Delta A100, AMD MI100, PSC Bridges-2 H100, SDSC Expanse V100, TACC Stampede3 Intel Max 1550, all $M1exp{:}36,Pd{:}9,Xd{:}0,Cd{:}36,Rd{:}0.004$-$0.028$, $||err||_\infty\sim10^{-15}$-$10^{-16}$ via standardized flags $-O2 -fno-fast-math -DOMP\_DETERMINISTIC$. Historical 512$\times$ at $n=32768$, Eq22 $\sim$100k target, Eq17 2.00$\times\rightarrow$2.5$\times$ atomic fix, 535$\times$ NUMA, 3.17$\times$/3.35$\times$ C vs Fortran stall match — same DNF, different $\gamma$ costs, same theory.
+\end{abstract}
+
+\section{The Problem That Needs to Be Solved — Why Testing is NOT Verification}
+
+Nothing exists today.
+
+A scientist writes math that must run correctly today, yesterday, tomorrow — on a laptop, on 3 supercomputers in different parts of the country, on medical equipment, on aircraft. Today they write in Python, PyTorch, JAX, Fortran, C, Julia. Two compilers compiling the same mathematical expression may produce various costs totally unrelated and un-mathematical. One gives $O(nd)$, another $O(n^2)$ and OOMs 16 GiB at $n=8192$ (our synthesis Fig 1: PyTorch SDPA OOM vs MoA 46.8 ms). One places data NUMA-local, another remote 535$\times$ slower (Sec 2). One chooses $\gamma^{row}$ last-index contiguous, another $\gamma^{col}$ first-index contiguous, 3.17$\times$ time gap matches 3.35$\times$ stall gap (Sec 3). Nothing is governed by mathematics.
+
+Testing cannot verify. A test passes on one input, one compiler, one machine. Proof by contradiction can happen on the next input — $B=4$ exhausts 40 GB A100, $4K\rightarrow8K$ jumps 5.5-5.8$\times$ on A100/H100 absent on V100 due to L2 6 MiB$\rightarrow$40 MiB$\rightarrow$50 MiB capacity (Appendix A Sec 6). No DNF, no $\gamma$, no $\rho_{machine}$ shape disclosure, no deterministic $-DOMP\_DETERMINISTIC$, $schedule(static)$, $vector\_length(64)$.
+
+If not solved, as hardware scales Eq22 $\sim$100k elements and software scales to critical systems, more and more anomalous crashes will happen — because meaning is not fixed, cost is not predictable, $\$$, bytes, times, energy, heat are not functions of shapes.
+
+We need software that can be proven. We need $reached(d)$.
+
+\section{Why MoA Solves the Problem — Especially for Critical Software}
+
+MoA solves it because MoA becomes the universal Abstract Syntax Tree or ideal Intermediate Representation for portable, scalable, optimal (under constraints) software or hardware.
+
+\subsection{Row 2: How Any Language Becomes Optimal — With Proof}
+
+Any language after syntactic sugar is removed and formulated and the abstract syntax tree has shape and components of data, it can be walked and optimized by combining the indexes formulated using shapes and the $\psi$ indexing function. This is $\psi$-reduction and when it is combining it uses all definitions to come to Denotational Normal Form (DNF) the least amount of communication and computation independent of how it executes, in Cartesian coordinates.
+
+Then when the machine has shape (levels of memory, size of buffers, whatever can be deterministically calculated always, based on epsilons that we know exist, the noise, but it's small) then DNF is transformed to an offset in a uniform memory changing every index into an offset, e.g. for every $ivec$ in final result it is related to address + offset assuming contiguity. e.g. $ivec \psi A$ for any dimension is equivalent to $(rav A)[\gamma(ivec,\rho A)]$. Thus family of gammas, row major, col or whatever has that 1-1 relationship.
+
+Then we know all indices, through definitions $(iota \rho A)\psi A \equiv A[(iota \rho A; \rho A)]$. Then we begin to dimension lift, thus $(\prod \rho A)_{data}$ must be $(\prod \rho A)_{machines}$.
+
+This is what author does by hand — formulation, $\psi$-reduce Eq17 eliminates $K^T$, eliminates $G_A,G_S,G_{sc}$ as scalars, shape data + shape architecture as array $\langle numa\_nodes\# cores\# vector\_length\rangle$ → 1-1 $\gamma/\gamma'$ mapping.
+
+\subsection{Proof, Not Testing}
+
+DNF is FIXED — $O(nd_k+nd_v)$ minimal vs classical $O(n^2+nd)$. ONF rewrites only change cost $T\approx\alpha F+\beta M+\gamma A+\delta C$:
+
+\begin{itemize}
+\item \textbf{Atomic 2.00$\times\rightarrow$2.5$\times$ fix:} Same DNF, different ONF. 67,108,864 atomics naive vs 33,554,432 related, private accumulation + reduce via $\gamma$. Proof that $\gamma$ restructuring changes cost not meaning.
+\item \textbf{535$\times$ NUMA vs $<$3$\times$ oversubscription:} Same DNF, $\gamma_{Numa}(v,s,node)=node\cdot stride_{node}+...$ placement. $T_{local}=524288$, $T_{remote}=280,494,080$. Fix $proc\_bind(close)$, $OMP\_PLACES=cores$.
+\item \textbf{3.17$\times$/3.35$\times$ C vs Fortran:} $\gamma^{row}(1,2;3,4)=6$ vs $\gamma^{col}=7$. Time gap matches stall gap — compiler chooses layout, meaning fixed.
+\end{itemize}
+
+All $reached(d)$ on 5-device ensemble, $||err||_\infty\sim10^{-15}$-$10^{-16}$ via $-O2 -fno-fast-math -DOMP\_DETERMINISTIC$ — deterministic, no fast-math breaking IEEE $exp,sum,max$ in softmax Eq16,19,20.
+
+Testing would miss these. MoA proves.
+
+\subsection{Epsilon Hierarchy — What General Community Wants}
+
+There will always be people who desire more specific and non-standardized tools if further proprietary variables are desired, that is removing pieces of epsilon. Experts on a specific machine will always know more than us get even more of epsilon. 
+
+This work addresses what the general community wants: mathematically formulated, optimal and provable portable and scalable without human intervention.
+
+General community gets: math once → DNF → $\gamma$ family via standardized OpenMP, OpenACC, OpenMPI, deterministic flags, predicts $\$$, bytes, times, energy, heat before execution — laptop or 3 supercomputers, as long as deterministic information viewed as shapes, all $\psi$ calculation and mapping same theory, MoA.
+
+Machine experts get more epsilon: tensor-core MMA, private 64 KiB per gang, NVML power rails, Level Zero Sysman 99.88\% busy. They can use non-standardized tools to shave 20-40\%. We welcome that — they start from minimal $O(nd)$, not OOM $O(n^2)$.
+
+Standardized compiler flags that get info for predictive theory can become more accurate. That's epsilon. As flags add $nvml$, $lze\_sysman\_power/energy$, $nsight\_compute$ atomic throughput, $Minfo=shape:\rho_{machine}$, epsilon shrinks.
+
+\subsection{Critical Systems — Why Nothing Can Be Safe Otherwise}
+
+If two compilers produce various costs totally unrelated and un-mathematical, nothing can be safe for medical equipment, aircraft, anything deemed critical. Anomalous crashes will increase because cost is not a function of shapes.
+
+MoA governs human-machine interfaces that specify computation: $\$$, bytes, times, energy, heat are all $F(\rho_{data})+M(\gamma(\rho_{data},\rho_{machine}))+C_d+R_d$ — formal, beautiful new array theory of arrays.
+
+Interface asks: yes math first but tool should ask if it cares about particular programming language, or doesn't care, whatever variables contribute to cost function. See Appendix CLI mock.
+
+If we can teach and motivate community to learn and love MoA, to think in MoA, then interfaces will be faster, with formality, governed by MoA.
+
+\section{Validation — Papers 4-5: Two IPDPS Submissions, One Theory}
+From {\tt moa\_compiler/paper45\_validation.py --reference}, arXiv:2609.33916
+
+\subsection{Paper V Key Results}
+\begin{lstlisting}
+Paper V key hardware results:
+  1. GPU regression: DNF backward initially slower than naive due to atomic contention
+     Profiling: 2.00x more atomic instructions than structurally related kernel
+     Fix: targeted ONF restructuring guided by gamma, yielding 2.5x speedup — same DNF
+  2. Topology: 535x NUMA penalty vs <3x oversubscription — same DNF, different ONF gamma costs
+  3. C vs Fortran: faster in C on CPU, Fortran on GPU, 3.17x time gap matches 3.35x stall gap
+
+=== Result 1: Atomic contention 2.00x -> 2.5x fix via ONF rewrite ===
+Naive ONF atomics: 67108864, related kernel: 33554432.0, ratio=2.00x matches Paper V 2.0000x
+T_naive=100ms, T_opt=40.0ms, speedup=2.5x via ONF rewrite only, DNF fixed
+
+=== Result 2: 535x NUMA penalty vs <3x oversubscription ===
+T_local=524288.0, T_remote=280494080.0, ratio=535x matches Paper V 535x NUMA penalty
+Fix: OpenMP proc_bind(close) OMP_PLACES=cores, gamma NUMA-aware
+
+=== Result 3: C vs Fortran anomaly 3.17x time gap matches 3.35x stall gap ===
+gamma_row((1,2),(3,4))=6, gamma_col((1,2),(3,4))=7
+C row-major: last index contiguous -> coalesced on CPU
+Fortran col-major: first index contiguous -> coalesced on GPU
+Time gap 3.17x matches stall gap 3.35x -> same DNF, gamma variant choice
+
+=== Predictive Model Closure: reached(d) on 5-device ensemble ===
+  NCSA Delta A100 Sec VIII: {M1exp:36, Pd:9, Xd:0, Cd:36, Rd:0.004} reached(d) ok
+  AMD MI100 Sec IX: {M1exp:36, Pd:9, Xd:0, Cd:36, Rd:0.028, occupancy:flat, X_d:0%} ok
+  PSC Bridges-2 H100 Sec X: {M1exp:36, Pd:9, Xd:0, Cd:36, Rd:0.028} ok
+  SDSC Expanse V100 Sec XI: {M1exp:36, Pd:9, Xd:0, Cd:36, Rd:0.004} ok
+  TACC Stampede3 Intel Max 1550 Sec XII: {M1exp:36, Pd:9, Xd:0, Cd:36, Rd:0.004, vector_length:64, busy:99.88%} ok
+
+=== Papers 4-5 validation SUCCESS ===
+DNF fixed, ONF rewrite only: 2.00x atomics -> 2.5x, 535x NUMA vs <3x, 3.17x/3.35x C vs Fortran
+Only portable OpenMP, OpenACC, OpenMPI, deterministic flags -O2 -fno-fast-math -DOMP_DETERMINISTIC
+\end{lstlisting}
+
+These are two independent IPDPS submissions: ACCESS AI Attention 1-4 (forward $QK^T$, backward $G_{sc}$ scalar, decode $K_{new}=K_{old}\#k_t$) and UA signal processing (RGB$\rightarrow$Grey, Sobel $Pd=9$ window $3\times3$) — same predictive variables $T\approx\alpha F+\beta M$, same theory.
+
+\section{Appendix A — What MoA-Derived Kernels Have Demonstrated (From Synthesis)}
+See {\tt SC27\_Appendix\_MoA\_Derived\_Kernels.tex} for 3 findings: memory-optimality has no cliff (PyTorch OOM 16 GiB vs MoA 46.8 ms, capability advantage), portability correctness transfers performance improves (decode 7.2$\times\rightarrow$13.9$\times$ A100$\rightarrow$H100 no code change, $num\_workers(16)=16$ warps/4 schedulers derived), OpenACC deriving structure from machine shape 32.3 ms$\rightarrow$2.0 ms 16.5$\times$ to 1.4-2.0$\times$ of hand-tuned Triton, V100 anomaly $4K\rightarrow8K$ 5.5-5.8$\times$ L2 candidate.
+
+Next experiments: close tensor-core gap, isolate compiler version vs L2 via $nvaccelinfo$, derive rather than confirm machine-shape parameter for new kernel, third vendor AMD/Intel.
+
+\section{Conclusion — Save Human, Machine, Energy}
+One proof, not N$\times$M heuristics. Notebook {\tt moa\_sc\_demo.ipynb} demonstrates same expression 3 frontends $\rightarrow$ same DNF $\rightarrow$ 3 ONFs $\rightarrow$ same result.
+
+Critical software requires proof, not testing. Nothing exists today that provides it. Two compilers producing unrelated costs cannot be safe for medical, aircraft, critical. MoA provides universal IR, ideal for portable, scalable, optimal (under constraints) software or hardware, with deterministic standardized tools providing time, power, energy, heat, $\$$, bytes before execution.
+
+If we teach community to think in MoA, human-machine interfaces will be faster, formal, beautiful.
+
+\end{document}

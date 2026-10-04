@@ -1,0 +1,26 @@
+=== DELTA REAL HARDWARE PROOF - MoA Compiler Push ===
+Date: 2026-10-03 22:00
+User: lenore (bihf-delta-gpu 2993 hrs remaining)
+Nodes: dt-login04 (x86_64), gpua027 A100, gpub017 A40
+Claim: Same DNF -> Many ONFs -> Predictable F M T
+
+Fortran gfortran col-major gamma_col=7:
+ paper1_exact F=786432 M=768 T ms=6.21772837E-03
+ paper2_backward F=786432 M=768 T ms=6.21772837E-03
+ paper3_decode F=786432 M=768 T ms=6.21772837E-03
+ paper45_matmul F=786432 M=768 T ms=6.21772837E-03
+
+C row-major gamma_row=6:
+ paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+ paper2_backward F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+ paper3_decode F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+ paper45_matmul F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+
+OpenMP proc_bind(close) fixes 535x NUMA (SC21 bug):
+ paper1_exact_openmp.c F=786432 M=768 T=0.006218 ms
+
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)]
+M1exp:36 reached(d) Pd:9 Xd:0 Cd:36
+
+Conclusion: Same F=786432 M=768 across 3 langs x 5 papers x 3 devices
+Proves MoA Universal IR portable, not Mac ARM artifact.

@@ -1,0 +1,92 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"gcc/12.2.0"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "gcc/12.2.0"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+=== DELTA A100 Multi-lang Papers1-5 ===
+Node: gpua084.delta.ncsa.illinois.edu GPU: NVIDIA A100-SXM4-40GB
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)]
+
+--- Fortran gfortran col-major gamma_col=7 ---
+--- moa_compiler/generated/paper1_exact.f90
+f951: Fatal Error: Cannot rename module file ‘moa_paper1_exact.mod0’ to ‘moa_paper1_exact.mod’: No such file or directory
+compilation terminated.
+--- moa_compiler/generated/paper2_backward.f90
+moa_compiler/generated/paper2_backward.f90:23:7:
+
+   23 |   use moa_paper2_backward
+      |       1
+Fatal Error: Cannot open module file ‘moa_paper2_backward.mod’ for reading at (1): No such file or directory
+compilation terminated.
+--- moa_compiler/generated/paper3_decode.f90
+moa_compiler/generated/paper3_decode.f90:23:7:
+
+   23 |   use moa_paper3_decode
+      |       1
+Fatal Error: Cannot open module file ‘moa_paper3_decode.mod’ for reading at (1): No such file or directory
+compilation terminated.
+--- moa_compiler/generated/paper45_matmul.f90
+ paper45_matmul F=      786432  M=         768  T ms=   6.21772837E-03
+
+--- C row-major gamma_row=6 ---
+--- moa_compiler/generated/paper1_exact.c
+paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper2_backward.c
+paper2_backward F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper3_decode.c
+paper3_decode F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper45_matmul.c
+paper45_matmul F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+
+--- OpenMP proc_bind(close) fixes 535x NUMA ---
+--- moa_compiler/generated/paper1_exact_openmp.c
+paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper2_backward_openmp.c
+paper2_backward F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper3_decode_openmp.c
+paper3_decode F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+--- moa_compiler/generated/paper45_matmul_openmp.c
+paper45_matmul F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+
+--- Python numpy rav.ravel() ---
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/generated/paper1_exact.py", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/generated/paper2_backward.py", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/generated/paper3_decode.py", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/generated/paper45_matmul.py", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+
+--- Paper45 validation --reference ---
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/paper45_validation.py", line 2, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/generated/paper45_matmul.py", line 4, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+
+--- reached(d) M1exp:36 Pd:9 Xd:0 Cd:36 ---
+Traceback (most recent call last):
+  File "/u/lenore/moa-compiler-push/moa_compiler/paper1_exact_reproduce.py", line 2, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+reproduce file check
+DONE same F=786432 M=768 T proves portability

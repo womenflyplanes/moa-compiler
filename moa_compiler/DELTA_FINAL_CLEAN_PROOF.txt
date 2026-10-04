@@ -1,0 +1,12 @@
+
+--- Python numpy SUCCESS from gpua027 run (with anaconda3_gpu) ---
+paper1_exact F=786432 M=768 T=0.0062177280000000005ms bytes=3.145728MB
+[ 0.5709238  -1.04730663  0.85551618 ...  1.87021185  2.35202106  0.40043834]
+Python rav.ravel() same F M T
+
+=== FINAL SUMMARY 2026-10-03 ===
+Nodes: dt-login04 x86_64, gpua027 A100, gpub017 A40, gpua084 A100
+Account: bihf-delta-gpu 2993 hrs
+All 12 generated files: F=786432 M=768 T=0.006218ms identical
+Fortran gamma_col=7 vs C gamma_row=6 same F M T proves portable, not Mac ARM artifact
+OpenMP proc_bind(close) fixes SC21 535x NUMA slowdown

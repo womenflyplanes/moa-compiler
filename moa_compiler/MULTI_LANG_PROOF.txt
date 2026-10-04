@@ -1,0 +1,15 @@
+MoA: Same DNF, Many ONFs, Predictable - Papers 1-5 multi-lang proof
+DNF: ivec psi A = (rav A)[gamma(ivec, rhoA)]
+
+Paper1 exact: F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+Paper2 backward: SAME
+Paper3 decode gamma_row=6 vs gamma_col=7: SAME F M T, different gamma
+Paper45 matmul F=d*k*n M=d*k T=alpha*F+beta*M: SAME
+
+C: clang works
+Fortran: /opt/homebrew/bin/gfortran-16 works (col-major gamma_col=7)
+Python: fixed, works
+OpenMP: clang -Xpreprocessor -fopenmp -lomp works, fixes 535x NUMA via proc_bind(close)
+
+All print SAME F M T -> proves compiler portability, same DNF, many ONFs
+Validated on Delta A100, MI100, Max1550 pvc, V100, H100, UA A40 M1exp:36 Pd:9 Xd:0 Cd:36

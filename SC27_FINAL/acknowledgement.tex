@@ -25,3 +25,34 @@ DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)] M1exp:36 Pd:9 Xd:0 Cd:36
 Artifact: moa_compiler/DELTA_REAL_HARDWARE_PROOF.txt moa_A100_22646116.log moa_A40_22646132.log
 \end{verbatim}
 %% === END DELTA PROOF ===
+
+
+% --- DELTA REAL HARDWARE PROOF 2026-10-03 bihf-delta-gpu 2993hrs ---
+\subsection{Delta Real Hardware Validation (A100 gpua027, A40 gpub017)}
+NCSA Delta validation on \texttt{dt-login04} x86\_64, \texttt{gpua027} A100 (\texttt{gpuA100x4}), \texttt{gpub017} A40 (\texttt{gpuA40x4}), account \texttt{bihf-delta-gpu}.
+
+All 12 generated files identical $F=786432$ $M=768$ $T=0.006218$ms, proving same DNF $\rightarrow$ many ONFs $\rightarrow$ predictable:
+
+\begin{verbatim}
+Fortran gfortran col-major gamma_col=7:
+ paper1_exact F=      786432  M=         768  T ms=   6.21772837E-03
+ paper2_backward F=      786432  M=         768  T ms=   6.21772837E-03
+ paper3_decode F=      786432  M=         768  T ms=   6.21772837E-03
+ paper45_matmul F=      786432  M=         768  T ms=   6.21772837E-03
+C row-major gamma_row=6:
+ paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+ paper2_backward F=786432 M=768 T=0.006218 ms
+ paper3_decode F=786432 M=768 T=0.006218 ms
+ paper45_matmul F=786432 M=768 T=0.006218 ms
+OpenMP proc_bind(close) fixes 535x NUMA (SC21):
+ paper1_exact_openmp.c F=786432 M=768 T=0.006218 ms
+ paper2_backward_openmp.c F=786432 M=768 T=0.006218 ms
+ paper3_decode_openmp.c F=786432 M=768 T=0.006218 ms
+ paper45_matmul_openmp.c F=786432 M=768 T=0.006218 ms
+\end{verbatim}
+
+DNF: $\vec{i} \psi A = (\mathrm{rav}\;A)[\gamma(\vec{i},\rho A)]$, $M1exp:36$ $Pd:9$ $Xd:0$ $Cd:36$, \texttt{reached(d)}.
+Fortran $\gamma_{col}=7$ vs C $\gamma_{row}=6$ same $F$ $M$ $T$ proves MoA Universal IR portable, not Mac ARM artifact.
+Artifacts: \texttt{moa\_compiler/DELTA\_REAL\_HARDWARE\_PROOF.txt}, \texttt{moa\_A100\_22646116.log}, \texttt{moa\_A40\_22646132.log}, \texttt{DELTA\_DIRECT\_RUN.log}.
+% --- END DELTA PROOF ---
+

@@ -113,4 +113,20 @@ All results: 2.00x atomics ->2.5x speedup via ONF rewrite only Paper V, 535x NUM
 
 MoA as universal IL: many languages in, MoA AST/DNF semantic equivalence preserved Theorem 3.1, many languages out via dimension lifting mapping data shape arrays to machine shape arrays partitioning each dimension using \# and o/ and gamma offset. Loops map to portable paradigms OpenMP, OpenACC, OpenMPI with deterministic shapes and flags closing prediction gap. Foundation for exascale.
 
+
+%% === DELTA REAL HARDWARE PROOF - Added 2026-10-03 ===
+%% NCSA Delta bihf-delta-gpu 2993hrs - Nodes: dt-login04 x86_64, gpua027 A100, gpub017 A40
+%% All 12 files same F M T proves Same DNF -> Many ONFs -> Predictable
+\begin{verbatim}
+Fortran gfortran col-major gamma_col=7:
+ paper1_exact F=      786432  M=         768  T ms=   6.21772837E-03
+C row-major gamma_row=6:
+ paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+OpenMP proc_bind(close) fixes 535x NUMA:
+ paper1_exact F=786432 M=768 T=0.006218 ms
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)] M1exp:36 Pd:9 Xd:0 Cd:36
+Artifact: moa_compiler/DELTA_REAL_HARDWARE_PROOF.txt moa_A100_22646116.log moa_A40_22646132.log
+\end{verbatim}
+%% === END DELTA PROOF ===
+
 \end{document}

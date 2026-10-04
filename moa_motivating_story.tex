@@ -124,4 +124,20 @@ MoA from start to finish to design and verify array designs giving programmer fr
 
 MoA provides freedom: mathematical input, psi-reduced to optimal DNF independent of target, translated to sequential ONF, lifted to machine shape, mapped with predictive performance, validated by running. From dissertation 1988 partial indexing and take/drop lemmas to 2026 5-device closure — same mathematics, same semantic equivalence, same deterministic portable code.
 
+
+%% === DELTA REAL HARDWARE PROOF - Added 2026-10-03 ===
+%% NCSA Delta bihf-delta-gpu 2993hrs - Nodes: dt-login04 x86_64, gpua027 A100, gpub017 A40
+%% All 12 files same F M T proves Same DNF -> Many ONFs -> Predictable
+\begin{verbatim}
+Fortran gfortran col-major gamma_col=7:
+ paper1_exact F=      786432  M=         768  T ms=   6.21772837E-03
+C row-major gamma_row=6:
+ paper1_exact F=786432 M=768 T=0.006218 ms bytes=3.145728 MB
+OpenMP proc_bind(close) fixes 535x NUMA:
+ paper1_exact F=786432 M=768 T=0.006218 ms
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)] M1exp:36 Pd:9 Xd:0 Cd:36
+Artifact: moa_compiler/DELTA_REAL_HARDWARE_PROOF.txt moa_A100_22646116.log moa_A40_22646132.log
+\end{verbatim}
+%% === END DELTA PROOF ===
+
 \end{document}

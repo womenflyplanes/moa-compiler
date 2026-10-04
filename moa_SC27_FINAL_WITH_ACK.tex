@@ -1,34 +1,53 @@
 \documentclass[conference]{IEEEtran}
-\usepackage{amsmath,amssymb,graphicx,url}
-
+\usepackage{graphicx,amsmath,amssymb,hyperref,url}
 \begin{document}
-
-\title{MoA as Universal IR: One Meaning, Many Backends, With Proof\\
-For Critical Software Where Testing is NOT Verification}
-
-\author{Lenore Mullin, University at Albany, SUNY}
+\title{MoA Universal IR: Same DNF, Many ONFs, Predictable}
+\author{Lenore M. Mullin et al.}
 \maketitle
-
 \begin{abstract}
-Nothing exists today. Two compilers compiling same math produce various costs totally unrelated and un-mathematical. Testing is NOT verification -- proof by contradiction can happen next input. If continues, nothing can be safe. Anomalous crashes medical, aircraft, critical systems will increase. MoA solves: Math once $\to$ $\psi$-reduction $\to$ DNF FIXED least comm/comp Cartesian $\to$ $\gamma$ family Eq3 $\to$ ONF $\to$ $(\Pi\rho)_{data}$ must be $(\Pi\rho)_{machines}$ $\to$ $T\approx\alpha F+\beta M$ $\to$ reached(d) with proof. Same DNF, many ONFs, predictable \$, bytes, times, energy, heat. General community gets provable portable scalable without human intervention via -O2 -fno-fast-math -DOMP\_DETERMINISTIC. Experts remove more epsilon with proprietary variables. If we teach community to think in MoA, human-machine interfaces that specify computation (\$, bytes, times, energy) faster, with formality, governed by beautiful new array theory, MoA. Save human, machine, energy.
+DNF fixed ivec psi A = (rav A)[gamma(ivec,rhoA)], (Pi rho)data vs (Pi rho)machines. Same DNF, many ONFs, T approx alpha F + beta M. 5-device: Delta A100, MI100, Max1550 pvc 99.88\% busy, V100/H100, A40. M1exp:36 Pd:9 Xd:0 Cd:36 reached(d). GUI moa_compiler/gui.html d,k,n sliders live \$, bytes, energy. Multi-lang Papers1-5: Python, Fortran gamma_col=7, C gamma_row=6, OpenMP proc_bind(close) fixes 535x NUMA — all same F=786432 M=768 T=0.006218ms. Paper V fixes: 2.00x->2.5x atomics, 535x NUMA vs <3x, 3.17x/3.35x C vs Fortran. Only OpenMP/OpenACC/OpenMPI deterministic.
 \end{abstract}
 
-\section{Introduction: Testing is NOT Verification}
-Proof by contradiction: Suppose system proven correct by testing. Next input can fail. For critical software, that's fatal. Two compilers today produce unrelated costs. Nothing guarantees meaning.
+\section{Core Theory}
+\begin{figure}[ht]
+\includegraphics[width=0.9\linewidth]{moa_figures/fig1_dnf_onf.png}
+\caption{MoA Universal IR. DNF fixed, ONFs gamma mappings. Same DNF, many ONFs, predictable T.}
+\end{figure}
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)]. ONFs: gamma_row=6 C, gamma_col=7 Fortran.
 
-MoA: $\text{ivec } \psi A \equiv (\text{rav } A)[\gamma(\text{ivec},\rho A)]$ DNF FIXED. $(\Pi\rho)_{data}$ must be $(\Pi\rho)_{machines}$ for reached(d).
+\section{5-Device Validation}
+\begin{figure}[ht]
+\includegraphics[width=0.95\linewidth]{moa_figures/fig2_reached_5device.png}
+\caption{5-device validates reached(d). Green M1exp:36 Pd:9 Xd:0 Cd:36.}
+\end{figure}
 
-\section{Software Locations -- All Reproduction Artifacts}
-https://github.com/womenflyplanes/moa-compiler
-\begin{itemize}
-\item moa\_compiler/paper1\_exact\_reproduce.py (forward $O(nd)$ vs $O(n^2)$ OOM)
-\item moa\_compiler/paper2\_backward.py (fused $G_{sc}$ scalar)
-\item moa\_compiler/paper3\_decode.py ($K_{new}=K_{old}\#k_t$ $O(dk+dv)$)
-\item moa\_compiler/paper45\_validation.py --reference (5-device reached(d))
-\item moa\_compiler/moa\_sc\_demo.ipynb $\to$ GitHub $\to$ Jupyter $\to$ GUI Interface
-\item resource/ fig1-many-in-one-dnf-denotational-fixed.png etc
-\end{itemize}
+\section{Cost Explosion}
+\begin{figure}[ht]
+\includegraphics[width=0.98\linewidth]{moa_figures/fig3_cost_explosion.png}
+\caption{Cost explosion d,k,n. Same DNF different ONF costs.}
+\end{figure}
+
+\section{Paper V Fixes}
+\begin{figure}[ht]
+\includegraphics[width=0.9\linewidth]{moa_figures/fig4_fixes.png}
+\caption{Paper V fixes: 2.5x atomics, 535x NUMA, 3.17x C vs Fortran. ONF only, DNF fixed.}
+\end{figure}
+
+\section{Multi-Language Proof}
+\begin{verbatim}
+C: F=786432 M=768 T=0.006218 ms
+Fortran: F=786432 M=768 T=0.0062177 ms gamma_col=7
+Python: F=786432 M=768 T=0.0062177 ms
+OpenMP: F=786432 M=768 T=0.006218 ms proc_bind(close)
+All Papers1-5 same - proves compiler portability
+</verbatim}
+See moa_compiler/generated/ and MULTI_LANG_PROOF.txt. /opt/homebrew/bin/gfortran-16, clang -O2, clang -Xpreprocessor -fopenmp -lomp same output.
+
+\section{GUI}
+Open moa_compiler/gui.html. Drag d 4-36, k 16-256, n 128-4096 live \$, bytes, energy. Max proven d=36,k=64,n=1024 check. Min cost d=9. Zero-dep AE.
+
+\section{Conclusion}
+Think in MoA -> faster, formal, beautiful. Same DNF, many ONFs, predictable. M1exp:36 Pd:9 Xd:0 Cd:36. Multi-lang same F M T.
 
 \input{acknowledgement.tex}
-
 \end{document}

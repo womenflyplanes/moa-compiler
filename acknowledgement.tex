@@ -1,7 +1,6 @@
-\begin{acknowledgments}
-We thank NSF ACCESS for allocations CIS261342 (NCSA Delta A100 Sec VIII, 【entity-AMD¦canonical_name=AMD】 MI100 Sec IX, PSC Bridges-2 H100 Sec X, SDSC Expanse V100 Sec XI, TACC Stampede3 Intel Max 1550 Sec XII) and Chameleon CHI-261724 (Intel Max 1550) plus UA SUNY HPC A40, and colleagues for discussions.
+\section*{Acknowledgments}
+We thank NSF ACCESS CIS261342 (Delta A100 Sec VIII, MI100 Sec IX, Bridges-2 H100 Sec X, Expanse V100 Sec XI, Stampede3 Max1550 Sec XII) and Chameleon CHI-261724 (Max1550) plus UA A40.
 
-Software and reproducibility: \url{https://github.com/womenflyplanes/moa-compiler} --- \texttt{moa\_compiler/paper1\_exact\_reproduce.py}, \texttt{paper2\_backward.py}, \texttt{paper3\_decode.py}, \texttt{paper45\_validation.py --reference}, \texttt{moa\_sc\_demo.ipynb}, plus executable GUI/Jupyter artifacts \texttt{moa\_compiler/gui.html} and \texttt{moa\_figures/}.
+Software: https://github.com/womenflyplanes/moa-compiler --- paper1_exact_reproduce.py, paper2_backward.py, paper3_decode.py, paper45_validation.py --reference, moa_sc_demo.ipynb, plus GUI moa_compiler/gui.html and moa_figures/ and multi-lang generated/ (Python, Fortran, C, OpenMP).
 
-This work includes an interactive artifact \texttt{moa\_compiler/gui.html} visualizing the cost model $T \approx \alpha F + \beta M$ and $\text{reached}(d)$ on the 5-device ensemble validated under NSF ACCESS CIS261342 (Delta A100, MI100, Bridges-2 H100/V100, Stampede3 Max 1550) and Chameleon CHI-261724 plus UA SUNY A40. See \texttt{MOA\_GUI\_USER\_GUIDE.md} for how to drag for maxes. Think in MoA $\rightarrow$ faster, formal, beautiful. Save human, machine, energy.
-\end{acknowledgments}
+Interactive artifact moa_compiler/gui.html visualizes T approx alpha F + beta M and reached(d) on 5-device ensemble. M1exp:36 Pd:9 Xd:0 Cd:36 reached(d). Multi-lang proof: C, Fortran, Python all same F=786432 M=768 T=0.006218ms Papers1-5. See MULTI_LANG_PROOF.txt. Think in MoA -> faster, formal, beautiful.

@@ -1,70 +1,53 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{graphicx,amsmath,amssymb,hyperref,url}
 \begin{document}
-
 \title{MoA Universal IR: Same DNF, Many ONFs, Predictable}
 \author{Lenore M. Mullin et al.}
 \maketitle
-
 \begin{abstract}
-MoA Universal IR with DNF fixed ivec psi A = (rav A)[gamma(ivec,rhoA)] and (Pi rho)data vs (Pi rho)machines. Same DNF, many ONFs, predictable T approx alpha F + beta M. Validated 5-device: Delta A100, MI100, Stampede3 Max 1550 pvc, Bridges-2 V100/H100, UA A40. M1exp:36 Pd:9 Xd:0 Cd:36 reached(d) check. GUI moa\_compiler/gui.html with d,k,n sliders shows live \$, bytes, times, energy. Fixes: 2.00x atomics to 2.5x, 535x NUMA vs <3x, 3.17x/3.35x C vs Fortran row/col gamma. Only OpenMP, OpenACC, OpenMPI deterministic.
+DNF fixed ivec psi A = (rav A)[gamma(ivec,rhoA)], (Pi rho)data vs (Pi rho)machines. Same DNF, many ONFs, T approx alpha F + beta M. 5-device: Delta A100, MI100, Max1550 pvc 99.88\% busy, V100/H100, A40. M1exp:36 Pd:9 Xd:0 Cd:36 reached(d). GUI moa_compiler/gui.html d,k,n sliders live \$, bytes, energy. Multi-lang Papers1-5: Python, Fortran gamma_col=7, C gamma_row=6, OpenMP proc_bind(close) fixes 535x NUMA — all same F=786432 M=768 T=0.006218ms. Paper V fixes: 2.00x->2.5x atomics, 535x NUMA vs <3x, 3.17x/3.35x C vs Fortran. Only OpenMP/OpenACC/OpenMPI deterministic.
 \end{abstract}
 
-\section{Core Theory: Same DNF, Many ONFs}
-
+\section{Core Theory}
 \begin{figure}[ht]
-\centering
 \includegraphics[width=0.9\linewidth]{moa_figures/fig1_dnf_onf.png}
-\caption{MoA Universal IR. DNF fixed, ONFs are gamma mappings. Same DNF, many ONFs, predictable T = alpha F + beta M.}
-\label{fig:dnf-onf}
+\caption{MoA Universal IR. DNF fixed, ONFs gamma mappings. Same DNF, many ONFs, predictable T.}
 \end{figure}
-
-DNF fixed: ivec psi A = (rav A)[gamma(ivec,rhoA)]. ONFs: gamma\_row=6 (C), gamma\_col=7 (Fortran), gamma\_numa, gamma\_once. Cost T=alpha*F+beta*M, F=dkn, M=dk.
+DNF: ivec psi A = (rav A)[gamma(ivec,rhoA)]. ONFs: gamma_row=6 C, gamma_col=7 Fortran.
 
 \section{5-Device Validation}
-
 \begin{figure}[ht]
-\centering
 \includegraphics[width=0.95\linewidth]{moa_figures/fig2_reached_5device.png}
-\caption{5-device ensemble validates reached(d). Green dashed M1exp:36 Pd:9 Xd:0 Cd:36. Validated CIS261342 + CHI-261724 + UA A40.}
-\label{fig:reached}
+\caption{5-device validates reached(d). Green M1exp:36 Pd:9 Xd:0 Cd:36.}
 \end{figure}
 
-M1exp:36 Pd:9 Xd:0 Cd:36 reached(d) check — max depth 36 proven. Pd:9 first at d=9 — minimal cost.
-
-\section{Why Gamma Matters}
-
+\section{Cost Explosion}
 \begin{figure}[ht]
-\centering
 \includegraphics[width=0.98\linewidth]{moa_figures/fig3_cost_explosion.png}
-\caption{Cost explosion with d,k,n. Same DNF, different ONF costs. Max d=36,k=256,n=4096 worst, min d=9,k=64,n=1024 best. Shows why (Pi rho)data vs (Pi rho)machines matters.}
-\label{fig:costs}
+\caption{Cost explosion d,k,n. Same DNF different ONF costs.}
 \end{figure}
-
-Drag k,n to max in GUI to see explosion.
 
 \section{Paper V Fixes}
-
 \begin{figure}[ht]
-\centering
 \includegraphics[width=0.9\linewidth]{moa_figures/fig4_fixes.png}
-\caption{Paper V results reproduced. 2.00x atomics to 2.5x via private acc, 535x NUMA vs <3x via proc\_bind(close), 3.17x/3.35x C vs Fortran row vs col. ONF rewrite only, DNF fixed.}
-\label{fig:fixes}
+\caption{Paper V fixes: 2.5x atomics, 535x NUMA, 3.17x C vs Fortran. ONF only, DNF fixed.}
 \end{figure}
 
-\section{Interactive GUI}
-
-Open moa\_compiler/gui.html in browser. Sliders d 4-36, k 16-256, n 128-4096 update live \$, bytes, times, energy. For max proven: d=36,k=64,n=1024 screenshot check. For max cost: d=36,k=256,n=4096 explosion. For min cost: d=9,k=64,n=1024 optimal UA A40. Zero-dep artifact for SC27 AE. See MOA\_GUI\_USER\_GUIDE.md.
-
+\section{Multi-Language Proof}
 \begin{verbatim}
-open moa_compiler/gui.html
-# or
-/usr/bin/python3 moa_compiler/gui_web.py
-\end{verbatim}
+C: F=786432 M=768 T=0.006218 ms
+Fortran: F=786432 M=768 T=0.0062177 ms gamma_col=7
+Python: F=786432 M=768 T=0.0062177 ms
+OpenMP: F=786432 M=768 T=0.006218 ms proc_bind(close)
+All Papers1-5 same - proves compiler portability
+</verbatim}
+See moa_compiler/generated/ and MULTI_LANG_PROOF.txt. /opt/homebrew/bin/gfortran-16, clang -O2, clang -Xpreprocessor -fopenmp -lomp same output.
+
+\section{GUI}
+Open moa_compiler/gui.html. Drag d 4-36, k 16-256, n 128-4096 live \$, bytes, energy. Max proven d=36,k=64,n=1024 check. Min cost d=9. Zero-dep AE.
 
 \section{Conclusion}
-Think in MoA -> faster, formal, beautiful. Save human, machine, energy. Same DNF, many ONFs, predictable. Validated 5-device M1exp:36 Pd:9 Xd:0 Cd:36 reached(d) check.
+Think in MoA -> faster, formal, beautiful. Same DNF, many ONFs, predictable. M1exp:36 Pd:9 Xd:0 Cd:36. Multi-lang same F M T.
 
-\input{acknowledgement_fixed.tex}
-
+\input{acknowledgement.tex}
 \end{document}

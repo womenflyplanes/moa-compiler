@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+moa_generated_attention_example.c
+moa_generated_attention_openmp.c
+moa_codegen_validation_v1.json

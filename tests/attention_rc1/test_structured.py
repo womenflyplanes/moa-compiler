@@ -20,11 +20,29 @@ def run_kernel(source, values, shape, parallel, temp, name):
     c = temp / (name+'.c')
     lib = temp / (name+'.dylib')
     c.write_text(source)
-    cmd = ['clang', '-O2', '-fPIC', '-shared', str(c), '-o', str(lib), '-lm']
+    import shutil
+    import platform
+
+    compiler = os.environ.get('CC')
+    if not compiler:
+        compiler = 'clang' if platform.system() == 'Darwin' else 'gcc'
+    if not shutil.which(compiler):
+        raise RuntimeError(f'C compiler not found: {compiler}')
+
+    cmd = [compiler, '-O2', '-fPIC', '-shared', str(c),
+           '-o', str(lib), '-lm']
+
     if parallel:
-        cmd[1:1] = ['-Xpreprocessor', '-fopenmp', '-I/opt/homebrew/opt/libomp/include',
-                    '-L/opt/homebrew/opt/libomp/lib', '-Wl,-rpath,/opt/homebrew/opt/libomp/lib']
-        cmd.append('-lomp')
+        if platform.system() == 'Darwin' and 'clang' in Path(compiler).name:
+            cmd[1:1] = [
+                '-Xpreprocessor', '-fopenmp',
+                '-I/opt/homebrew/opt/libomp/include',
+                '-L/opt/homebrew/opt/libomp/lib',
+                '-Wl,-rpath,/opt/homebrew/opt/libomp/lib'
+            ]
+            cmd.append('-lomp')
+        else:
+            cmd.insert(1, '-fopenmp')  
     subprocess.run(cmd, check=True)
     fn = ctypes.CDLL(str(lib)).moa_attention_generated
     ptr = ctypes.POINTER(ctypes.c_double)

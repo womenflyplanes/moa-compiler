@@ -67,5 +67,43 @@ class MultidimensionalLiftTests(unittest.TestCase):
             rectangular_lift(seq, resources, (Rectangle((0, 0), (3, 2), (0,)),))
 
 
+    def test_aggregate_capacity_rejected(self):
+        seq = gamma_sequential(DNF((4, 2), 4))
+        resources = ResourceArray((1,), (
+            machine('shared', capacity=24, chunk=8),
+        ))
+        rects = (
+            Rectangle((0, 0), (2, 2), (0,)),
+            Rectangle((2, 0), (4, 2), (0,)),
+        )
+        with self.assertRaisesRegex(ValueError, 'aggregate capacity'):
+            rectangular_lift(seq, resources, rects)
+
+    def test_aggregate_chunk_limit_rejected(self):
+        seq = gamma_sequential(DNF((4, 2), 4))
+        resources = ResourceArray((1,), (
+            machine('shared', capacity=64, chunk=6),
+        ))
+        rects = (
+            Rectangle((0, 0), (2, 2), (0,)),
+            Rectangle((2, 0), (4, 2), (0,)),
+        )
+        with self.assertRaisesRegex(ValueError, 'aggregate chunk limit'):
+            rectangular_lift(seq, resources, rects)
+
+    def test_multiple_rectangles_same_machine_within_limits(self):
+        seq = gamma_sequential(DNF((4, 2), 4))
+        resources = ResourceArray((1,), (
+            machine('shared', capacity=32, chunk=8),
+        ))
+        rects = (
+            Rectangle((0, 0), (2, 2), (0,)),
+            Rectangle((2, 0), (4, 2), (0,)),
+        )
+        result = rectangular_lift(seq, resources, rects)
+        self.assertTrue(result.verify())
+        self.assertEqual(len(result.mapped_indices()), 8)
+
+
 if __name__ == '__main__':
     unittest.main()

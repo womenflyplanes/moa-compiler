@@ -72,6 +72,8 @@ class MultidimensionalONF:
         _shape(shape)
         if not isinstance(self.rectangles, tuple):
             raise ValueError('rectangles must be a tuple')
+        # Aggregate all rectangles assigned to each machine coordinate.
+        per_machine_elements = {}
         for r in self.rectangles:
             if len(r.lower) != len(shape) or len(r.upper) != len(shape):
                 raise ValueError('rectangle rank differs from DNF rank')
@@ -81,6 +83,20 @@ class MultidimensionalONF:
             machine = self.resources.psi(r.resource_index)
             if r.elements > machine.max_chunk_elements or r.elements * self.sequential.dnf.dtype_bytes > machine.capacity_bytes:
                 raise ValueError('rectangle exceeds machine capacity')
+            per_machine_elements[r.resource_index] = (
+                per_machine_elements.get(r.resource_index, 0) + r.elements
+            )
+
+        for resource_index, elements in per_machine_elements.items():
+            machine = self.resources.psi(resource_index)
+            if elements > machine.max_chunk_elements:
+                raise ValueError(
+                    f'aggregate chunk limit exceeded for machine {machine.name}'
+                )
+            if elements * self.sequential.dnf.dtype_bytes > machine.capacity_bytes:
+                raise ValueError(
+                    f'aggregate capacity exceeded for machine {machine.name}'
+                )
 
         # Exact coverage proof for axis-aligned rectangles using boundary cells.
         # Every rectangle's membership is constant within each boundary cell.

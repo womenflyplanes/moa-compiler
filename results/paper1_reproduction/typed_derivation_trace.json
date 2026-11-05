@@ -1,0 +1,228 @@
+{
+  "dnf": {
+    "score": {
+      "term": {
+        "index": "j",
+        "term": {
+          "lhs": {
+            "array": {
+              "name": "Q",
+              "shape": [
+                "n",
+                "d"
+              ]
+            },
+            "indices": [
+              "i",
+              "j"
+            ]
+          },
+          "rhs": {
+            "array": {
+              "name": "K",
+              "shape": [
+                "m",
+                "d"
+              ]
+            },
+            "indices": [
+              "k",
+              "j"
+            ]
+          }
+        }
+      },
+      "factor": "1/sqrt(d)"
+    },
+    "values": {
+      "array": {
+        "name": "V",
+        "shape": [
+          "m",
+          "dv"
+        ]
+      },
+      "indices": [
+        "k",
+        "v"
+      ]
+    },
+    "key_index": "k",
+    "value_index": "v",
+    "stable": true
+  },
+  "stable_summary": {
+    "score": {
+      "term": {
+        "index": "j",
+        "term": {
+          "lhs": {
+            "array": {
+              "name": "Q",
+              "shape": [
+                "n",
+                "d"
+              ]
+            },
+            "indices": [
+              "i",
+              "j"
+            ]
+          },
+          "rhs": {
+            "array": {
+              "name": "K",
+              "shape": [
+                "m",
+                "d"
+              ]
+            },
+            "indices": [
+              "k",
+              "j"
+            ]
+          }
+        }
+      },
+      "factor": "1/sqrt(d)"
+    },
+    "values": {
+      "array": {
+        "name": "V",
+        "shape": [
+          "m",
+          "dv"
+        ]
+      },
+      "indices": [
+        "k",
+        "v"
+      ]
+    },
+    "key_index": "k",
+    "value_index": "v",
+    "state": [
+      "a",
+      "z",
+      "u"
+    ]
+  },
+  "onf": {
+    "summary": {
+      "score": {
+        "term": {
+          "index": "j",
+          "term": {
+            "lhs": {
+              "array": {
+                "name": "Q",
+                "shape": [
+                  "n",
+                  "d"
+                ]
+              },
+              "indices": [
+                "i",
+                "j"
+              ]
+            },
+            "rhs": {
+              "array": {
+                "name": "K",
+                "shape": [
+                  "m",
+                  "d"
+                ]
+              },
+              "indices": [
+                "k",
+                "j"
+              ]
+            }
+          }
+        },
+        "factor": "1/sqrt(d)"
+      },
+      "values": {
+        "array": {
+          "name": "V",
+          "shape": [
+            "m",
+            "dv"
+          ]
+        },
+        "indices": [
+          "k",
+          "v"
+        ]
+      },
+      "key_index": "k",
+      "value_index": "v",
+      "state": [
+        "a",
+        "z",
+        "u"
+      ]
+    },
+    "addresses": [
+      {
+        "array": {
+          "name": "Q",
+          "shape": [
+            "n",
+            "d"
+          ]
+        },
+        "indices": [
+          "i",
+          "j"
+        ],
+        "width": "d"
+      },
+      {
+        "array": {
+          "name": "K",
+          "shape": [
+            "m",
+            "d"
+          ]
+        },
+        "indices": [
+          "k",
+          "j"
+        ],
+        "width": "d"
+      },
+      {
+        "array": {
+          "name": "V",
+          "shape": [
+            "m",
+            "dv"
+          ]
+        },
+        "indices": [
+          "k",
+          "v"
+        ],
+        "width": "dv"
+      },
+      {
+        "array": {
+          "name": "O",
+          "shape": [
+            "n",
+            "dv"
+          ]
+        },
+        "indices": [
+          "i",
+          "v"
+        ],
+        "width": "dv"
+      }
+    ],
+    "ownership": "query-disjoint"
+  },
+  "scope": "restricted forward-attention typed rewrite; not general MoA compilation"
+}

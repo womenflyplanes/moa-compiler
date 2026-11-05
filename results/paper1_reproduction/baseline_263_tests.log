@@ -1,0 +1,291 @@
+test_deterministic_counterexample (test_attention_adversarial_schedule.TestOmegaAdversarialSchedule) ... ok
+test_exact_strictly_improves_heuristic (test_attention_adversarial_schedule.TestOmegaAdversarialSchedule) ... ok
+test_reference_optimum_is_deterministic (test_attention_adversarial_schedule.TestOmegaAdversarialSchedule) ... ok
+test_slow_link_is_paid_once_in_exact_schedule (test_attention_adversarial_schedule.TestOmegaAdversarialSchedule) ... ok
+test_corrupted_nonlocal_bytes_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_counts_disagree_with_ownership (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_gap_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_incomplete_ownership_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_invalid_value_extent_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_noninteger_interval_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_overlap_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_reject_noncertificate (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_reject_nonplan (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_valid_heterogeneous_ownership (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_valid_idle_components (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_valid_single_component (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_valid_unequal_ownership (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_wrong_partition_rejected_by_plan_audit (test_attention_communication_audit.TestCommunicationAudit)
+Internally valid metadata must match the original plan. ... ok
+test_wrong_value_extent_rejected (test_attention_communication_audit.TestCommunicationAudit) ... ok
+test_boolean_stage_count (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_corrupt_stage_and_total_together (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_corrupted_stage_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_corrupted_total_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_infinite_total_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_missing_stage_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_nan_stage_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_negative_stage_time (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_stage_times_wrong_type (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_wrong_link_bytes (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_wrong_link_model (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_wrong_machine_shape (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_wrong_port_count (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_wrong_stage_count (test_attention_communication_time.TestAdversarialPredictionAudit) ... ok
+test_boolean_bandwidth (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_boolean_latency (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_infinite_bandwidth (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_invalid_link_object (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_missing_link (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_nan_latency (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_negative_bandwidth (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_negative_latency (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_nonfinite_transfer_duration (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_unexpected_link (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_zero_bandwidth (test_attention_communication_time.TestInvalidLinkParameters) ... ok
+test_heterogeneous_slow_link (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_idle_machine_components (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_multidimensional_machine (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_ports_change_stages_and_time (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_singleton_machine (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_uniform_prediction (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_uniform_prediction_matches_stage_formula (test_attention_communication_time.TestOmegaCommunicationTime) ... ok
+test_audit_rejects_corrupted_link_count (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_corrupted_link_time (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_corrupted_payload (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_corrupted_stage_time (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_corrupted_total_bytes (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_corrupted_total_time (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_duplicate_link (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_missing_link (test_attention_contention.TestOmegaContention) ... ok
+test_audit_rejects_wrong_link_model (test_attention_contention.TestOmegaContention) ... ok
+test_contended_link_identification (test_attention_contention.TestOmegaContention) ... ok
+test_every_stage_has_correct_link_accounting (test_attention_contention.TestOmegaContention) ... ok
+test_heterogeneous_contention_extends_stage (test_attention_contention.TestOmegaContention) ... ok
+test_prediction_is_deterministic (test_attention_contention.TestOmegaContention) ... ok
+test_prediction_never_underestimates_original_model (test_attention_contention.TestOmegaContention) ... ok
+test_uniform_contention_does_not_extend_stage (test_attention_contention.TestOmegaContention) ... ok
+test_uniform_prediction_and_audit (test_attention_contention.TestOmegaContention) ... ok
+test_alternative_machine_shape (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_deterministic_schedule (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_exact_stage_rearrangement (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_heterogeneous_improvement (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_large_latency_model (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_no_worse_than_baseline (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_original_scheduler_preserved (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_reject_invalid_outgoing_ports (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_reject_missing_link_parameters (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_result_rejects_changed_communication_volume (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_result_rejects_invalid_candidate_count (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_result_rejects_worse_selection (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_single_coordinate_machine (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_stage_time_tradeoff (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_uniform_links (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_zero_latency_model (test_attention_contention_schedule.TestOmegaContentionScheduling) ... ok
+test_determinism (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_four_coordinate_reference_optimum (test_attention_exact_schedule.TestOmegaExactScheduling) ... skipped 'Expensive brute-force reference; four-coordinate case covered by independent memoized verifier'
+test_heterogeneous_links (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_invalid_search_limits (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_missing_link_parameters (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_result_rejects_false_optimality (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_single_coordinate (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_state_limit (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_transfer_limit (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_transition_limit (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_two_coordinate_reference_optimum (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_zero_latency (test_attention_exact_schedule.TestOmegaExactScheduling) ... ok
+test_four_coordinate_heterogeneous (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_four_coordinate_reference (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_invalid_reference_limits (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_reference_determinism (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_reference_state_limit (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_reference_transfer_limit (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_reference_transition_limit (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_single_coordinate_reference (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_two_coordinate_reference (test_attention_exact_schedule_memoized.TestOmegaMemoizedOptimality) ... ok
+test_canonical_scheduler_unchanged (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_canonical_verifier_rejects_noncanonical (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_certificate_tampering_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_gap_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_idle_machine_components (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_incorrect_query_total_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_malformed_interval_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_negative_query_count_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_overlap_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_tau_output_preserved (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_unequal_partition (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_wrong_interval_count_rejected (test_attention_explicit_omega.TestExplicitOmega) ... ok
+test_corrupted_certificates_rejected (test_attention_integrated_108.TestIntegratedAttention108) ... ok
+test_valid_heuristic_and_exact (test_attention_integrated_108.TestIntegratedAttention108) ... ok
+test_corrupted_ownership_rejected (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_idle_machine_components (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_insufficient_capacity_rejected (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_machine_shape_mismatch_rejected (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_two_by_three_machine (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_uneven_query_ownership (test_attention_multidim_bridge.AttentionMultidimensionalBridgeTests) ... ok
+test_duplicate_edge (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_duplicate_owner_route (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_missing_edge (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_missing_owner_route (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_non_neighbor_edge (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_receive_before_forward (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_self_consistent_wrong_ownership (test_attention_omega_topology.TestCorruptedOmegaTopology)
+Correct-looking accounting must not hide wrong Omega. ... ok
+test_wrong_element_width (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_hop_count (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_interval (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_link_bytes (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_machine_shape (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_nonlocal_bytes (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_owner (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_payload_bytes (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_payload_components (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_wrong_total_link_bytes (test_attention_omega_topology.TestCorruptedOmegaTopology) ... ok
+test_every_coordinate_can_be_root (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_heterogeneous_ownership (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_idle_machine_components (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_invalid_root (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_multidimensional_machine (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_single_machine_component (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_unequal_ownership (test_attention_omega_topology.TestOmegaTopology) ... ok
+test_communication_volume_invariant (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_deterministic_schedule (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_heterogeneous_ownership (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_idle_machine_components (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_multidimensional_machine (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_reject_invalid_port_counts (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_singleton_machine (test_attention_port_schedule.TestOmegaPortSchedule) ... ok
+test_duplicate_transfer (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_empty_schedule_rejected (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_excess_outgoing_transfers (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_invalid_outgoing_ports (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_missing_transfer (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_noninteger_coordinate_rejected (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_noninteger_payload_rejected (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_receive_before_forward_violation (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_same_stage_forwarding_violation (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_child (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_machine_shape (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_owner (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_parent (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_payload_bytes (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_stage_count (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_wrong_total_bytes (test_attention_port_schedule.TestOmegaPortScheduleAdversarial) ... ok
+test_corrupted_ownership_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_corrupted_rank_capacity_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_corrupted_rank_coordinate_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_heterogeneous_capacities (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_idle_machine_components (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_non_bridge_input_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_non_double_component_size_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_output_capacity_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_output_partition_limit_rejected (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_output_valid_but_mpi_storage_infeasible (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_sufficient_capacity (test_attention_resource_bridge.TestAttentionResourceBridge) ... ok
+test_component_byte_width (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_aggregate_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_bytes_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_counts_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_displacements_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_machine_count_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_nonlocal_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_corrupted_receive_rejected (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_heterogeneous_ownership (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_idle_machine_components (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_invalid_component_byte_width (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_reject_non_resource_plan (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_single_machine_component (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_unequal_ownership (test_attention_resource_communication.TestResourceCommunication) ... ok
+test_heterogeneous_ownership (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_idle_machine_components (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_noncanonical_unequal_ownership (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_only_ownership_declarations_change (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_collective_metadata_exact (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_collective_rejects_gap (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_collective_rejects_incomplete_output (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_collective_rejects_mpi_integer_overflow (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_collective_rejects_overlap (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_heterogeneous_ownership (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_idle_machine_components (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_noncanonical_unequal_ownership (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_only_four_declarations_change (test_attention_resource_mpi.TestResourceOmegaMPI) ... ok
+test_corrupted_capacity_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_corrupted_storage_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_deterministic_planning (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_heterogeneous_capacities (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_idle_machine_components (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_insufficient_capacity_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_invalid_capacity_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_replication_capacity_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_storage_matches_existing_model (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_tau_output_preserved (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_wrong_capacity_count_rejected (test_attention_resource_planner.TestAttentionResourcePlanner) ... ok
+test_generated_transfer_correspondence (test_attention_scheduled_mpi_109.TestScheduledMPI109) ... ok
+test_stage_buffer_safety (test_attention_scheduled_mpi_109.TestScheduledMPI109) ... ok
+test_capacity_violation (test_attention_storage.TestAttentionStorage) ... ok
+test_component_size (test_attention_storage.TestAttentionStorage) ... ok
+test_idle_machine_components (test_attention_storage.TestAttentionStorage) ... ok
+test_invalid_capacities (test_attention_storage.TestAttentionStorage) ... ok
+test_invalid_element_sizes (test_attention_storage.TestAttentionStorage) ... ok
+test_mutated_aggregate_rejected (test_attention_storage.TestAttentionStorage) ... ok
+test_mutated_rank_storage_rejected (test_attention_storage.TestAttentionStorage) ... ok
+test_reject_non_scheduled_ir (test_attention_storage.TestAttentionStorage) ... ok
+test_six_component_machine (test_attention_storage.TestAttentionStorage) ... ok
+test_sufficient_capacity (test_attention_storage.TestAttentionStorage) ... ok
+test_cpu_gpu_selection (test_bridge.BridgeTests) ... ok
+test_cpu_only (test_bridge.BridgeTests) ... ok
+test_empty (test_bridge.BridgeTests) ... ok
+test_gpu_only (test_bridge.BridgeTests) ... ok
+test_insufficient_capacity (test_bridge.BridgeTests) ... ok
+test_scalar (test_bridge.BridgeTests) ... ok
+test_rejections (test_moa_v3.Tests) ... ok
+test_scalar_and_empty (test_moa_v3.Tests) ... ok
+test_sequential_and_lift (test_moa_v3.Tests) ... ok
+test_aggregate_capacity_rejected (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_aggregate_chunk_limit_rejected (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_empty_and_scalar_domains (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_hole_rejected (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_invalid_rectangle (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_multiple_rectangles_same_machine_within_limits (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_overlap_rejected_even_when_counts_match (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_resource_bounds_and_capacity (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_two_by_two_machine_array (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_uneven_tiles_and_rank_three (test_multidimensional_lift.MultidimensionalLiftTests) ... ok
+test_capacity_and_idle (test_planner.PlannerTests) ... ok
+test_extensible_and_scalar (test_planner.PlannerTests) ... ok
+test_heterogeneous (test_planner.PlannerTests) ... ok
+test_min_viable_and_infeasible (test_planner.PlannerTests) ... ok
+test_reservation (test_planner.PlannerTests) ... ok
+test_duplicate_reference_rejected (test_prediction_validation.PredictionValidationTests) ... ok
+test_exact_linear (test_prediction_validation.PredictionValidationTests) ... ok
+test_invalid_measurement_rejected (test_prediction_validation.PredictionValidationTests) ... ok
+test_multiple_machine_groups (test_prediction_validation.PredictionValidationTests) ... ok
+test_no_reference_rejected (test_prediction_validation.PredictionValidationTests) ... ok
+test_nonzero_residual (test_prediction_validation.PredictionValidationTests) ... ok
+test_zero_extent_rejected (test_prediction_validation.PredictionValidationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 263 tests in 4.297s
+
+OK (skipped=1)
+
+ADVERSARIAL_OMEGA_PASS shape= (3,) ports= 2 heuristic_us= 40.048 exact_us= 20.2008 improvement_percent= 49.55852976428285 reference_states= 36 reference_transitions= 176
+
+FOUR_COORDINATE_EXACT states= 1296 transitions= 45297 optimal_us= 4.0048 heuristic_us= 4.0048
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) output= 21 nonlocal_bytes= 840
+PASS logical MoA Omega communication: shape= (2, 3) counts= (3, 0, 0, 0, 0, 0) output= 12 nonlocal_bytes= 480
+PASS logical MoA Omega communication: shape= (1,) counts= (3,) output= 3 nonlocal_bytes= 0
+PASS logical MoA Omega communication: shape= (3, 2) counts= (1, 2, 3, 1, 2, 2) output= 44 nonlocal_bytes= 1760
+PASS numerical resource Omega: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) maxerr= 3.3306690738754696e-16
+PASS numerical resource Omega: shape= (2, 3) counts= (3, 0, 0, 0, 0, 0) maxerr= 2.220446049250313e-16
+PASS numerical resource Omega: shape= (3, 2) counts= (1, 2, 3, 1, 2, 2) maxerr= 1.6375789613221059e-15
+PASS emulated MPI rank ownership and output assembly: N=7 M=5 D=4 DV=3 P=6 trials=25 maxerr=3.3306690738754696e-16
+PASS emulated MPI rank ownership and output assembly: N=3 M=6 D=2 DV=4 P=6 trials=25 maxerr=3.3306690738754696e-16
+PASS emulated MPI rank ownership and output assembly: N=11 M=7 D=8 DV=4 P=6 trials=25 maxerr=4.496403249731884e-15

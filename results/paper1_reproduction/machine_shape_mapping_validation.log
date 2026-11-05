@@ -1,0 +1,9 @@
+PASS N=4 backend=sequential tile=4x4 threads_recommended=1 live_bytes=2560 err=0
+PASS N=4 backend=openmp tile=4x4 threads_recommended=2 live_bytes=2560 err=0
+PASS N=5 backend=sequential tile=5x5 threads_recommended=1 live_bytes=1600 err=0
+PASS N=5 backend=openmp tile=5x5 threads_recommended=2 live_bytes=1600 err=0
+PASS N=7 backend=sequential tile=7x7 threads_recommended=1 live_bytes=1792 err=0
+PASS N=7 backend=openmp tile=7x7 threads_recommended=1 live_bytes=1792 err=0
+PASS N=9 backend=sequential tile=9x9 threads_recommended=1 live_bytes=5760 err=0
+PASS N=9 backend=openmp tile=9x9 threads_recommended=2 live_bytes=5760 err=0
+PASS resource rejection and machine-shape validation

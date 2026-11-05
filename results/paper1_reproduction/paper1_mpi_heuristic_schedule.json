@@ -1,0 +1,195 @@
+{
+  "machine_shape": [
+    2,
+    2
+  ],
+  "outgoing_ports": 2,
+  "stages": [
+    [
+      {
+        "owner": [
+          0,
+          0
+        ],
+        "parent": [
+          0,
+          0
+        ],
+        "child": [
+          0,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          0,
+          0
+        ],
+        "parent": [
+          0,
+          0
+        ],
+        "child": [
+          1,
+          0
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          0,
+          1
+        ],
+        "parent": [
+          0,
+          1
+        ],
+        "child": [
+          0,
+          0
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          0,
+          1
+        ],
+        "parent": [
+          0,
+          1
+        ],
+        "child": [
+          1,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          0
+        ],
+        "parent": [
+          1,
+          0
+        ],
+        "child": [
+          0,
+          0
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          0
+        ],
+        "parent": [
+          1,
+          0
+        ],
+        "child": [
+          1,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          1
+        ],
+        "parent": [
+          1,
+          1
+        ],
+        "child": [
+          0,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          1
+        ],
+        "parent": [
+          1,
+          1
+        ],
+        "child": [
+          1,
+          0
+        ],
+        "payload_bytes": 24
+      }
+    ],
+    [
+      {
+        "owner": [
+          0,
+          0
+        ],
+        "parent": [
+          0,
+          1
+        ],
+        "child": [
+          1,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          0,
+          1
+        ],
+        "parent": [
+          0,
+          0
+        ],
+        "child": [
+          1,
+          0
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          0
+        ],
+        "parent": [
+          0,
+          0
+        ],
+        "child": [
+          0,
+          1
+        ],
+        "payload_bytes": 24
+      },
+      {
+        "owner": [
+          1,
+          1
+        ],
+        "parent": [
+          0,
+          1
+        ],
+        "child": [
+          0,
+          0
+        ],
+        "payload_bytes": 24
+      }
+    ]
+  ],
+  "stage_count": 2,
+  "total_link_bytes": 288
+}

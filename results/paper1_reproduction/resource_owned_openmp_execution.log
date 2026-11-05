@@ -1,0 +1,12 @@
+test_heterogeneous_ownership (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_idle_machine_components (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_noncanonical_unequal_ownership (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+test_only_ownership_declarations_change (test_attention_resource_execution.TestResourceOwnedExecution) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.394s
+
+OK
+PASS numerical resource Omega: shape= (2, 3) counts= (1, 2, 1, 1, 1, 1) maxerr= 3.3306690738754696e-16
+PASS numerical resource Omega: shape= (2, 3) counts= (3, 0, 0, 0, 0, 0) maxerr= 2.220446049250313e-16
+PASS numerical resource Omega: shape= (3, 2) counts= (1, 2, 3, 1, 2, 2) maxerr= 1.6375789613221059e-15

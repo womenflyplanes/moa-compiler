@@ -1,0 +1,246 @@
+{
+  "plan_sha256": "bb32c89bf29ebbf2a3a04e170c79f0472acd39c5b5f3f21f9474f9b6e84745ec",
+  "records": [
+    {
+      "N": 96,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 128143,
+      "partitions": 4,
+      "samples_ns": [
+        134565,
+        135187,
+        134485,
+        128143,
+        128163,
+        128023,
+        128113,
+        128103,
+        128093
+      ],
+      "source_sha256": "40c6ca8df086e6467b4d55bc08901361c6166f8ae06a0661164ee31ea4d6b6b4",
+      "threads": 4
+    },
+    {
+      "N": 96,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 127893,
+      "partitions": 8,
+      "samples_ns": [
+        127803,
+        127942,
+        127893,
+        127913,
+        127753,
+        127732,
+        127893,
+        127832,
+        128123
+      ],
+      "source_sha256": "13b9c0488548e72c9934604b7a31031f64cf07f91f9cba6abc3f622b30900c23",
+      "threads": 4
+    },
+    {
+      "N": 96,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 72538,
+      "partitions": 8,
+      "samples_ns": [
+        72087,
+        71586,
+        71436,
+        72627,
+        72598,
+        72578,
+        72468,
+        72538,
+        73128
+      ],
+      "source_sha256": "13b9c0488548e72c9934604b7a31031f64cf07f91f9cba6abc3f622b30900c23",
+      "threads": 8
+    },
+    {
+      "N": 96,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 70503,
+      "partitions": 16,
+      "samples_ns": [
+        70514,
+        70503,
+        70293,
+        70594,
+        70464,
+        70373,
+        70464,
+        70634,
+        70794
+      ],
+      "source_sha256": "342f58575492b2fb52edf75213ec392e10415c3dba9edc1ddd5e17ff1684ef6a",
+      "threads": 8
+    },
+    {
+      "N": 160,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 349343,
+      "partitions": 4,
+      "samples_ns": [
+        365363,
+        349573,
+        349183,
+        349343,
+        349092,
+        349292,
+        349724,
+        349303,
+        354423
+      ],
+      "source_sha256": "728b28d0b7c2cb9ab9e89e58382491245bb4f56bb0989f4f4acfd9ff41b3118a",
+      "threads": 4
+    },
+    {
+      "N": 160,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 353300,
+      "partitions": 8,
+      "samples_ns": [
+        354342,
+        353300,
+        353441,
+        352859,
+        353280,
+        353571,
+        350185,
+        350004,
+        363400
+      ],
+      "source_sha256": "609af54ca9f56aac06c6abe98d147e07af9112f9fb6eae299a2738419fe48cd6",
+      "threads": 4
+    },
+    {
+      "N": 160,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 185672,
+      "partitions": 8,
+      "samples_ns": [
+        204027,
+        204388,
+        211000,
+        189400,
+        182276,
+        182526,
+        182426,
+        185672,
+        182206
+      ],
+      "source_sha256": "609af54ca9f56aac06c6abe98d147e07af9112f9fb6eae299a2738419fe48cd6",
+      "threads": 8
+    },
+    {
+      "N": 160,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 211401,
+      "partitions": 16,
+      "samples_ns": [
+        211401,
+        211973,
+        211531,
+        212062,
+        211992,
+        184790,
+        184570,
+        184741,
+        184731
+      ],
+      "source_sha256": "0b2e3a378de61e156a9de2e1aa5ac803e09d58c1381deb5127e7c5a062d25e17",
+      "threads": 8
+    },
+    {
+      "N": 256,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 941196,
+      "partitions": 4,
+      "samples_ns": [
+        940734,
+        945654,
+        941196,
+        947568,
+        941125,
+        940694,
+        945965,
+        948249,
+        940534
+      ],
+      "source_sha256": "47dbbbcb30b1b6f378592a2a761382fa7ff94e1a1e941a49f922fb573a1a1fac",
+      "threads": 4
+    },
+    {
+      "N": 256,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 942798,
+      "partitions": 8,
+      "samples_ns": [
+        957807,
+        942478,
+        942097,
+        947758,
+        949632,
+        942728,
+        942798,
+        942608,
+        1009655
+      ],
+      "source_sha256": "86df402040dd85cb54d0ba2aed04296c8ed0c126c506ef1040a9b3e2342c79ea",
+      "threads": 4
+    },
+    {
+      "N": 256,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 504858,
+      "partitions": 8,
+      "samples_ns": [
+        505139,
+        504969,
+        504858,
+        504397,
+        509907,
+        505809,
+        500980,
+        500619,
+        500770
+      ],
+      "source_sha256": "86df402040dd85cb54d0ba2aed04296c8ed0c126c506ef1040a9b3e2342c79ea",
+      "threads": 8
+    },
+    {
+      "N": 256,
+      "O_error": 0.0,
+      "P_error": 0.0,
+      "median_ns": 465082,
+      "partitions": 16,
+      "samples_ns": [
+        469711,
+        464762,
+        469671,
+        464391,
+        472687,
+        465082,
+        469992,
+        464822,
+        464361
+      ],
+      "source_sha256": "3013728ffa4f1a5b745e1b67039146d1ca7a93741081749b9f75bcaf2e6c5433",
+      "threads": 8
+    }
+  ],
+  "schema": "SC27-v13-calibration"
+}

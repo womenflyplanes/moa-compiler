@@ -1,0 +1,14 @@
+Paper I: DGX03 v13 prediction and measurement audit
+Calibration records: 12
+Holdout records: 8
+Frozen SHA256: a73981eb98d7f8858b9676168a86369a334092693005e33ef8b4b196b5923e2d
+Model provenance: v13 empirical prediction; not full ten-variable theory
+
+N=320 P=4 T=4 predicted_ns=1473210.1990837152 measured_ns=1482522 selected=False source_sha256=98e0ee78e96ff8f07afe9bdc637dc0345d67b678f13343b8c4fb4c7d4f566aa6
+N=320 P=8 T=4 predicted_ns=1476064.1399416912 measured_ns=1429852 selected=False source_sha256=34e1381517e54e1fafb3b0da8c8070bf8a44300dc68616a35a1ff66c5a37b308
+N=320 P=8 T=8 predicted_ns=787694.3032069972 measured_ns=727610 selected=False source_sha256=34e1381517e54e1fafb3b0da8c8070bf8a44300dc68616a35a1ff66c5a37b308
+N=320 P=16 T=8 predicted_ns=723634.6463973345 measured_ns=722060 selected=True source_sha256=2b129372cfe1dde14da5b2b144e04eeaa7eb1aa4b54b5e6a6607f39960b14483
+N=448 P=4 T=4 predicted_ns=2899403.5918367347 measured_ns=2929547 selected=False source_sha256=294ac9b895f0a6854b7ad8baa759d7cfbcbc28f3f0cd3c8d9ee8198423f1a694
+N=448 P=8 T=4 predicted_ns=2903803.428571429 measured_ns=2919638 selected=False source_sha256=8931dcc006f077a700387bacb976b6872c4d51db1410c7c07b1946e20ae0f070
+N=448 P=8 T=8 predicted_ns=1548097.4285714286 measured_ns=1477623 selected=False source_sha256=8931dcc006f077a700387bacb976b6872c4d51db1410c7c07b1946e20ae0f070
+N=448 P=16 T=8 predicted_ns=1400348.1224489796 measured_ns=1471371 selected=True source_sha256=a8907adaceff7133ff953d54b71db36ac7b7566e4a06afa949a9cfe1656504af

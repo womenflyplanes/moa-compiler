@@ -1,14 +1,9 @@
-# MoA Universal IR: Same DNF, Many ONFs, Predictable
+# Mathematics of Arrays compiler research
 
-**Claim:** Papers 1-5 via compiler in Python and Fortran (and C, OpenMP) same F=786432 M=768 T=0.006218ms.
+Current focus: Paper I / Program 2, using MoA ψ/DNF → γ/ONF → Ω → generated code → prediction and independent validation.
 
-**Proof:**
-- `moa_compiler/generated/` 16 files Papers 1-5 in 4 langs
-- `MULTI_LANG_PROOF.txt` all same output
-- `./moa_compiler/run_all_langs.sh`
+**[Installation and usage guide](docs/PAPER_I_USAGE.md)** — requirements, dated-checkpoint preparation, code generation, AST records, CPU correctness checks, and prospective hardware-validation protocol.
 
-**5-device:** Delta A100, MI100, Max1550 pvc, V100/H100, A40 M1exp:36 Pd:9 Xd:0 Cd:36
+The November 10 source/evidence checkpoint is supplied separately and has not yet been synchronized to this repository. The guide explicitly identifies the required preparation. Full Paper I remains ongoing. Hand-derived and compiler-generated paths, O-only online fold and full A,O interfaces, logical ownership and physical device execution remain distinct. Preserve the ten-field machine property array and append-only extensibility. Earlier directories and publications remain historical records; they are not a current completion statement.
 
-**GUI:** Open `moa_compiler/gui.html` drag d,k,n live cost.
-
-**Paper:** `moa_SC27_FINAL_WITH_ACK.pdf`
+The active research scope does not extend to Papers II–IV in this update.

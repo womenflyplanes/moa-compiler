@@ -1,9 +1,11 @@
 # Mathematics of Arrays compiler research
 
-Current focus: Paper I / Program 2, using MoA ψ/DNF → γ/ONF → Ω → generated code → prediction and independent validation.
+**Active scope: Paper I / Program 2 (forward attention).** The mathematical pipeline is ψ-indexed specification → DNF → γ/ONF → machine-dependent Ω lifting → generated implementation → prospective prediction → independent validation. Semantic equivalence is the requirement; intermediate derivations need not be textually identical and lifted ONFs depend on machine shape.
 
-**[Installation and usage guide](docs/PAPER_I_USAGE.md)** — requirements, dated-checkpoint preparation, code generation, AST records, CPU correctness checks, and prospective hardware-validation protocol.
+**[Installation, checkpoint preparation, and usage](docs/PAPER_I_USAGE.md)**
 
-The November 10 source/evidence checkpoint is supplied separately and has not yet been synchronized to this repository. The guide explicitly identifies the required preparation. Full Paper I remains ongoing. Hand-derived and compiler-generated paths, O-only online fold and full A,O interfaces, logical ownership and physical device execution remain distinct. Preserve the ten-field machine property array and append-only extensibility. Earlier directories and publications remain historical records; they are not a current completion statement.
+The documented source/evidence checkpoints are the verified **8 November consolidated manuscript/compiler archive** and **10 November matched-validation archive**, stored separately from GitHub. The former contains `main.tex`/`main.pdf`, figures, typed ASTs, and compiler code; the latter contains the full-(A,O) contract, matched-validation scripts, and original hand-derived evidence. See the guide for exact filenames, SHA256 values, and development-checkout preparation. **The full source/evidence release is not yet synchronized into GitHub**, so this branch alone is not a complete reproduction package.
 
-The active research scope does not extend to Papers II–IV in this update.
+Keep the O-only online-fold and full-(A,O) interfaces distinct, as well as logical Ω ownership and physical execution. Tests provide finite evidence, not a general correctness proof. Prospective machine-shape selection and absolute-time accuracy are separate claims. Preserve historical failures and original SHA256-frozen evidence. The ten-field machine property array remains append-only extensible. Full Paper I is ongoing; Papers II–IV are out of scope.
+
+Historical checkpoints and research records should be retained until their provenance and references have been audited; documentation cleanup must not destroy evidence.

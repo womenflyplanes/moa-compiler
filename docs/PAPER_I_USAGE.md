@@ -14,16 +14,36 @@ python -m pip install numpy
 
 Use Python 3.10 or newer. CPU execution requires GCC with OpenMP support. On macOS, the system Apple compiler alone does not provide the GCC/OpenMP toolchain used by these commands. NVIDIA device experiments require NVHPC and an allocated compute node; see the experiment README before running them.
 
-## Prepare the dated checkpoint
+## Obtain and verify the two preserved checkpoints
 
-The November 10 source/evidence synchronization is pending. The commands below use the dated checkpoint supplied separately as `MoA_PaperI_All_Documents_and_Evidence_20261110.zip`; it is not yet committed to this repository. Extract that ZIP outside the checkout, then copy its expanded manuscript project into the checkout:
+The source/evidence checkpoint has **not yet been synchronized to GitHub**. Two actual, verified archives are retained separately on the UAlbany DGX host, in the user's home directory:
+
+- `MoA_PaperI_Consolidated_20261108.zip` — SHA256 `296b2767e77749a909039c64c4909ef7761a644c4942d42680d49f5cb4a78659`. Includes `main.tex`, `main.pdf`, figures, compiler source, typed DNF/ONF/Ω records, tests, and prospective evidence.
+- `MoA_PaperI_Matched_Validation_20261110.zip` — SHA256 `099b9ca79f65e51a636884bde0efa75d0fc5f985db75b0e1c6c7565a203fa151`. Includes the full-(A,O) compiler contract, hand-derived original archive, matched-validation tests, and historical performance evidence.
+
+The archive ZIP integrity checks passed on DGX on 11 November 2026. **These ZIPs are not yet downloadable from GitHub**. Do not rely on the previously named `MoA_PaperI_All_Documents_and_Evidence_20261110.zip`; its existence was not confirmed.
+
+Copy the archives to your workstation using the SSH hostname that works for your UAlbany account, then verify the hashes:
 
 ```bash
-mkdir -p research/paper1_20261110
-cp -R /path/to/extracted/MoA_PaperI_All_Documents_and_Evidence_20261110/Manuscript_Project/MoA_PaperI_Algorithm1_CPU_OpenACC_Extension_20261110/. research/paper1_20261110/
+scp USER@DGX_HOST:~/MoA_PaperI_Consolidated_20261108.zip .
+scp USER@DGX_HOST:~/MoA_PaperI_Matched_Validation_20261110.zip .
+shasum -a 256 MoA_PaperI_Consolidated_20261108.zip MoA_PaperI_Matched_Validation_20261110.zip
 ```
 
-Replace `/path/to/extracted` with the actual extraction directory. Keep the original archive unchanged. Its `START_HERE.md`, inventory and SHA256 manifest describe the packaged evidence. This manual preparation is required until the source checkpoint is synchronized.
+Extract **outside the repository**. For the commands below, install the two dated checkpoints into the expected *working-copy* layout, without modifying the ZIPs or the archived evidence:
+
+```bash
+mkdir -p /tmp/moa-paper1-archives research/paper1_20261110/evidence
+unzip -q MoA_PaperI_Consolidated_20261108.zip -d /tmp/moa-paper1-archives
+unzip -q MoA_PaperI_Matched_Validation_20261110.zip -d /tmp/moa-paper1-archives
+cp -R /tmp/moa-paper1-archives/MoA_PaperI_Consolidated_20261108/latest_compiler \
+  research/paper1_20261110/evidence/cpu_frozen_sources
+cp -R /tmp/moa-paper1-archives/MoA_PaperI_Matched_Validation_20261110 \
+  research/paper1_20261110/evidence/matched_validation_20261110
+```
+
+These are instructions for a **separate development checkout**, not a published reproducible release. The commands below have not yet been retested against this two-archive layout; verify the extracted paths and use a disposable working copy before executing tests. Do not run `submit_all.sbatch` as a smoke test.
 
 ## Generate the O-only online-fold implementation
 
@@ -81,6 +101,6 @@ Keep the prescribed sequence: calibrate → freeze hashes/model → predict unse
 
 ## Evidence and scope
 
-The supplied manuscript project includes the manuscript sources, PDF, figures, tables, generated programs, ASTs, and saved audit records. The supplied `MoA_RESUME_HERE_20261110.md` records completed versus pending obligations. Original dated records remain historical; consult the current usage guide for repository paths.
+The November 8 archive contains the candidate master manuscript (`main.tex`/`main.pdf`) and figures. The November 10 archive contains the matched-validation gate and hand-derived evidence. Each archive contains its own README/status records. The archives are distinct and neither should be presented as a fully synchronized GitHub release. Original dated records remain historical.
 
 The bounded CPU foundation and saved finite GPU audits do not establish universal correctness, broad predictive accuracy, or completion of Paper I. The new full-output target sweep and framework comparison remain pending in this checkpoint. Papers II–IV are outside this update. Preserve MoA notation, the ten-field machine property array, and append-only extension; logical Ω counts must not be presented as complete physical machine certification.

@@ -34,7 +34,7 @@ def extract_checked(path, dest, expected_root):
         for info in archive.infolist():
             name = info.filename
             parts = Path(name).parts
-            if not parts or parts[0] != expected_root or any(part in ("..", ".") for part in parts) or name.startswith("/"):
+            if not parts or parts[0] != expected_root or any(part in ("..", ".") for part in parts) or name.startswith("/") or "\\\\" in name:
                 raise ValueError(f"Unsafe or unexpected ZIP member: {name}")
             mode = (info.external_attr >> 16) & 0o170000
             if mode == 0o120000:

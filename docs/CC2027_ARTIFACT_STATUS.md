@@ -36,3 +36,16 @@ The preserved November 8 and November 10 local archive copies passed ZIP integri
 - [ ] Confirm clean checkout and documented licensing before release.
 
 No checkboxes above are asserted complete by the creation of this document.
+
+## Archive verification runner (committed, not yet end-to-end tested)
+
+[tools/verify_paper1_archives.py](../tools/verify_paper1_archives.py) verifies the exact two frozen archive SHA256 digests, rejects unsafe ZIP paths and symlink entries, runs three CPU/protocol commands, and writes a JSON report plus stdout/stderr logs in a separate output directory. This new runner is **not yet verified by execution from a fresh GitHub checkout**; its code has been committed for review. It requires Python, NumPy, and GCC/OpenMP and the two original archive files.
+
+```sh
+python tools/verify_paper1_archives.py \\
+  --consolidated /path/to/MoA_PaperI_Consolidated_20261108.zip \\
+  --matched /path/to/MoA_PaperI_Matched_Validation_20261110.zip \\
+  --output /tmp/moa-paper1-check
+```
+
+Use a fresh empty output directory for each run. The runner does not fetch private archives, does not execute a GPU kernel, and does not reproduce hardware timing predictions.

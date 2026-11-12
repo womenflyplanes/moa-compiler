@@ -50,7 +50,7 @@ Let $\rho Q=\langle n,d\rangle$, $\rho K=\langle m,d\rangle$, $\rho V=\langle m,
 \[
 s(i,k)=\frac{1}{\sqrt d}\mathop{+red}\nolimits_j((\langle i,j\rangle\psi Q)(\langle k,j\rangle\psi K)).
 \]
-With $a_i=\\mathop{\mathrm{maxred}}\nolimits_k s(i,k)$, the output-only DNF contract is
+With $a_i=\mathop{\mathrm{maxred}}\nolimits_k s(i,k)$, the output-only DNF contract is
 \[
 \langle i,v\rangle\psi O=
 \frac{\mathop{+red}\nolimits_k(e^{s(i,k)-a_i}(\langle k,v\rangle\psi V))}
@@ -59,7 +59,7 @@ With $a_i=\\mathop{\mathrm{maxred}}\nolimits_k s(i,k)$, the output-only DNF cont
 \section{Online Reduction: Inductive Invariant}
 For a fixed query and prefix of $t$ keys, let
 \[
-a_t=\\mathop{\mathrm{maxred}}\nolimits_{k<t}s(i,k),\quad z_t=\mathop{+red}\nolimits_{k<t}e^{s(i,k)-a_t},
+a_t=\mathop{\mathrm{maxred}}\nolimits_{k<t}s(i,k),\quad z_t=\mathop{+red}\nolimits_{k<t}e^{s(i,k)-a_t},
 \]
 \[
 \langle v\rangle\psi u_t=\mathop{+red}\nolimits_{k<t}(e^{s(i,k)-a_t}(\langle k,v\rangle\psi V)).

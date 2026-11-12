@@ -49,3 +49,7 @@ python tools/verify_paper1_archives.py \\
 ```
 
 Use a fresh empty output directory for each run. The runner does not fetch private archives, does not execute a GPU kernel, and does not reproduce hardware timing predictions.
+
+## 2026-11-11 refinement checkpoint
+
+A second local execution of the preserved-archive verifier reported matching SHA256 hashes and three successful test exit codes (0, 0, 0). The saved 16-case stage-identity audit was also independently rerun. Its DNF/ONF JSON records contain symbolic dimensions; matching serialized templates must **not** be presented as a proof of instantiated semantic equivalence. See [the qualified stage audit](PAPER_I_STAGE_IDENTITY_AUDIT_20261111.md) and [its repeatable checker](../tools/audit_moa_stages.py). These checks were local, not a passing GitHub Actions run, a clean-clone artifact reproduction, or A100 validation.

@@ -30,3 +30,11 @@ Add grounded comparison to XLA, Tensor Comprehensions, TACO, Polly/isl, affine a
 ## Review standard
 
 For every competitor: identify semantic IR, transformation method, target machine model, whether scheduling is explicit or searched, correctness evidence, and what experiment would make a fair comparison. Do not claim MoA is the first to separate semantics and scheduling: Halide already does so. Do not claim compiler-generated MoA beats FlashAttention, TVM, or PyTorch without matched benchmarks.
+
+## Follow-up verification and integration
+
+- **TACO:** Kjolstad, Kamil, Chou, Lugato, Amarasinghe, *The Tensor Algebra Compiler*, PACMPL (OOPSLA 2017), DOI 10.1145/3133901; confirmed via MIT institutional repository.
+- **Triton:** Tillet, Kung, Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, MAPL 2019, pages 10–19, DOI 10.1145/3315508.3329973; confirmed against authors' paper and dblp.
+- **Polly:** Grosser, Zheng, Aloor, Simbürger, Größlinger, Pouchet, *Polly -- Polyhedral Optimization in LLVM*, IMPACT 2011; confirmed against official Polly publication list and paper.
+- These three entries were added to `submissions/CC2027/comparators_verified.bib` and cited in the separate `moa_cc2027_10page.tex`. The PDF has **not yet been rebuilt from this GitHub revision**, so layout, bibliography resolution, and page count remain unverified.
+- Known regression test errors in `tests/test_freeze_research_snapshot.py` were corrected (wrong fixed byte count and missing first Git commit). Exact committed tests still require execution in a clean environment.

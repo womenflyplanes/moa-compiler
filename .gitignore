@@ -1,0 +1,23 @@
+# Local environments and transient build output (does not remove tracked files)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.out
+*.bbl
+*.blg
+build/
+dist/
+*.so
+*.o
+*.mod
+# Historical tracked evidence and manuscripts are intentionally not removed.

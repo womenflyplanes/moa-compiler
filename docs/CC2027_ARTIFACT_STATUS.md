@@ -53,3 +53,7 @@ Use a fresh empty output directory for each run. The runner does not fetch priva
 ## 2026-11-11 refinement checkpoint
 
 A second local execution of the preserved-archive verifier reported matching SHA256 hashes and three successful test exit codes (0, 0, 0). The saved 16-case stage-identity audit was also independently rerun. Its DNF/ONF JSON records contain symbolic dimensions; matching serialized templates must **not** be presented as a proof of instantiated semantic equivalence. See [the qualified stage audit](PAPER_I_STAGE_IDENTITY_AUDIT_20261111.md) and [its repeatable checker](../tools/audit_moa_stages.py). These checks were local, not a passing GitHub Actions run, a clean-clone artifact reproduction, or A100 validation.
+
+## Mathematical acceptance gate: DNF convergence
+
+The [Paper I DNF convergence contract](PAPER_I_DNF_CONVERGENCE_CONTRACT.md) is now the governing criterion for comparing the hand-derived and compiler-generated paths. Different legal derivation sequences are allowed; independently sourced ψ-reductions must reach the same canonical DNF under documented shape/domain assumptions. The existing symbolic JSON identity check is **not** that certificate. γ/ONF and target-specific Ω lifting follow as separate verified stages. **Status: open.**

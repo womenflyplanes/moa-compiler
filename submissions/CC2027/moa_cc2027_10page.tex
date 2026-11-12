@@ -33,7 +33,7 @@ Our objective is to derive implementations from one mathematical semantics acros
 \section{MoA Foundations}
 For a shaped array $A$, $\rho A$ denotes its shape, $\langle i_0,\ldots,i_{r-1}\rangle\psi A$ selects a component, and $\tau(A)=\prod(\rho A)$. Matrix multiplication is expressed as
 \[
-\langle i,k\rangle\psi C=+red_j((\langle i,j\rangle\psi A)\times(\langle j,k\rangle\psi B)).
+\langle i,k\rangle\psi C=\mathop{+red}\nolimits_j((\langle i,j\rangle\psi A)\times(\langle j,k\rangle\psi B)).
 \]
 Contiguity is a property of the chosen layout and traversal, not an automatic consequence of the algebra.
 \section{DNF, ONF, and $\Omega$}
@@ -42,24 +42,27 @@ DNF records the $\psi$-indexed computation independently of the target. Under co
 \gamma(\langle i,j\rangle,\langle n,d\rangle)=id+j.
 \]
 ONF derives addresses from indexed accesses. A legal $\Omega$ lifting assigns computation to a shaped machine while preserving observable semantics. Resource feasibility and communication obligations must be verified separately.
+\subsection{A correctness obligation for addressing}
+For an array with shape $\langle n,d\rangle$, assume $n,d>0$ and the valid Cartesian index domain $\iota\langle n,d\rangle$. The row-major map $\gamma(\langle i,j\rangle,\langle n,d\rangle)=id+j$ is injective: if $id+j=i'd+j'$ then $(i-i')d=j'-j$, and since $|j'-j|<d$, necessarily $i=i'$ and $j=j'$. It is surjective onto the $nd$ addresses by Euclidean division of any $0\le a<nd$ into $i=\lfloor a/d\rfloor$ and $j=a\bmod d$. Consequently $\gamma$ is a bijection between the valid index domain and the contiguous address domain, and $\langle i,j\rangle\psi A=(\operatorname{rav} A)[\gamma(\langle i,j\rangle,\rho A)]$ is a faithful indexed realization. This statement assumes the chosen row-major layout and correctly allocated storage; it does not prove arbitrary emitted instructions correct.
+
 \section{Paper I Forward Attention}
 Let $\rho Q=\langle n,d\rangle$, $\rho K=\langle m,d\rangle$, $\rho V=\langle m,d_v\rangle$, and $\rho O=\langle n,d_v\rangle$. Define
 \[
-s(i,k)=\frac{1}{\sqrt d}+red_j((\langle i,j\rangle\psi Q)(\langle k,j\rangle\psi K)).
+s(i,k)=\frac{1}{\sqrt d}\mathop{+red}\nolimits_j((\langle i,j\rangle\psi Q)(\langle k,j\rangle\psi K)).
 \]
-With $a_i=\maxred_k s(i,k)$, the output-only DNF contract is
+With $a_i=\\mathop{\mathrm{maxred}}\nolimits_k s(i,k)$, the output-only DNF contract is
 \[
 \langle i,v\rangle\psi O=
-\frac{+red_k(e^{s(i,k)-a_i}(\langle k,v\rangle\psi V))}
-{+red_k e^{s(i,k)-a_i}}.
+\frac{\mathop{+red}\nolimits_k(e^{s(i,k)-a_i}(\langle k,v\rangle\psi V))}
+{\mathop{+red}\nolimits_k e^{s(i,k)-a_i}}.
 \]
 \section{Online Reduction: Inductive Invariant}
 For a fixed query and prefix of $t$ keys, let
 \[
-a_t=\maxred_{k<t}s(i,k),\quad z_t=+red_{k<t}e^{s(i,k)-a_t},
+a_t=\\mathop{\mathrm{maxred}}\nolimits_{k<t}s(i,k),\quad z_t=\mathop{+red}\nolimits_{k<t}e^{s(i,k)-a_t},
 \]
 \[
-\langle v\rangle\psi u_t=+red_{k<t}(e^{s(i,k)-a_t}(\langle k,v\rangle\psi V)).
+\langle v\rangle\psi u_t=\mathop{+red}\nolimits_{k<t}(e^{s(i,k)-a_t}(\langle k,v\rangle\psi V)).
 \]
 Initially $a_0=-\infty$, $z_0=0$, and $u_0$ is the zero rank-one array with $\rho u_0=\langle d_v\rangle$. For new score $s$, let $a'=\max(a_t,s)$, $w_{\rm new}=e^{s-a'}$, and $w_{\rm old}=0$ for the empty prefix and $e^{a_t-a'}$ otherwise. Then
 \[
@@ -70,6 +73,13 @@ z_{t+1}=w_{\rm old}z_t+w_{\rm new},
 =w_{\rm old}(\langle v\rangle\psi u_t)+w_{\rm new}(\langle t,v\rangle\psi V).
 \]
 The exponential identity $e^{x-a'}=e^{x-a_t}e^{a_t-a'}$ establishes the invariant by induction over finite keys. At $t=m$, $\langle i,v\rangle\psi O=(\langle v\rangle\psi u_m)/z_m$. This is exact-real reasoning; floating-point results require tolerance-based validation.
+\subsection{A legal query-ownership lifting}
+Let $P>0$ be a logical machine component count and $L=\lceil n/P\rceil$. Define a partition of the query index domain by
+\[
+I_p=\{pL+u\mid 0\le u<L,\;pL+u<n\},\quad 0\le p<P.
+\]
+For each $0\le i<n$, quotient and remainder with divisor $L$ give a unique $p=\lfloor i/L\rfloor$ and $u=i\bmod L$. Since $n\le PL$, $p<P$, proving that the $I_p$ cover all query indices exactly once. If each owner has access to all required key and value components, it can compute its assigned outputs without inter-owner reductions. This is a mathematical legality argument for query-disjoint lifting, not a demonstration that the present compiler selects $P$, allocates resources, or emits a parallel implementation from the ten-field machine description.
+
 \section{Implementation and Evidence}
 The restricted typed-trace emitter validates the saved DNF/ONF access schema and emits output-only C with $\gamma$-derived addresses. A test harness compiles generated C, checks finite results against an independent oracle, and rejects altered trace records. This does not yet demonstrate general source-to-DNF normalization or automated $\Omega$ lifting. Existing hand-derived ACCESS results are historical evidence, not compiler output.
 \begin{table}[t]
@@ -91,8 +101,14 @@ Independent DNF convergence & Open\\
 \bottomrule
 \end{tabular}
 \end{table}
+\subsection{Provenance requirements}
+A compiler-generated experimental record must bind the input expression, DNF, ONF, machine description, $\Omega$ ownership, generated source, predictions, and observations to immutable digests. The historical hand-derived path requires its own independent derivation and observable contract. Agreement of symbolic trace templates is insufficient to establish independent DNF convergence.
+
 \section{Evaluation Protocol}
 Predictions must be frozen before execution, with complete machine properties and SHA256-linked provenance. The final results will distinguish hand-derived from compiler-generated implementations and report unsuccessful holdouts alongside successful predictions. No unverified timing or universal library speedup is asserted.
+\subsection{Prediction is a falsifiable claim}
+A cost model must use the same target-machine shape and resource constraints that determine the generated mapping. For each candidate $\Omega$, the predicted cost is frozen before execution, and the selected mapping is compared with the measured fastest mapping. A wrong selection is retained as evidence rather than removed from the sample. Existing CPU OpenMP holdout records include a wrong mapping selection; the final manuscript must reproduce its exact provenance and conditions before reporting quantitative conclusions.
+
 \section{Related Work and Limitations}
 The final paper must incorporate checked citations to MoA publications, compiler transformations, polyhedral methods, array systems, and attention implementations. Source-to-DNF, machine lifting, hand-derived convergence, and reproducible hardware evaluation remain open.
 \section{Conclusion}

@@ -23,3 +23,7 @@ Consequences:
 Define an explicit MoA ψ-indexed embedding/projection theorem between the two supported domains, with shape/index assumptions and output observables stated. Then compare the **same** semantic contract and canonical DNF across the hand and compiler paths. Do not silently rename shapes or drop the A output to make the records appear equal.
 
 This finding supersedes any unqualified claim that the November 8 and November 10 records are already the same canonical DNF. Their respective internal stage-identity and finite numerical tests remain valid in their stated bounded scopes.
+
+## Follow-up derivation
+
+A [restricted ψ-indexed embedding derivation](PAPER_I_PSI_EMBEDDING_THEOREM.md) now establishes output correspondence for B=1, n=m=N, and d=dv=D under matched exact-arithmetic reduction/normalization semantics. This **does not** close the full-(A,O) or independently sourced DNF-convergence gate. General unequal-length and unequal-width cases remain outside that embedding.

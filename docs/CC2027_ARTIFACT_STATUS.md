@@ -12,6 +12,10 @@ The active case study is Paper I forward attention. The target method is MoA spe
 - **Predictions:** report frozen prospective model selection separately from absolute time accuracy. Retain unsuccessful predictions and measured residuals.
 - **Pending:** end-to-end generated A100 evidence, comprehensive physical machine-shape cost modeling, cross-platform matched validations, complete evidence distribution, and clean-checkout reproduction. Do not mark these complete.
 
+## Independently rerun local archive checks (2026-11-11)
+
+The preserved November 8 and November 10 local archive copies passed ZIP integrity checks and three CPU/protocol test commands in a disposable Linux environment. See [dated commands, environment, and results](PAPER_I_LOCAL_REPRO_20261111.md). This is **archive-based finite verification**, not clean-clone reproducibility or GPU validation.
+
 ## Current blockers to a review-ready artifact
 
 1. The two dated ZIP archives listed in [PAPER_I_USAGE.md](PAPER_I_USAGE.md) are not yet hosted as a verifiable GitHub release or other stable public artifact.

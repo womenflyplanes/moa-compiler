@@ -57,3 +57,7 @@ A second local execution of the preserved-archive verifier reported matching SHA
 ## Mathematical acceptance gate: DNF convergence
 
 The [Paper I DNF convergence contract](PAPER_I_DNF_CONVERGENCE_CONTRACT.md) is now the governing criterion for comparing the hand-derived and compiler-generated paths. Different legal derivation sequences are allowed; independently sourced ψ-reductions must reach the same canonical DNF under documented shape/domain assumptions. The existing symbolic JSON identity check is **not** that certificate. γ/ONF and target-specific Ω lifting follow as separate verified stages. **Status: open.**
+
+## 2026-11-11 additional DNF review
+
+The archived November 8 typed-DNF interpreter was independently rerun in a disposable directory: 192 finite shapes passed, maximum absolute error 4.440892098500626e-16, four schema mutations rejected. See [rerun evidence](PAPER_I_FINITE_DNF_RERUN_20261111.md). **Important:** [contract mismatch](PAPER_I_DNF_CONTRACT_MISMATCH_20261111.md) between November 8 rank-2 output-only and November 10 rank-3 full-(A,O) saved DNFs prevents direct canonical comparison. An explicit MoA shape/index embedding and matched observable contract are required before claiming convergence. The hand-derived DNF comparison remains open.

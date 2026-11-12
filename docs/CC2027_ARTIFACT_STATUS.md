@@ -65,3 +65,7 @@ The archived November 8 typed-DNF interpreter was independently rerun in a dispo
 ## 2026-11-12 trace-to-emission audit
 
 [Source audit](PAPER_I_TRACE_TO_EMISSION_AUDIT_20261112.md) identifies an additional **open** provenance gate: the inspected batched ψ/γ C generator reconstructs fixed attention accesses from `AttentionIR` and does not consume the archived unbatched typed-DNF trace. Finite sequential/OpenMP comparison tests exist, but their existence does not establish a continuous AST→ONF→emitter chain. The generated batched implementation allocates `B*N*N` workspace; do not attribute output-only streaming memory claims to it. This is a scoped source-inspection finding, not a conclusion about all compiler paths.
+
+## 2026-11-12 implementation checkpoint: bounded typed-trace-to-C path
+
+A [new compiler path and test harness](PAPER_I_TRACE_EMITTER_CHECKPOINT_20261112.md) consume the saved typed DNF/ONF trace and generate output-only C with γ-derived addresses, plus finite oracle and negative tests. This is an important **partial closure** of the trace-to-emission gap for a restricted supported schema. It does **not** close source→DNF normalization, formal stable-summary theorem certification, ten-field Ω machine mapping, hand-derived DNF convergence, clean-clone CI, or predictive validation. Exact GitHub Actions success has not been confirmed. The earlier trace-to-emission audit remains applicable to the separately inspected batched generator.

@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.82in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,mathtools,graphicx,booktabs,longtable,xcolor,hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\graphicspath{{../../MoA_SC27_Complete_v44/figures/}}
+\newcommand{\psisel}{\mathbin{\psi}}
+\title{Mathematics of Arrays Compilation:\\Complete Research Monograph and Evidence Record}
+\author{Research working manuscript --- authorship and affiliations retained in original source documents}
+\date{November 12, 2026 --- cumulative source-preserving edition}
+\begin{document}
+\maketitle
+\begin{abstract}
+This unabridged research record organizes the Mathematics of Arrays (MoA) compiler project from shaped-array semantics through $\psi$ reduction, machine-independent Denotational Normal Form (DNF), $\gamma$-addressed Operational Normal Form (ONF), $\Omega$ machine lifting, implementation, prospective prediction, and independent validation. The complete research corpus includes historical hand-derived work, compiler prototypes, machine-model experiments, ASTs, plots, tables, programs, and reproducibility evidence. The present monograph provides a navigable mathematical synthesis and points to the unchanged primary manuscripts and evidence records. It does not misrepresent archived hand-derived results as compiler-generated results or claim that unverified compiler stages have been completed.
+\end{abstract}
+\tableofcontents
+
+\section{Research question and governing principle}
+The governing principle is \emph{MoA all the way}: semantic specification, data dependencies, layout, ownership, communication, resource feasibility, prediction, and execution must remain expressible in MoA. The acceptance criterion is a compiler that reproduces the mathematics and observable behavior of independently hand-derived programs. The semantic DNF is machine-independent. Derivation sequences may differ, but canonical DNFs should coincide for the same array domain and observable contract; the $\gamma$-addressed ONF depends on layout, and the lifted ONF depends on the target machine shape. The research objective includes portability, predictable performance, productivity, and machine resource constraints.
+
+\section{Array semantics}
+For a shaped array $A$, $\rho A$ denotes its shape, $\iota(\rho A)$ its valid index domain, and $\vec\imath\psisel A$ selects the component at $\vec\imath$. The component count is $\tau(A)=\prod(\rho A)$, while $\delta(A)=\tau(\rho A)$ counts dimensions. Index completeness is $(\iota(\rho A))\psisel A\equiv A$. A vector is a rank-one array; a matrix is a rank-two array. Neither is reinterpreted as the other.
+
+\section{Matrix multiplication: a foundational example}
+For $\rho A=\langle n,d\rangle$, $\rho B=\langle d,m\rangle$, and $\rho C=\langle n,m\rangle$,
+\[
+\langle i,k\rangle\psisel C=
+\mathop{+red}\nolimits_j\bigl(
+(\langle i,j\rangle\psisel A)\times
+(\langle j,k\rangle\psisel B)\bigr).
+\]
+This is an indexed array reduction. Storage and traversal costs are derived subsequently using a chosen $\gamma$ layout; contiguity is not an unconditional algebraic property.
+
+\section{Compiler transformation chain}
+\begin{figure}[htbp]\centering
+\includegraphics[width=.94\linewidth]{figure1_moa_pipeline.png}
+\caption{The MoA transformation and validation path, reproduced by reference from the retained historical research manuscript.}
+\end{figure}
+The intended constructive path is
+\[
+E\xrightarrow{\psi^*}D
+\xrightarrow{\gamma}\mathrm{ONF}_{\gamma}(D)
+\xrightarrow{\Omega_{\mathcal M}}\mathrm{ONF}_{\gamma,\mathcal M}^{\Omega}
+\xrightarrow{\text{realization}}I_{\mathcal M}.
+\]
+Each arrow requires a separately checkable contract. Shape-bounded execution does not by itself establish confluence of a rewrite system. Correctness claims must specify the supported rewrite rules, preconditions, and numerical semantics.
+
+\subsection{DNF}
+DNF is the machine-independent, $\psi$-indexed semantic reference. Independent hand-derived and compiler-derived DNFs are to be compared only after matching shapes, valid domains, and observable outputs. Historical batched full-(A,O) and unbatched output-only attention records are not directly interchangeable.
+
+\subsection{ONF and $\gamma$}
+The addressed form realizes each $\vec\imath\psisel A$ by $(\operatorname{rav}A)[\gamma(\vec\imath;\rho A)]$. For contiguous rank-two row-major arrays, $\gamma(\langle i,j\rangle;\langle n,d\rangle)=id+j$. For column-major storage the corresponding address is $i+nj$. The chosen $\gamma$ must be recorded and verified for each input and output.
+
+\subsection{$\Omega$ lifting}
+The machine is a shaped array with associated resource properties. A valid $\Omega$ transformation must cover the logical output domain without omission or duplicate ownership, respect data availability and memory constraints, and realize necessary communication. The ten-field machine property array is append-only; its canonical definition and units remain in the retained machine-model source files and require explicit verification before numerical claims are added here.
+
+\section{Paper I: forward attention}
+Let $\rho Q=\langle n,d\rangle$, $\rho K=\langle m,d\rangle$, $\rho V=\langle m,d_v\rangle$, and $\rho O=\langle n,d_v\rangle$. For $d>0$ and $m>0$, define
+\[
+s(i,k)=\frac{1}{\sqrt d}\mathop{+red}\nolimits_j
+((\langle i,j\rangle\psisel Q)(\langle k,j\rangle\psisel K)).
+\]
+With $a_i=\max_{0\le k<m}s(i,k)$,
+\[
+\langle i,v\rangle\psisel O=
+\frac{\mathop{+red}\nolimits_k
+\left(e^{s(i,k)-a_i}(\langle k,v\rangle\psisel V)\right)}
+{\mathop{+red}\nolimits_k e^{s(i,k)-a_i}}.
+\]
+The output-only contract does not require an $n\times m$ attention-weight intermediate.
+
+\subsection{Online stable summary}
+For a prefix of $t$ keys, define $a_t$ as the maximum score, $z_t$ as the sum of exponentials normalized by $a_t$, and the rank-one $u_t$ of shape $\langle d_v\rangle$ as the corresponding weighted sum of values. For new score $s$, set $a'=\max(a_t,s)$, $w_{\mathrm{old}}=e^{a_t-a'}$ for a nonempty prefix (zero otherwise), and $w_{\mathrm{new}}=e^{s-a'}$. Then
+\[
+z'=w_{\mathrm{old}}z_t+w_{\mathrm{new}},\quad
+\langle v\rangle\psisel u'=
+w_{\mathrm{old}}(\langle v\rangle\psisel u_t)
++w_{\mathrm{new}}(\langle t,v\rangle\psisel V).
+\]
+Induction over the finite key prefix proves exact-real equivalence to the output-only DNF. Floating-point equivalence must be evaluated under explicit numerical tolerances and edge-case policies.
+
+\subsection{Query ownership}
+For logical component count $P>0$, set $L=\lceil n/P\rceil$ and
+$I_p=\{pL+u\mid 0\le u<L,\ pL+u<n\}$. These domains form a disjoint cover of the query indices, permitting independent output ownership when all necessary $Q,K,V$ components are available. The executable certificate currently resides in \texttt{tools/moa\_query\_omega.py}; this certificate has not yet been integrated with the ten-field resource planner or emitted parallel code.
+
+\section{Implementation and artifact status}
+\begin{longtable}{p{.36\linewidth}p{.52\linewidth}}
+\toprule
+Component & Status and primary record\\\midrule
+Historical full compiler manuscript & \texttt{MoA\_SC27\_Complete\_v44/MoA\_SC27\_Complete\_v44.tex}; retained unchanged\\
+Typed forward-attention trace & \texttt{results/paper1\_reproduction/typed\_derivation\_trace.json}\\
+Restricted DNF/ONF emitter & \texttt{tools/emit\_paper1\_trace\_c.py}; does not normalize arbitrary MoA sources\\
+Finite $\Omega$ certificate & \texttt{tools/moa\_query\_omega.py}; integration pending\\
+Online summary derivation & \texttt{docs/PAPER\_I\_ONLINE\_SUMMARY\_MOA\_PROOF\_20261112.md}\\
+Independent DNF convergence & Open for matched hand/compiler observable contracts\\
+Machine-shape performance prediction & Bounded CPU evidence; complete general model open\\
+\bottomrule
+\end{longtable}
+
+\section{Historical and prospective evaluation}
+The historical attention papers were derived and programmed by hand and subsequently tested on ACCESS resources. The present compiler experiments use separate UAlbany CPU and DGX evidence. A prospective CPU holdout selected a mapping that was not measured fastest; that failure must remain visible alongside later successful bounded predictions. Frozen SHA256 archives and original logs must be verified before quantitative tables are reconstructed. No unverified performance figure is reproduced as a new compiler result.
+
+\section{Research corpus and visual evidence}
+The full repository retains \texttt{MoA\_SC27\_Complete\_v43/}, \texttt{MoA\_SC27\_Complete\_v44/}, \texttt{SC27\_FINAL/}, root manuscript variants, compiler modules, tests, and AST/figure assets. This cumulative synthesis does not replace those primary records. The historical v44 source includes detailed AST rewrite stages, $\gamma$-ONF derivations, lifted ONF, communication summaries, and performance discussion. See \texttt{RESUME\_HERE\_CC2027\_20261112.md} and the preservation ledger for archived ZIP checksums and missing original bytes.
+
+\section{Separate conference document and publication standards}
+The anonymous ten-page CC 2027 submission is \texttt{submissions/CC2027/moa\_cc2027\_10page.tex}. It is a derived, independently versioned publication artifact, not the master research record. The conference document must use verified theorems, data, citations, and figures from the research corpus; unresolved claims remain explicitly open. The internal adversarial review and evidence ledger determine when the paper is ready for a submission audit.
+
+\section{Outstanding research obligations}
+The current blockers are a genuine source AST to canonical $\psi$ DNF normalization, a connected DNF/ONF/$\Omega$/emission path, ten-field resource-model integration, independent hand/compiler DNF comparison, clean reproducibility runs, complete matched measurements, verified bibliography, and a final anonymous PDF. These are future tasks, not completed results.
+
+\section{Preservation and reproducibility}
+Every release should preserve source programs, ASTs, machine shapes and properties, mathematical transformations, frozen predictions, raw logs, measurements, tables, figures, compiler revisions, and SHA256 digests. The manifest tool \texttt{tools/freeze\_research\_snapshot.py} freezes tracked bytes only from a clean checkout. Historical experimental ZIP bytes must also be retained separately; a recorded checksum alone is not an archive.
+
+\end{document}

@@ -16,3 +16,7 @@ Each of the four Ω records occurs in four backend-specific directories. This is
 **Limits:** This audit establishes structural identity of saved serialized stages, not semantic equivalence, the correctness of their MoA transformations, or that the saved files were independently generated from a clean GitHub checkout. It also does not establish correspondence to the original hand-derived DNF/ONF without a separate derivation audit.
 
 The reusable script and full per-group digests are available as local artifacts pending upload. Paper claims must retain this qualification.
+
+## Reviewer qualification: symbolic versus instantiated identity
+
+The saved `01_psi_dnf.json` contains symbolic array shapes such as `["B", "N", "D"]`. The one-digest result therefore confirms reuse of a common **symbolic** MoA DNF template across the 16 saved cases. It does **not** establish equality of separately instantiated, shape-specialized DNFs or prove that the compiler preserved semantics for every workload. The same caution applies to the serialized ONF templates. The four Ω records are structural variants; their legality and resource mapping require separate verification. This distinction was independently checked against the saved JSON on 2026-11-11.

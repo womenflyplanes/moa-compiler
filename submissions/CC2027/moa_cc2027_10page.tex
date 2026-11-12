@@ -1,0 +1,62 @@
+\documentclass[sigplan,10pt,review,anonymous]{acmart}
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\begin{document}
+\title{From $\psi$-Indexed Semantics to Machine-Shaped Execution: Mechanizing the Mathematics of Arrays}
+\begin{abstract}
+The Mathematics of Arrays (MoA) describes computations through array shapes and indexing, providing an algebraic route from semantic specifications to addressed and machine-shaped execution. We investigate how this route can be mechanized for forward attention, beginning with the indexed reductions underlying matrix multiplication. The intended compiler pipeline performs $\psi$-reduction to a machine-independent denotational normal form (DNF), lowers indexing through layout function $\gamma$ to operational normal form (ONF), and applies dimension lifting $\Omega$ to obtain legal machine-specific execution mappings. We distinguish mathematical proof obligations from numerical testing and hardware performance measurements. A restricted implementation consumes a saved typed forward-attention DNF/ONF trace and emits C for output-only attention using a stable online reduction that avoids materializing the attention-weight array. We give its inductive invariant and identify outstanding obligations for source-to-DNF normalization, machine-property-driven lifting, and comparison with hand-derived attention implementations. The methodology preserves unsuccessful prospective predictions alongside successes and separates historical hand-derived evidence from compiler-generated results.
+\end{abstract}
+\maketitle
+\section{Introduction}
+Our objective is to derive implementations from one mathematical semantics across machine shapes, not simply to emit an attention kernel. Independently hand-derived and compiler-derived computations must agree at a canonical DNF under identical shape, domain, and observable-output contracts. Distinct legal derivation sequences are allowed. This paper addresses forward attention (Paper I) only.
+\section{MoA Foundations}
+For a shaped array $A$, $\rho A$ denotes its shape, $\langle i_0,\ldots,i_{r-1}\rangle\psi A$ selects a component, and $\tau(A)=\prod(\rho A)$. Matrix multiplication is expressed as
+\[
+\langle i,k\rangle\psi C=+red_j((\langle i,j\rangle\psi A)\times(\langle j,k\rangle\psi B)).
+\]
+Contiguity is a property of the chosen layout and traversal, not an automatic consequence of the algebra.
+\section{DNF, ONF, and $\Omega$}
+DNF records the $\psi$-indexed computation independently of the target. Under contiguous rank-two layout,
+\[
+\gamma(\langle i,j\rangle,\langle n,d\rangle)=id+j.
+\]
+ONF derives addresses from indexed accesses. A legal $\Omega$ lifting assigns computation to a shaped machine while preserving observable semantics. Resource feasibility and communication obligations must be verified separately.
+\section{Paper I Forward Attention}
+Let $\rho Q=\langle n,d\rangle$, $\rho K=\langle m,d\rangle$, $\rho V=\langle m,d_v\rangle$, and $\rho O=\langle n,d_v\rangle$. Define
+\[
+s(i,k)=\frac{1}{\sqrt d}+red_j((\langle i,j\rangle\psi Q)(\langle k,j\rangle\psi K)).
+\]
+With $a_i=\maxred_k s(i,k)$, the output-only DNF contract is
+\[
+\langle i,v\rangle\psi O=
+\frac{+red_k(e^{s(i,k)-a_i}(\langle k,v\rangle\psi V))}
+{+red_k e^{s(i,k)-a_i}}.
+\]
+\section{Online Reduction: Inductive Invariant}
+For a fixed query and prefix of $t$ keys, let
+\[
+a_t=\maxred_{k<t}s(i,k),\quad z_t=+red_{k<t}e^{s(i,k)-a_t},
+\]
+\[
+\langle v\rangle\psi u_t=+red_{k<t}(e^{s(i,k)-a_t}(\langle k,v\rangle\psi V)).
+\]
+Initially $a_0=-\infty$, $z_0=0$, and $u_0$ is the zero rank-one array with $\rho u_0=\langle d_v\rangle$. For new score $s$, let $a'=\max(a_t,s)$, $w_{\rm new}=e^{s-a'}$, and $w_{\rm old}=0$ for the empty prefix and $e^{a_t-a'}$ otherwise. Then
+\[
+z_{t+1}=w_{\rm old}z_t+w_{\rm new},
+\]
+\[
+\langle v\rangle\psi u_{t+1}
+=w_{\rm old}(\langle v\rangle\psi u_t)+w_{\rm new}(\langle t,v\rangle\psi V).
+\]
+The exponential identity $e^{x-a'}=e^{x-a_t}e^{a_t-a'}$ establishes the invariant by induction over finite keys. At $t=m$, $\langle i,v\rangle\psi O=(\langle v\rangle\psi u_m)/z_m$. This is exact-real reasoning; floating-point results require tolerance-based validation.
+\section{Implementation and Evidence}
+The restricted typed-trace emitter validates the saved DNF/ONF access schema and emits output-only C with $\gamma$-derived addresses. A test harness compiles generated C, checks finite results against an independent oracle, and rejects altered trace records. This does not yet demonstrate general source-to-DNF normalization or automated $\Omega$ lifting. Existing hand-derived ACCESS results are historical evidence, not compiler output.
+\section{Evaluation Protocol}
+Predictions must be frozen before execution, with complete machine properties and SHA256-linked provenance. The final results will distinguish hand-derived from compiler-generated implementations and report unsuccessful holdouts alongside successful predictions. No unverified timing or universal library speedup is asserted.
+\section{Related Work and Limitations}
+The final paper must incorporate checked citations to MoA publications, compiler transformations, polyhedral methods, array systems, and attention implementations. Source-to-DNF, machine lifting, hand-derived convergence, and reproducible hardware evaluation remain open.
+\section{Conclusion}
+MoA supplies a common language for semantics, addressing, and machine-shaped execution. The research contribution depends on mechanizing and verifying the entire transformation chain.
+% TODO: insert verified bibliography, plots, tables, and artifact references.
+% TODO: compile and check anonymity, PDF metadata, and <=10-page body.
+\end{document}

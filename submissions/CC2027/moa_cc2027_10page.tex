@@ -1,4 +1,7 @@
 \documentclass[sigplan,10pt,review,anonymous]{acmart}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 \settopmatter{printacmref=false}
 \setcopyright{none}
 \begin{document}
@@ -8,6 +11,24 @@ The Mathematics of Arrays (MoA) describes computations through array shapes and 
 \end{abstract}
 \maketitle
 \section{Introduction}
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[>=Latex,node distance=0.42cm,
+stage/.style={draw,rounded corners=3pt,fill=blue!8,minimum height=0.85cm,text width=2.2cm,align=center,font=\small}]
+\node[stage] (source) {Shaped MoA\\specification};
+\node[stage,right=of source] (dnf) {$\psi$-reduced\\DNF};
+\node[stage,right=of dnf] (onf) {$\gamma$-addressed\\ONF};
+\node[stage,right=of onf] (omega) {$\Omega$-lifted\\machine ONF};
+\node[stage,right=of omega] (code) {Generated\\execution};
+\draw[->,thick] (source)--(dnf);
+\draw[->,thick] (dnf)--(onf);
+\draw[->,thick] (onf)--(omega);
+\draw[->,thick] (omega)--(code);
+\end{tikzpicture}
+\caption{Intended MoA proof-preserving compiler path. Each arrow needs a checkable transformation contract; the current restricted implementation mechanizes only part of the chain.}
+\label{fig:moa-path}
+\end{figure*}
+
 Our objective is to derive implementations from one mathematical semantics across machine shapes, not simply to emit an attention kernel. Independently hand-derived and compiler-derived computations must agree at a canonical DNF under identical shape, domain, and observable-output contracts. Distinct legal derivation sequences are allowed. This paper addresses forward attention (Paper I) only.
 \section{MoA Foundations}
 For a shaped array $A$, $\rho A$ denotes its shape, $\langle i_0,\ldots,i_{r-1}\rangle\psi A$ selects a component, and $\tau(A)=\prod(\rho A)$. Matrix multiplication is expressed as
@@ -51,6 +72,25 @@ z_{t+1}=w_{\rm old}z_t+w_{\rm new},
 The exponential identity $e^{x-a'}=e^{x-a_t}e^{a_t-a'}$ establishes the invariant by induction over finite keys. At $t=m$, $\langle i,v\rangle\psi O=(\langle v\rangle\psi u_m)/z_m$. This is exact-real reasoning; floating-point results require tolerance-based validation.
 \section{Implementation and Evidence}
 The restricted typed-trace emitter validates the saved DNF/ONF access schema and emits output-only C with $\gamma$-derived addresses. A test harness compiles generated C, checks finite results against an independent oracle, and rejects altered trace records. This does not yet demonstrate general source-to-DNF normalization or automated $\Omega$ lifting. Existing hand-derived ACCESS results are historical evidence, not compiler output.
+\begin{table}[t]
+\caption{Paper I evidence and acceptance gates, November 12, 2026.}
+\label{tab:gates}
+\centering\small
+\begin{tabular}{p{0.57\columnwidth}p{0.28\columnwidth}}
+\toprule
+Evidence or transformation & Status\\
+\midrule
+Historical hand-derived attention & Independent baseline\\
+Saved typed DNF/ONF trace & Available\\
+Restricted trace-to-C emitter & Committed\\
+Online-summary exact-real invariant & Derived\\
+Committed-code CI execution & Unconfirmed\\
+General source-to-DNF reduction & Open\\
+Ten-field $\Omega$ emission & Open\\
+Independent DNF convergence & Open\\
+\bottomrule
+\end{tabular}
+\end{table}
 \section{Evaluation Protocol}
 Predictions must be frozen before execution, with complete machine properties and SHA256-linked provenance. The final results will distinguish hand-derived from compiler-generated implementations and report unsuccessful holdouts alongside successful predictions. No unverified timing or universal library speedup is asserted.
 \section{Related Work and Limitations}

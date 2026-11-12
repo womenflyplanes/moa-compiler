@@ -9,6 +9,8 @@ on:
       - 'tests/test_archive_verifier.py'
       - '.github/workflows/paper1-artifact.yml'
       - 'tools/emit_paper1_trace_c.py'
+      - 'tools/freeze_research_snapshot.py'
+      - 'tests/test_freeze_research_snapshot.py'
       - 'tests/test_paper1_trace_emitter.py'
       - 'results/paper1_reproduction/typed_derivation_trace.json'
   workflow_dispatch:
@@ -26,11 +28,13 @@ jobs:
         with:
           python-version: '3.11'
       - name: Check Python syntax
-        run: python -m py_compile tools/verify_paper1_archives.py tests/test_archive_verifier.py tools/emit_paper1_trace_c.py tests/test_paper1_trace_emitter.py
+        run: python -m py_compile tools/verify_paper1_archives.py tests/test_archive_verifier.py tools/emit_paper1_trace_c.py tests/test_paper1_trace_emitter.py tools/freeze_research_snapshot.py tests/test_freeze_research_snapshot.py
       - name: Test synthetic archive safety gates
         run: python -m unittest discover -s tests -p 'test_archive_verifier.py' -v
       - name: Compile trace-derived C and compare finite reference
         run: python -m unittest discover -s tests -p 'test_paper1_trace_emitter.py' -v
+      - name: Verify snapshot manifest preservation
+        run: python -m unittest discover -s tests -p 'test_freeze_research_snapshot.py' -v
 
 # Deliberately does not claim to run the frozen external Paper I archives.
 # Their hashes and local test logs are documented separately.

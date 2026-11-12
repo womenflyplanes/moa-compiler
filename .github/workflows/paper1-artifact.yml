@@ -1,0 +1,31 @@
+name: Paper I artifact safety checks
+
+on:
+  push:
+    branches: [cc2027-artifact]
+  pull_request:
+    paths:
+      - 'tools/verify_paper1_archives.py'
+      - 'tests/test_archive_verifier.py'
+      - '.github/workflows/paper1-artifact.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive-verifier-unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check Python syntax
+        run: python -m py_compile tools/verify_paper1_archives.py tests/test_archive_verifier.py
+      - name: Test synthetic archive safety gates
+        run: python -m unittest discover -s tests -p 'test_archive_verifier.py' -v
+
+# Deliberately does not claim to run the frozen external Paper I archives.
+# Their hashes and local test logs are documented separately.

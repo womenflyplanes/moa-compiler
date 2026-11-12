@@ -110,9 +110,21 @@ Predictions must be frozen before execution, with complete machine properties an
 A cost model must use the same target-machine shape and resource constraints that determine the generated mapping. For each candidate $\Omega$, the predicted cost is frozen before execution, and the selected mapping is compared with the measured fastest mapping. A wrong selection is retained as evidence rather than removed from the sample. Existing CPU OpenMP holdout records include a wrong mapping selection; the final manuscript must reproduce its exact provenance and conditions before reporting quantitative conclusions.
 
 \section{Related Work and Limitations}
-The final paper must incorporate checked citations to MoA publications, compiler transformations, polyhedral methods, array systems, and attention implementations. Source-to-DNF, machine lifting, hand-derived convergence, and reproducible hardware evaluation remain open.
+\paragraph{Affine scheduling and polyhedral optimization.}
+Polly transforms selected LLVM program regions into a polyhedral representation, optimizes them, and lowers the result back to LLVM IR~\cite{grosser2011polly}. MoA differs in the proposed starting point: $\psi$-indexed shaped-array semantics and a machine-independent DNF before layout and machine-specific lifting. This distinction is conceptual until a complete compiler is demonstrated; it does not establish superiority over Polly.
+
+\paragraph{Array-expression compilation.}
+The Tensor Algebra Compiler (TACO) generates efficient kernels from compound dense and sparse tensor algebra expressions and storage-format descriptions~\cite{kjolstad2017taco}. Its handling of sparse formats and fused expressions is substantial prior art. The current MoA prototype does not provide equivalent sparse support. A fair comparison should separate expressiveness, normalization, code quality, and proof obligations.
+
+\paragraph{Machine-aware neural-network code generation.}
+Triton exposes statically shaped tiles and compiler passes for efficient GPU kernels~\cite{tillet2019triton}. The MoA goal is to derive $\Omega$ ownership from a general shaped-machine description, rather than treating a GPU tile language as the mathematical foundation. However, no matched Triton benchmark is currently available; no performance ranking is claimed.
+
+\paragraph{Limits of current evidence.}
+Source-to-DNF normalization, machine-property-driven lifting, independent hand/compiler DNF convergence, and reproducible matched hardware evaluation remain open. Other essential comparisons, including Halide, TVM, MLIR and FlashAttention, require full checked bibliographic integration into the final paper.
 \section{Conclusion}
 MoA supplies a common language for semantics, addressing, and machine-shaped execution. The research contribution depends on mechanizing and verifying the entire transformation chain.
 % TODO: insert verified bibliography, plots, tables, and artifact references.
 % TODO: compile and check anonymity, PDF metadata, and <=10-page body.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{comparators_verified}
 \end{document}

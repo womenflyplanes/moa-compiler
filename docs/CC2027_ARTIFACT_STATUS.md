@@ -61,3 +61,7 @@ The [Paper I DNF convergence contract](PAPER_I_DNF_CONVERGENCE_CONTRACT.md) is n
 ## 2026-11-11 additional DNF review
 
 The archived November 8 typed-DNF interpreter was independently rerun in a disposable directory: 192 finite shapes passed, maximum absolute error 4.440892098500626e-16, four schema mutations rejected. See [rerun evidence](PAPER_I_FINITE_DNF_RERUN_20261111.md). **Important:** [contract mismatch](PAPER_I_DNF_CONTRACT_MISMATCH_20261111.md) between November 8 rank-2 output-only and November 10 rank-3 full-(A,O) saved DNFs prevents direct canonical comparison. An explicit MoA shape/index embedding and matched observable contract are required before claiming convergence. The hand-derived DNF comparison remains open.
+
+## 2026-11-12 trace-to-emission audit
+
+[Source audit](PAPER_I_TRACE_TO_EMISSION_AUDIT_20261112.md) identifies an additional **open** provenance gate: the inspected batched ψ/γ C generator reconstructs fixed attention accesses from `AttentionIR` and does not consume the archived unbatched typed-DNF trace. Finite sequential/OpenMP comparison tests exist, but their existence does not establish a continuous AST→ONF→emitter chain. The generated batched implementation allocates `B*N*N` workspace; do not attribute output-only streaming memory claims to it. This is a scoped source-inspection finding, not a conclusion about all compiler paths.

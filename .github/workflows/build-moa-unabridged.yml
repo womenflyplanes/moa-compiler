@@ -1,0 +1,34 @@
+name: Build complete MoA research monograph
+on:
+  push:
+    branches: [cc2027-artifact]
+    paths:
+      - 'research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.tex'
+      - 'MoA_SC27_Complete_v43/figures/**'
+      - '.github/workflows/build-moa-unabridged.yml'
+  workflow_dispatch:
+jobs:
+  monograph:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build complete historical manuscript plus audited evidence
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: MoA_Compiler_Unabridged_v44_With_20261112_Evidence.tex
+          working_directory: research_monograph
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error -file-line-error
+      - name: Check resulting PDF
+        run: |
+          test -s research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf
+          pdfinfo research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf | grep Pages
+      - uses: actions/upload-artifact@v4
+        with:
+          name: moa-complete-research-monograph-pdf
+          path: |
+            research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf
+            research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.log
+          if-no-files-found: error

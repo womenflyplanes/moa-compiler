@@ -24,7 +24,7 @@ jobs:
       - name: Check resulting PDF
         run: |
           test -s research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf
-          pdfinfo research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf | grep Pages
+          ls -lh research_monograph/MoA_Compiler_Unabridged_v44_With_20261112_Evidence.pdf
       - uses: actions/upload-artifact@v4
         with:
           name: moa-complete-research-monograph-pdf

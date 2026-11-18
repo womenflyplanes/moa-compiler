@@ -16,6 +16,20 @@
       "hand_sha256": "e7a7ca96a2986a530066df380b9990da31fb2444a682cae45722c0ec36dc62d6"
     },
     {
+      "component": "forward.openmp.A",
+      "profile": "forward.openmp",
+      "equal": true,
+      "free_tuple": [
+        "free_0",
+        "free_1",
+        "free_2"
+      ],
+      "recovered_dnf": "exp(sum_over(psi(K, N*free_0 + free_2, bound_0)*psi(Q, N*free_0 + free_1, bound_0), bound_0, D)/sqrt(D))/sum_over(exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)",
+      "hand_dnf": "exp(sum_over(psi(K, N*free_0 + free_2, bound_0)*psi(Q, N*free_0 + free_1, bound_0), bound_0, D)/sqrt(D))/sum_over(exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)",
+      "recovered_sha256": "ce2fb38ade5b90cf39dc746c2c78bfdbfb6a0b20c445f93fc92484046f52658c",
+      "hand_sha256": "ce2fb38ade5b90cf39dc746c2c78bfdbfb6a0b20c445f93fc92484046f52658c"
+    },
+    {
       "component": "forward.openacc.Out",
       "profile": "forward.openacc",
       "equal": true,
@@ -28,6 +42,20 @@
       "hand_dnf": "sum_over(psi(V, N*free_0 + bound_0, free_2)*exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)/sum_over(exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)",
       "recovered_sha256": "e7a7ca96a2986a530066df380b9990da31fb2444a682cae45722c0ec36dc62d6",
       "hand_sha256": "e7a7ca96a2986a530066df380b9990da31fb2444a682cae45722c0ec36dc62d6"
+    },
+    {
+      "component": "forward.openacc.A",
+      "profile": "forward.openacc",
+      "equal": true,
+      "free_tuple": [
+        "free_0",
+        "free_1",
+        "free_2"
+      ],
+      "recovered_dnf": "exp(sum_over(psi(K, N*free_0 + free_2, bound_0)*psi(Q, N*free_0 + free_1, bound_0), bound_0, D)/sqrt(D))/sum_over(exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)",
+      "hand_dnf": "exp(sum_over(psi(K, N*free_0 + free_2, bound_0)*psi(Q, N*free_0 + free_1, bound_0), bound_0, D)/sqrt(D))/sum_over(exp(sum_over(psi(K, N*free_0 + bound_0, bound_1)*psi(Q, N*free_0 + free_1, bound_1), bound_1, D)/sqrt(D)), bound_0, N)",
+      "recovered_sha256": "ce2fb38ade5b90cf39dc746c2c78bfdbfb6a0b20c445f93fc92484046f52658c",
+      "hand_sha256": "ce2fb38ade5b90cf39dc746c2c78bfdbfb6a0b20c445f93fc92484046f52658c"
     },
     {
       "component": "backward.openmp.GV",

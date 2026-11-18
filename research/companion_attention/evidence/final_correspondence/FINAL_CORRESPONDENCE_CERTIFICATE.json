@@ -5,7 +5,7 @@
   "archived_C_files": 20,
   "additional_printed_or_derived_paper3_cases": 5,
   "paired_cases": 44,
-  "DNF_component_comparisons": 244,
+  "DNF_component_comparisons": 246,
   "certificates": [
     {
       "profile": "p4_norm_ffn_gpu",
@@ -126,7 +126,7 @@
       "hand_operational_AST_sha256": "78dc7a5c23ab5e9555f13647adf76367a2b8c523dca82794d3602aacf7fbcd5c",
       "compiled_operational_AST_sha256": "78dc7a5c23ab5e9555f13647adf76367a2b8c523dca82794d3602aacf7fbcd5c",
       "end_DNF_equal": true,
-      "checked_DNF_components": 1,
+      "checked_DNF_components": 2,
       "operational_ONF_equal": true,
       "fixed_machine_lifted_ONF_equal_under_common_admissible_binding": true,
       "addressed_C_AST_equal": true,
@@ -143,7 +143,7 @@
       "hand_operational_AST_sha256": "db342b5f713c5cf5105109560dd853bcbdcdb31a91055e93bcf5ab2c70e6c5fe",
       "compiled_operational_AST_sha256": "db342b5f713c5cf5105109560dd853bcbdcdb31a91055e93bcf5ab2c70e6c5fe",
       "end_DNF_equal": true,
-      "checked_DNF_components": 1,
+      "checked_DNF_components": 2,
       "operational_ONF_equal": true,
       "fixed_machine_lifted_ONF_equal_under_common_admissible_binding": true,
       "addressed_C_AST_equal": true,

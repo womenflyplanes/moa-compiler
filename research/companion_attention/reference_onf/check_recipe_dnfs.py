@@ -59,12 +59,18 @@ def standalone():
             r=ReferenceRecover(module.SHAPES if recipe!='decode' else {'K':('N','D'),'V':('N','E'),'out':('E',)},inputs)
             for name,rank in [('Ggamma',1),('GWg',2),('GWu',2),('GWd',2)]:r.zero(name,rank)
             r.run(getattr(module,recipe)(backend))
-            outputs={'forward':['Out'],'backward':['GV','GQ','GK'],'fused':['Out','GV','GQ','GK'],'decode':['out'],'rmsnorm':['Z','GX','Ggamma'],'ffn':['F','GX','GWg','GWu','GWd']}[recipe]
+            outputs={'forward':['Out','A'],'backward':['GV','GQ','GK'],'fused':['Out','GV','GQ','GK'],'decode':['out'],'rmsnorm':['Z','GX','Ggamma'],'ffn':['F','GX','GWg','GWu','GWd']}[recipe]
             for out in outputs:
                 validate_shape(r,out,r.array[out],r.shapes)
                 f,x=observed(r.array[out])
                 if recipe in ('forward','backward','fused'):
-                    x=aliases(x,{'dO':'U'});expected=hand.training('backward' if recipe=='backward' else 'fused',f)['O' if out=='Out' else out].xreplace({Bounds['E']:Bounds['D']})
+                    x=aliases(x,{'dO':'U'})
+                    if out=='A':
+                        b,i,k=f
+                        score=lambda key:hand.sum_at(Bounds['D'],lambda j:hand.select('Q',b,i,j)*hand.select('K',b,key,j))/s.sqrt(Bounds['D'])
+                        expected=hand.probability(score,k)
+                    else:
+                        expected=hand.training('backward' if recipe=='backward' else 'fused',f)['O' if out=='Out' else out].xreplace({Bounds['E']:Bounds['D']})
                 elif recipe=='decode':expected=hand.single_decode(f[0])
                 elif recipe=='rmsnorm':
                     x=aliases(x,{'gamma':'W','GZ':'U'});expected=hand.norm(f if len(f)==2 else (*free_symbols(1),f[0]),token=True)['GW' if out=='Ggamma' else out]

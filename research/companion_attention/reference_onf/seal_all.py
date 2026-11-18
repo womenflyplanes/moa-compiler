@@ -18,7 +18,7 @@ def run(programs,evidence):
     comparisons=json.loads((programs/'all_comparisons.json').read_text())
     math=json.loads((evidence/'all_recipe_dnfs.json').read_text());lift=json.loads((evidence/'all_lift_certificates.json').read_text());validation=json.loads((programs/'all_validation.json').read_text());inventory=json.loads((evidence/'closed_coverage_inventory.json').read_text())
     assert not inventory['uncovered_numerical_routines'] and len(comparisons)==44
-    assert all(r['equal'] for r in math['results']) and len(math['results'])==244
+    assert all(r['equal'] for r in math['results']) and len(math['results'])==246
     certificates=[]
     for row in comparisons:
         name=row['profile'];proofs=[x for x in math['results'] if x['profile']==ALIASES.get(name,name)]
@@ -41,12 +41,12 @@ def run(programs,evidence):
     for name in ('attention.py','block_parts.py','full_block.py','variants.py','legacy.py','serial_refs.py','paper3.py','emit.py'):
         tree=ast.parse((modules/name).read_text())
         assert not any(isinstance(x,ast.Call) and ((isinstance(x.func,ast.Attribute) and x.func.attr in ('read_text','read_bytes')) or (isinstance(x.func,ast.Name) and x.func.id=='open')) for x in ast.walk(tree)),name
-    result={'status':'PASS','scope':inventory['scope'],'archived_C_numerical_regions':39,'archived_C_files':20,'additional_printed_or_derived_paper3_cases':5,'paired_cases':len(certificates),'DNF_component_comparisons':244,
+    result={'status':'PASS','scope':inventory['scope'],'archived_C_numerical_regions':39,'archived_C_files':20,'additional_printed_or_derived_paper3_cases':5,'paired_cases':len(certificates),'DNF_component_comparisons':246,
       'certificates':certificates,'emitter_independence':'Recipe/emitter modules contain no source-file reads; hand C is used only by the independent comparison/check tools.',
       'remaining_equivalence_tasks_in_declared_C_scope':[],
       'separate_empirical_extensions':['Actual A100/UA execution of corrected current profiles, if such a claim is desired','Exact executed-source hashes for some historical Paper V jobs, before unconditional quantitative timing transfer'],
       'premises':['standard attention scale=1/sqrt(D); RMSNorm epsilon=1e-6','legal positive shapes except cache length may be zero','H divisible by G for grouped attention','0<=cache_length<C','tile_width divides N','N<=8192 where MAX_N scratch is used','DFF<=512 and D<=512 where fixed 512-element scratch is indexed','zero entry states for additive gradients; corrected data profiles for fresh separate device allocations','finite arithmetic/no undefined integer overflow; successful allocations; required nonaliasing','same admissible machine shape, gamma/layout, Omega/workspace mapping and runtime choices when claiming identical lifted realization']}
-    (evidence/'FINAL_CORRESPONDENCE_CERTIFICATE.json').write_text(json.dumps(result,indent=2));print('FINAL PASS: 39/39 archived C regions; 44/44 paired cases; 244/244 DNFs; no remaining equivalence rows')
+    (evidence/'FINAL_CORRESPONDENCE_CERTIFICATE.json').write_text(json.dumps(result,indent=2));print('FINAL PASS: 39/39 archived C regions; 44/44 paired cases; 246/246 DNFs; no remaining equivalence rows')
 if __name__=='__main__':
     import argparse
     p=argparse.ArgumentParser();p.add_argument('programs',type=Path);p.add_argument('evidence',type=Path);a=p.parse_args();run(a.programs,a.evidence)

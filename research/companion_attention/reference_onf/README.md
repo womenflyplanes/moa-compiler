@@ -3,7 +3,7 @@
 The declared C-emission study is closed: all 39 numerical routines/regions in the
 20 pinned hand C files, plus Paper III's printed C listing and four explicitly
 derived grouped-head/cache C references, have passing correspondence records.
-There are 44 paired cases, 244 exact-real DNF component comparisons, 138 untimed
+There are 44 paired cases, 246 exact-real DNF component comparisons, 138 untimed
 finite checks (largest hand/compiled difference zero), 27 matched helper checks,
 and 109 deliberately corrupted operational ASTs rejected. Five separate-device
 entry contracts have matched corrected hand and compiler variants.

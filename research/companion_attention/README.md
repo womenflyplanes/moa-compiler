@@ -3,7 +3,7 @@
 The completed hand/compiled C study is in [reference_onf/README.md](reference_onf/README.md).
 Its final certificate covers all 39 numerical regions in 20 archived hand C
 files, with 44 total paired cases after the published/derived Paper III targets.
-All 244 component DNFs and all paired operational/lifted structures pass under
+All 246 component DNFs and all paired operational/lifted structures pass under
 the stated contracts. Reproduction instructions and source provenance are in that
 README; machine-readable results are in `evidence/final_correspondence/`.
 

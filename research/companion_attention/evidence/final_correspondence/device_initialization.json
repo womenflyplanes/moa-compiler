@@ -1,0 +1,135 @@
+[
+  {
+    "profile": "p4_block_gpu",
+    "archival_uninitialized_additive_targets": [
+      "GK",
+      "GQ",
+      "GWd",
+      "GWg",
+      "GWk",
+      "GWq",
+      "GWu",
+      "GWv",
+      "Ggamma1",
+      "Ggamma2"
+    ],
+    "corrected_initialized_targets": [
+      "GK",
+      "GQ",
+      "GWd",
+      "GWg",
+      "GWk",
+      "GWq",
+      "GWu",
+      "GWv",
+      "Ggamma1",
+      "Ggamma2"
+    ],
+    "fresh_device_contract_pass": true,
+    "premises": [
+      "host buffers initialized to zero",
+      "fresh absent device allocations",
+      "matched full-domain computational phases"
+    ],
+    "scope": "focused static audit of first additive writes; not general definite-assignment analysis",
+    "actual_device_execution": "unavailable in this workspace"
+  },
+  {
+    "profile": "p4_norm_ffn_gpu",
+    "archival_uninitialized_additive_targets": [
+      "GWd",
+      "GWg",
+      "GWu",
+      "Ggamma"
+    ],
+    "corrected_initialized_targets": [
+      "GWd",
+      "GWg",
+      "GWu",
+      "Ggamma"
+    ],
+    "fresh_device_contract_pass": true,
+    "premises": [
+      "host buffers initialized to zero",
+      "fresh absent device allocations",
+      "matched full-domain computational phases"
+    ],
+    "scope": "focused static audit of first additive writes; not general definite-assignment analysis",
+    "actual_device_execution": "unavailable in this workspace"
+  },
+  {
+    "profile": "p4_block_verify_gpu",
+    "archival_uninitialized_additive_targets": [
+      "GK",
+      "GQ",
+      "GWd",
+      "GWg",
+      "GWk",
+      "GWq",
+      "GWu",
+      "GWv",
+      "Ggamma1",
+      "Ggamma2"
+    ],
+    "corrected_initialized_targets": [
+      "GK",
+      "GQ",
+      "GWd",
+      "GWg",
+      "GWk",
+      "GWq",
+      "GWu",
+      "GWv",
+      "Ggamma1",
+      "Ggamma2"
+    ],
+    "fresh_device_contract_pass": true,
+    "premises": [
+      "host buffers initialized to zero",
+      "fresh absent device allocations",
+      "matched full-domain computational phases"
+    ],
+    "scope": "focused static audit of first additive writes; not general definite-assignment analysis",
+    "actual_device_execution": "unavailable in this workspace"
+  },
+  {
+    "profile": "p4_chain_bench_gpu",
+    "archival_uninitialized_additive_targets": [
+      "GWd",
+      "GWg",
+      "GWu",
+      "Ggamma"
+    ],
+    "corrected_initialized_targets": [
+      "GWd",
+      "GWg",
+      "GWu",
+      "Ggamma"
+    ],
+    "fresh_device_contract_pass": true,
+    "premises": [
+      "host buffers initialized to zero",
+      "fresh absent device allocations",
+      "matched full-domain computational phases"
+    ],
+    "scope": "focused static audit of first additive writes; not general definite-assignment analysis",
+    "actual_device_execution": "unavailable in this workspace"
+  },
+  {
+    "profile": "p2_fused_atomic_gpu",
+    "archival_uninitialized_additive_targets": [
+      "GK"
+    ],
+    "corrected_initialized_targets": [
+      "GK"
+    ],
+    "fresh_device_contract_pass": true,
+    "premises": [
+      "host buffers initialized to zero",
+      "fresh absent device allocations",
+      "matched full-domain computational phases"
+    ],
+    "scope": "focused static audit of first additive writes; not general definite-assignment analysis",
+    "actual_device_execution": "unavailable in this workspace"
+  }
+]

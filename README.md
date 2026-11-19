@@ -1,11 +1,35 @@
 # Mathematics of Arrays compiler research
 
-**Active scope: Paper I / Program 2 (forward attention).** The mathematical pipeline is ψ-indexed specification → DNF → γ/ONF → machine-dependent Ω lifting → generated implementation → prospective prediction → independent validation. Semantic equivalence is the requirement; intermediate derivations need not be textually identical and lifted ONFs depend on machine shape.
+**Completed milestone: hand-to-compiler C correspondence across Papers I–IV.**
+All 39 numerical routines/regions in 20 pinned archived hand C files have compiler
+counterparts. With Paper III's printed and explicitly derived references, all
+44 paired cases pass: 246 exact-real end-DNF component comparisons, matching
+operational C/ONF structures and common-machine lifted structures, and 138
+untimed finite comparisons with zero hand/compiler difference.
 
-**[Installation, checkpoint preparation, and usage](docs/PAPER_I_USAGE.md)**
+**[Results, evidence links and LinkedIn announcement](docs/HAND_COMPILER_RESULTS.md)**  
+**[Methods, reproduction commands and contracts](research/companion_attention/reference_onf/README.md)**
 
-The documented source/evidence checkpoints are the verified **8 November consolidated manuscript/compiler archive** and **10 November matched-validation archive**, stored separately from GitHub. The former contains `main.tex`/`main.pdf`, figures, typed ASTs, and compiler code; the latter contains the full-(A,O) contract, matched-validation scripts, and original hand-derived evidence. See the guide for exact filenames, SHA256 values, and development-checkout preparation. **The full source/evidence release is not yet synchronized into GitHub**, so this branch alone is not a complete reproduction package.
+The mathematical pipeline is ψ-indexed specification → DNF → γ/ONF →
+machine-dependent Ω lifting → generated implementation → prospective prediction
+→ independent validation. Final normal forms must agree per pair; intermediate
+derivation steps may differ. Lifted ONFs depend on machine shape and binding.
 
-Keep the O-only online-fold and full-(A,O) interfaces distinct, as well as logical Ω ownership and physical execution. Tests provide finite evidence, not a general correctness proof. Prospective machine-shape selection and absolute-time accuracy are separate claims. Preserve historical failures and original SHA256-frozen evidence. The ten-field machine property array remains append-only extensible. Full Paper I is ongoing; Papers II–IV are out of scope.
+The completed correspondence scope is C numerical kernels with documented entry
+contracts. Paper III's newly derived C references are identified separately from
+archived C. Five paired fresh-device initialization corrections are included.
+OpenACC finite checks used host fallback; this milestone adds no new GPU timing
+claims. The broader Paper I performance-prediction research remains ongoing.
 
-Historical checkpoints and research records should be retained until their provenance and references have been audited; documentation cleanup must not destroy evidence.
+## Earlier Paper I foundation
+
+[Installation, checkpoint preparation and usage](docs/PAPER_I_USAGE.md) documents
+the earlier 8 November consolidated and 10 November matched-validation archives.
+Those historical checkpoint packages are distinct from the completed
+correspondence source and evidence now on this branch.
+
+Keep O-only online-fold and full-(A,O) interfaces distinct, as well as logical Ω
+ownership and physical execution. Prospective machine-shape selection and
+absolute-time accuracy are separate claims. Preserve historical failures and
+original SHA256-frozen evidence. The ten-field machine property array remains
+append-only extensible. Historical records should be retained for provenance.

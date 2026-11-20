@@ -1,0 +1,17 @@
+{
+  "source": "fortran_frontend/examples/matmul.f90",
+  "shape": {
+    "A": "n,n"
+  },
+  "neighbours": [],
+  "is_jacobi": false,
+  "is_island": false,
+  "island": {},
+  "is_rbgs": false,
+  "is_matmul": true,
+  "dnf": "C psi (i,j) = sum_k ( (i,k) psi A ) * ( (k,j) psi B ) # matmul DNF",
+  "onf": "ONF matmul: loop j, loop i, loop k, gamma_col, F=d*k*n, M=d*k",
+  "gamma": "gamma_col(ivec, rho) = ivec[0] + ivec[1]*rho[0]  # gamma_col=7",
+  "rav": "rav A = A(:) in column-major order",
+  "psi": "ivec psi A = (rav A)[gamma(ivec, rho A)]"
+}

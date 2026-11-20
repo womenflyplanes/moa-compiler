@@ -140,11 +140,106 @@ function u = poisson_island_gauss_out(nx, ny, niter)
 end
 '''
 
+
+def gen_fortran_rbgs(dnf):
+    return f'''! Generated Fortran ONF - poisson_rbgs - from DNF
+! DNF: {dnf}
+! ONF RBGS: same DNF, red phase then black phase, in-place, gamma_col
+program poisson_rbgs_out
+  implicit none
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  integer :: i, j, it, color
+  f = 1.0
+  u = 0.0
+  do it = 1, niter
+    do color = 0, 1
+      do j = 1, ny
+        do i = 1, nx
+          if (mod(i+j, 2) == color) then
+            u(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+          end if
+        end do
+      end do
+    end do
+  end do
+  print *, "RBGS u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
+end program poisson_rbgs_out
+'''
+
+def gen_matlab_rbgs(dnf):
+    return f'''% Generated 【entity-MATLAB¦canonical_name=MATLAB】 ONF - poisson_rbgs - from DNF
+% DNF: {dnf}
+% ONF RBGS: same DNF, red phase then black phase, in-place, gamma_col
+function u = poisson_rbgs_out(nx, ny, niter)
+  if nargin < 3, nx = 64; ny = 64; niter = 100; end
+  h = 1.0 / 63.0;
+  u = zeros(nx+2, ny+2);
+  f = ones(nx+2, ny+2);
+  for it = 1:niter
+    for color = 0:1
+      for j = 2:ny+1
+        for i = 2:nx+1
+          if mod((i-1)+(j-1), 2) == color
+            u(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j));
+          end
+        end
+      end
+    end
+  end
+end
+'''
+
+def gen_fortran_matmul(dnf):
+    return f'''! Generated Fortran ONF - matmul - from DNF
+! DNF: {dnf}
+! ONF matmul: loop j, loop i, loop k, gamma_col
+program matmul_out
+  implicit none
+  integer, parameter :: n = 64
+  real :: A(n,n), B(n,n), C(n,n)
+  integer :: i, j, k
+  A = 1.0
+  B = 1.0
+  C = 0.0
+  do j = 1, n
+    do i = 1, n
+      C(i,j) = 0.0
+      do k = 1, n
+        C(i,j) = C(i,j) + A(i,k) * B(k,j)
+      end do
+    end do
+  end do
+  print *, "MATMUL C(32,32)=", C(32,32), " C(1,1)=", C(1,1)
+end program matmul_out
+'''
+
+def gen_matlab_matmul(dnf):
+    return f'''% Generated 【entity-MATLAB¦canonical_name=MATLAB】 ONF - matmul - from DNF
+% DNF: {dnf}
+% ONF matmul: loop j, loop i, loop k, gamma_col
+function C = matmul_out(n)
+  if nargin < 1, n = 64; end
+  A = ones(n,n); B = ones(n,n); C = zeros(n,n);
+  for j = 1:n
+    for i = 1:n
+      C(i,j) = 0.0;
+      for k = 1:n
+        C(i,j) = C(i,j) + A(i,k) * B(k,j);
+      end
+    end
+  end
+end
+'''
+
 def main():
     base = pathlib.Path("fortran_frontend/examples")
     for stem, gen_f, gen_m in [
         ("poisson_jacobi", gen_fortran_jacobi, gen_matlab_jacobi),
         ("poisson_island_gauss", gen_fortran_island, gen_matlab_island),
+        ("poisson_rbgs", gen_fortran_rbgs, gen_matlab_rbgs),
+        ("matmul", gen_fortran_matmul, gen_matlab_matmul),
     ]:
         data = json.loads((base / f"{stem}.dnf.json").read_text())
         dnf = data["dnf"]

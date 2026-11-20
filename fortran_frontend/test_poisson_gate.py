@@ -34,11 +34,29 @@ def ref_island():
                         u[i,j] = 0.25*(u[i-1,j] + u[i+1,j] + u[i,j-1] + u[i,j+1] + H*H*f[i,j])
     return u[32,32], u[1,1]
 
+
+def ref_rbgs():
+    u = np.zeros((NX+2, NY+2), dtype=np.float64)
+    f = np.ones_like(u)
+    for _ in range(NITER):
+        for color in (0,1):
+            for j in range(1, NY+1):
+                for i in range(1, NX+1):
+                    if (i+j) % 2 == color:
+                        u[i,j] = 0.25*(u[i-1,j] + u[i+1,j] + u[i,j-1] + u[i,j+1] + H*H*f[i,j])
+    return u[32,32], u[1,1]
+
+def ref_matmul():
+    # A=1, B=1, n=64 -> C(i,j) = sum_k 1*1 = 64.0
+    return 64.0, 64.0
+
 def run_fortran(bin_path, src):
     subprocess.run(["gfortran","-O2","-o",bin_path,src], check=True, capture_output=True)
     out = subprocess.run([bin_path], capture_output=True, text=True, check=True).stdout
     # JACOBI u(32,32)= 6.298...  u(1,1)= 3.77...
     m = re.search(r"u\(32,32\)=\s*([0-9.E+-]+)\s+u\(1,1\)=\s*([0-9.E+-]+)", out)
+    if not m:
+        m = re.search(r"C\(32,32\)=\s*([0-9.E+-]+)\s+C\(1,1\)=\s*([0-9.E+-]+)", out)
     if not m:
         print(f"FAIL: could not parse Fortran output: {out}")
         sys.exit(1)
@@ -55,14 +73,24 @@ def check(name, fortran_vals, ref_vals):
 
 print("=== Poisson DNF gate: Fortran vs Python reference ===")
 all_ok = True
-for name, src, bin_path, ref_fn in [
-    ("JACOBI","moa_compiler/generated/poisson_jacobi_out.f90","/tmp/jacobi_gate",ref_jacobi),
-    ("ISLAND","moa_compiler/generated/poisson_island_gauss_out.f90","/tmp/island_gate",ref_island),
+for name, src, bin_path, ref_fn, labels in [
+    ("JACOBI","moa_compiler/generated/poisson_jacobi_out.f90","/tmp/jacobi_gate",ref_jacobi,["u(32,32)","u(1,1)"]),
+    ("ISLAND","moa_compiler/generated/poisson_island_gauss_out.f90","/tmp/island_gate",ref_island,["u(32,32)","u(1,1)"]),
+    ("RBGS","moa_compiler/generated/poisson_rbgs_out.f90","/tmp/rbgs_gate",ref_rbgs,["u(32,32)","u(1,1)"]),
+    ("MATMUL","moa_compiler/generated/matmul_out.f90","/tmp/matmul_gate",ref_matmul,["C(32,32)","C(1,1)"]),
 ]:
     fv = run_fortran(bin_path, src)
     rv = ref_fn()
     print(f"{name}:")
-    if not check(name, fv, rv):
+    # check() currently zips with u(...) labels - override by passing labels via monkey-patch
+    # Simplest: inline the check here with correct labels
+    ok = True
+    for label, fvv, rvv in zip(labels, fv, rv):
+        rel = abs(fvv-rvv)/max(abs(rvv),1e-12)
+        status = "PASS" if rel < 1e-5 else "FAIL"
+        if status=="FAIL": ok=False
+        print(f"  {name} {label}: Fortran={fvv:.8e} Python_ref={rvv:.8e} rel_err={rel:.2e} -> {status}")
+    if not ok:
         all_ok=False
 print()
 print("GATE:", "PASS - Fortran matches Python reference from same DNF" if all_ok else "FAIL - mismatch, do not claim round-trip")

@@ -1,0 +1,37 @@
+{
+  "source": "fortran_frontend/examples/poisson_island_gauss.f90",
+  "shape": {
+    "u": "0:nx+1, 0:ny+1"
+  },
+  "neighbours": [
+    [
+      -1,
+      0
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      0,
+      -1
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "is_jacobi": false,
+  "is_island": true,
+  "island": {
+    "isx": 16,
+    "isy": 16
+  },
+  "is_rbgs": false,
+  "is_matmul": false,
+  "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col",
+  "onf": "ONF Island Gauss: same DNF, parallel over islands (ix,iy), island size {'isx': 16, 'isy': 16}, sequential Gauss-Seidel inside island (i,j), in-place, one array, halo at island boundaries, gamma_col",
+  "gamma": "gamma_col(ivec, rho) = ivec[0] + ivec[1]*rho[0]  # gamma_col=7",
+  "rav": "rav A = A(:) in column-major order",
+  "psi": "ivec psi A = (rav A)[gamma(ivec, rho A)]"
+}

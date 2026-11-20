@@ -390,6 +390,167 @@ program matmul_omp
 end program matmul_omp
 '''
 
+
+def gen_gpu_jacobi(dnf):
+    return f'''! Generated GPU Fortran ONF - poisson_jacobi - from DNF
+! DNF: {dnf}
+! ONF Jacobi GPU: one kernel per sweep, all ivec parallel, two arrays
+! OpenACC: parallel loop collapse(2) is SAFE - reads u, writes u_new
+program poisson_jacobi_gpu
+  implicit none
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_new(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: tmp(0:nx+1, 0:ny+1)
+  integer :: i, j, it
+  f = 1.0
+  u = 0.0
+  u_new = 0.0
+  !$ACC DATA COPY(u, u_new, f)
+  do it = 1, niter
+    !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_new, f)
+    do j = 1, ny
+      do i = 1, nx
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+      end do
+    end do
+    !$ACC END PARALLEL LOOP
+    !$ACC KERNELS PRESENT(u, u_new, tmp)
+    tmp = u
+    u = u_new
+    u_new = tmp
+    !$ACC END KERNELS
+  end do
+  !$ACC END DATA
+  print *, "JACOBI-GPU u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
+end program poisson_jacobi_gpu
+'''
+
+def gen_gpu_island(dnf):
+    return f'''! Generated GPU Fortran ONF - poisson_island_gauss - from DNF
+! DNF: {dnf}
+! ONF Island GPU: parallel over islands, sequential inside island, halo-safe
+! Halo: u_old snapshot at start of sweep. Inside island -> u, outside -> u_old
+! OpenACC: parallel loop over ix,iy islands. Do NOT parallelize i,j inside island.
+program poisson_island_gauss_gpu
+  implicit none
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  integer, parameter :: isx = 16, isy = 16
+  integer, parameter :: nix = nx / isx, niy = ny / isy
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_old(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: ul, ur, ud, uu
+  integer :: i, j, it, ix, iy, i0, j0, i1, j1
+  f = 1.0
+  u = 0.0
+  !$ACC DATA COPY(u, f) CREATE(u_old)
+  do it = 1, niter
+    !$ACC KERNELS PRESENT(u, u_old)
+    u_old = u
+    !$ACC END KERNELS
+    !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_old, f) PRIVATE(ix,iy,i0,j0,i1,j1,i,j,ul,ur,ud,uu)
+    do iy = 1, niy
+      do ix = 1, nix
+        i0 = (ix-1)*isx + 1
+        i1 = ix*isx
+        j0 = (iy-1)*isy + 1
+        j1 = iy*isy
+        do j = j0, j1
+          do i = i0, i1
+            if (i-1 < i0) then
+              ul = u_old(i-1,j)
+            else
+              ul = u(i-1,j)
+            end if
+            if (i+1 > i1) then
+              ur = u_old(i+1,j)
+            else
+              ur = u(i+1,j)
+            end if
+            if (j-1 < j0) then
+              ud = u_old(i,j-1)
+            else
+              ud = u(i,j-1)
+            end if
+            if (j+1 > j1) then
+              uu = u_old(i,j+1)
+            else
+              uu = u(i,j+1)
+            end if
+            u(i,j) = 0.25 * (ul + ur + ud + uu + h*h*f(i,j))
+          end do
+        end do
+      end do
+    end do
+    !$ACC END PARALLEL LOOP
+  end do
+  !$ACC END DATA
+  print *, "ISLAND-GPU u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
+end program poisson_island_gauss_gpu
+'''
+
+def gen_gpu_rbgs(dnf):
+    return f'''! Generated GPU Fortran ONF - poisson_rbgs - from DNF
+! DNF: {dnf}
+! ONF RBGS GPU: red kernel, barrier, black kernel. No barrier -> wrong answer.
+! OpenACC: parallel loop inside one color is SAFE - same color points do not neighbour each other
+program poisson_rbgs_gpu
+  implicit none
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  integer :: i, j, it, color
+  f = 1.0
+  u = 0.0
+  !$ACC DATA COPY(u, f)
+  do it = 1, niter
+    do color = 0, 1
+      !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, f) PRIVATE(i,j)
+      do j = 1, ny
+        do i = 1, nx
+          if (mod(i+j, 2) == color) then
+            u(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+          end if
+        end do
+      end do
+      !$ACC END PARALLEL LOOP
+      !$ACC WAIT
+    end do
+  end do
+  !$ACC END DATA
+  print *, "RBGS-GPU u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
+end program poisson_rbgs_gpu
+'''
+
+def gen_gpu_matmul(dnf):
+    return f'''! Generated GPU Fortran ONF - matmul - from DNF
+! DNF: {dnf}
+! ONF matmul GPU: i,j parallel, k sequential
+! OpenACC: parallel loop over i,j is SAFE - each C(i,j) is independent
+program matmul_gpu
+  implicit none
+  integer, parameter :: n = 64
+  real :: A(n,n), B(n,n), C(n,n)
+  integer :: i, j, k
+  A = 1.0
+  B = 1.0
+  C = 0.0
+  !$ACC DATA COPYIN(A, B) COPYOUT(C)
+  !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(A, B, C) PRIVATE(i,j,k)
+  do j = 1, n
+    do i = 1, n
+      C(i,j) = 0.0
+      do k = 1, n
+        C(i,j) = C(i,j) + A(i,k) * B(k,j)
+      end do
+    end do
+  end do
+  !$ACC END PARALLEL LOOP
+  !$ACC END DATA
+  print *, "MATMUL-GPU C(32,32)=", C(32,32), " C(1,1)=", C(1,1)
+end program matmul_gpu
+'''
+
 def main():
     base = pathlib.Path("fortran_frontend/examples")
     for stem, gen_f, gen_m in [
@@ -402,6 +563,17 @@ def main():
         dnf = data["dnf"]
         (OUT / f"{stem}_out.f90").write_text(gen_f(dnf))
         (OUT / f"{stem}_out.m").write_text(gen_m(dnf))
+        # GPU variant - same DNF, halo-safe Island ONF is the GPU ONF
+        gpu_map = {
+            "poisson_jacobi": gen_gpu_jacobi,
+            "poisson_island_gauss": gen_gpu_island,
+            "poisson_rbgs": gen_gpu_rbgs,
+            "matmul": gen_gpu_matmul,
+        }
+        if stem in gpu_map:
+            (OUT / f"{stem}_gpu.f90").write_text(gpu_map[stem](dnf))
+            print(f"Wrote {stem}_gpu.f90 from DNF + ONF")
+
         # OpenMP variant - same DNF, ONF says what is parallel
         omp_map = {
             "poisson_jacobi": gen_openmp_jacobi,

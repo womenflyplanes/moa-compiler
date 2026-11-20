@@ -1,0 +1,32 @@
+! Generated GPU Fortran ONF - poisson_jacobi - from DNF
+! DNF: u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col
+! ONF Jacobi GPU: one kernel per sweep, all ivec parallel, two arrays
+! OpenACC: parallel loop collapse(2) is SAFE - reads u, writes u_new
+program poisson_jacobi_gpu
+  implicit none
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_new(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: tmp(0:nx+1, 0:ny+1)
+  integer :: i, j, it
+  f = 1.0
+  u = 0.0
+  u_new = 0.0
+  !$ACC DATA COPY(u, u_new, f)
+  do it = 1, niter
+    !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_new, f)
+    do j = 1, ny
+      do i = 1, nx
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+      end do
+    end do
+    !$ACC END PARALLEL LOOP
+    !$ACC KERNELS PRESENT(u, u_new, tmp)
+    tmp = u
+    u = u_new
+    u_new = tmp
+    !$ACC END KERNELS
+  end do
+  !$ACC END DATA
+  print *, "JACOBI-GPU u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
+end program poisson_jacobi_gpu

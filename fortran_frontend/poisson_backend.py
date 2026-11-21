@@ -406,7 +406,7 @@ program poisson_jacobi_gpu
   f = 1.0
   u = 0.0
   u_new = 0.0
-  !$ACC DATA COPY(u, u_new, f)
+  !$ACC DATA COPY(u, u_new, f, tmp)
   do it = 1, niter
     !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_new, f)
     do j = 1, ny

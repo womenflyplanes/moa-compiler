@@ -10,7 +10,7 @@ def scaled(src_path, nx, niter=100):
     t = re.sub(r"h = 1\.0 / 63\.0", f"h = 1.0 / {nx-1}.0", t)
     t = re.sub(r"n = 64", f"n = {nx}", t)
     return t
-for nx in (256, 1024, 2048):
+for nx in (256, 1024, 2048, 4096):
     for stem, backend in [
         ("poisson_jacobi", "out"),
         ("poisson_jacobi", "openmp"),

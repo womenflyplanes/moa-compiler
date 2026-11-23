@@ -1,3 +1,5 @@
+Wiki: https://womenflyplanes.github.io/moa-compiler/
+
 # Mathematics of Arrays compiler research
 
 **Active scope: Paper I / Program 2 (forward attention).** The mathematical pipeline is ψ-indexed specification → DNF → γ/ONF → machine-dependent Ω lifting → generated implementation → prospective prediction → independent validation. Semantic equivalence is the requirement; intermediate derivations need not be textually identical and lifted ONFs depend on machine shape.

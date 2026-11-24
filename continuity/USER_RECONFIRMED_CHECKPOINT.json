@@ -1,0 +1,12 @@
+{
+  "uploaded_zip_sha256": "7e7aa47a841be423addc62835fe10beff02fcefccd14df5795f8762f714121ad",
+  "checkpoint_zip_sha256": "7e7aa47a841be423addc62835fe10beff02fcefccd14df5795f8762f714121ad",
+  "byte_identical": true,
+  "paired_cases": 44,
+  "DNF_components": 246,
+  "open_equivalence_tasks": [],
+  "uploaded_report_sha256": "bd14160d4d20d4ed049866f25fabcb01c754b89a3057ecfd51cd5d2e80c762ed",
+  "report_matches_zip": false,
+  "uploaded_report_text_identical_to_zip_report": true,
+  "pdf_byte_difference": "same eight pages and extracted text; PDF container bytes differ"
+}

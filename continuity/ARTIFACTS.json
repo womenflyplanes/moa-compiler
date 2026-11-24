@@ -1,0 +1,27 @@
+{
+  "completed_checkpoint": {
+    "zip": {
+      "name": "MoA_All_Hand_Compiler_Final_Overleaf_and_Evidence.zip",
+      "library_file_id": "libfile_d91f3f7ea34c8191b6ab31699b938e39",
+      "sha256": "7e7aa47a841be423addc62835fe10beff02fcefccd14df5795f8762f714121ad"
+    },
+    "report": {
+      "name": "MoA_All_Hand_Compiler_Correspondence_Final.pdf",
+      "library_file_id": "libfile_c4416176e9088191a0e3817b05d911c4"
+    },
+    "C_volume": {
+      "library_file_id": "libfile_6dc9fe1c489481919240c3b4c541b14f"
+    },
+    "AST_atlas": {
+      "library_file_id": "libfile_1fbe1e87f0648191bfa7be3f2bca033a"
+    }
+  },
+  "user_reconfirmed_uploads": {
+    "zip_library_file_id": "libfile_0ac31e5863f081918bb6faebe4ae615c",
+    "pdf_library_file_id": "libfile_84c6551a237881919d70b2442b5302bd"
+  },
+  "CC27_source_baseline": {
+    "library_file_id": "libfile_f1d6c5010928819198342ae36dda3a90",
+    "sha256": "b7eaab19c6577207d7ee2480a3db0b0c4a4cd7c8a6618545a22c5c85af3ce6a9"
+  }
+}

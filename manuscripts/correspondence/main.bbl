@@ -1,0 +1,44 @@
+\begin{thebibliography}{1}
+
+\bibitem{paper1}
+Lenore Mullin and Ga{\"e}tan Hains.
+\newblock Attention at the theoretical minimum: A {Mathematics of Arrays}
+  framework for memory-optimal transformer kernels.
+\newblock arXiv:2606.07713, 2026.
+\newblock \url{https://arxiv.org/abs/2606.07713}.
+
+\bibitem{paper2}
+Lenore Mullin and Ga{\"e}tan Hains.
+\newblock Attention at the theoretical minimum: Backward pass {MoA DNF}
+  derivation, {PyTorch} implementation, and numerical verification.
+\newblock HAL:hal-05659212, 2026.
+\newblock \url{https://hal.science/hal-05659212}.
+
+\bibitem{paper3}
+Lenore Mullin and Ga{\"e}tan Hains.
+\newblock {MoA}-structured decode attention {DNF} derivation, {KV}-cache
+  accumulation, {GQA/MQA}, and {OpenACC} kernel.
+\newblock arXiv:2607.19456, 2026.
+\newblock \url{https://arxiv.org/abs/2607.19456}.
+
+\bibitem{paper4}
+Lenore~M. Mullin and Ga{\"e}tan Hains.
+\newblock The transformer block at the theoretical minimum: Memory-optimal
+  normalization and feed-forward layers via the {Mathematics of Arrays}.
+\newblock HAL:hal-05734881, 2026.
+\newblock \url{https://hal.science/hal-05734881}.
+
+\bibitem{paper5}
+Lenore~M. Mullin and Ga{\"e}tan Hains.
+\newblock Validating memory-optimal transformer kernels on real hardware: From
+  formal derivation to measured performance across two {HPC} clusters.
+\newblock arXiv:2609.33916, 2026.
+\newblock \url{https://arxiv.org/abs/2609.33916}.
+
+\bibitem{openacc}
+{OpenACC Organization}.
+\newblock {\em The {OpenACC} Application Programming Interface}, 3.4 edition,
+  2025.
+\newblock Sections 2.7.9--2.7.10. \url{https://www.openacc.org/specification}.
+
+\end{thebibliography}

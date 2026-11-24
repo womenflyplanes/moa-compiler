@@ -1,0 +1,88 @@
+[
+  {
+    "recipe": "forward",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "forward",
+    "defect": "loop_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "forward",
+    "defect": "feature_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "backward",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "backward",
+    "defect": "loop_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "backward",
+    "defect": "feature_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "fused",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "fused",
+    "defect": "loop_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "fused",
+    "defect": "feature_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "decode",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "rmsnorm",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "rmsnorm",
+    "defect": "feature_bound",
+    "rejected": true
+  },
+  {
+    "recipe": "ffn",
+    "defect": "reduction_sign",
+    "rejected": true
+  },
+  {
+    "recipe": "ffn",
+    "defect": "feature_bound",
+    "rejected": true
+  },
+  {
+    "defect": "incorrect_maximum_recurrence",
+    "rejected": true
+  },
+  {
+    "defect": "incorrect_maximum_recurrence",
+    "rejected": true
+  },
+  {
+    "defect": "missing_gradient_initialization",
+    "rejected": true
+  },
+  {
+    "defect": "free_output_domain",
+    "rejected": true
+  }
+]

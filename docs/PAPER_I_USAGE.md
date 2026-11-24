@@ -1,3 +1,5 @@
+> **Historical checkpoint guide.** Current consolidated commands are in the root README and `RESUME_HERE.md`. The dated archive instructions below describe their original checkpoint and are preserved for provenance; they do not supersede the completed 44-pair correspondence result.
+
 # Using the Paper I MoA compiler
 
 Current checkpoint: 10 November 2026. Active branch: `develop/mac-compiler-integration`.

@@ -1,0 +1,81 @@
+{
+  "schema": "moa.project_state.v1",
+  "updated": "2026-11-24",
+  "purpose": "Preserve completed work and distinguish release consolidation from new derivations",
+  "canonical_branch": "codex/unified-moa-release-20261124",
+  "sources": {
+    "attention_correspondence_commit": "3f0741d31a8cda70a75f36698c713a54445828cf",
+    "compiler_audit_commit": "6c87e9707650ae002b5d533638547ac8fbee6b1f",
+    "hand_source_commit": "0cf1d1fd368cb4a7e8d8ec4edfee97be758fc1bc"
+  },
+  "completed": {
+    "papers_I_IV_C_correspondence": {
+      "status": "CLOSED_IN_DECLARED_SCOPE",
+      "archived_C_files": 20,
+      "numerical_regions": 39,
+      "paired_cases": 44,
+      "exact_real_DNF_components": 246,
+      "untimed_pair_checks": 138,
+      "max_pair_difference": 0.0,
+      "entry_repairs": 5,
+      "no_remaining_equivalence_tasks": true
+    },
+    "compiler_audit": {
+      "status": "COMPLETED_BOUNDED_SCOPE",
+      "pytest_cases": 297,
+      "subtests": 84,
+      "full_field_host_comparisons": 48
+    },
+    "consolidation": {
+      "status": "INTEGRATION_REPLAY_PASS",
+      "pytest_cases": 303,
+      "skipped": 1,
+      "subtests": 84,
+      "exported_attention_cases": 44,
+      "Fortran_full_fields": 48,
+      "Paper_I_bindings": 403
+    }
+  },
+  "do_not_repeat": [
+    "hand/compiler end-DNF derivations for the 44 declared cases",
+    "paired ONF and common-admissible-machine lifted correspondence",
+    "existing source provenance and completed finite checks as if still open"
+  ],
+  "remaining": [
+    "broader array-language frontends",
+    "shared typed cross-family semantic IR beyond adapters",
+    "attention MPI and other unvalidated target extensions",
+    "physical device execution of current corrected profiles if new device claims are wanted",
+    "missing historical Paper V executed-source/build bindings for unconditional timing transfer",
+    "prospective capacity/power/energy/dispatch validation for generated ten-field model"
+  ],
+  "invariants": [
+    "canonical tuple psi indexing",
+    "vectors rank one; matrices rank two",
+    "tau preservation applies to logical owned values; halo/padded storage is separate",
+    "Omega depends on declared machine shape and binding",
+    "ten-field property order append-only extensible",
+    "real DNF equality is distinct from floating arithmetic and hardware timing"
+  ],
+  "commands": {
+    "status": "python moa.py status",
+    "attention_case": "python moa.py attention --case p1_forward_cpu --out build/forward",
+    "validation": "python moa.py validate --with-fortran --out validation_results/unified"
+  },
+  "new_hardware_timing": false,
+  "consolidated_sources": {
+    "attention_correspondence": "3f0741d31a8cda70a75f36698c713a54445828cf",
+    "compiler_audit": "6c87e9707650ae002b5d533638547ac8fbee6b1f"
+  },
+  "integration_verification": {
+    "pytest_passed": 303,
+    "pytest_skipped": 1,
+    "subtests_passed": 84,
+    "attention_pairs": 44,
+    "DNF_components": 246,
+    "exported_attention_cases": 44,
+    "attention_finite_checks": 138,
+    "fortran_full_fields": 48,
+    "historical_bindings": 403
+  }
+}

@@ -1,0 +1,76 @@
+p4_rmsnorm_verify True True 
+p4_ffn_verify True True 
+p4_block_verify_cpu True True 
+p4_block_verify_gpu True True 
+p4_chain_bench_gpu True True 
+p2_fused_atomic_gpu True True 
+original_forward_dnf True True 
+original_forward_onf True True 
+original_backward_dnf True True 
+original_backward_onf True True 
+original_fused_dnf True True 
+original_fused_onf True True 
+ref_forward_cpu True True 
+ref_forward_gpu True True 
+ref_backward_forward True True 
+ref_backward_serial True True 
+ref_backward_gpu_forward True True 
+ref_backward_gpu_serial True True 
+ref_fused_forward True True 
+ref_fused_backward True True 
+ref_fused_gpu_forward True True 
+ref_fused_gpu_backward True True 
+ref_fused_v3_forward True True 
+ref_fused_v3_backward True True 
+ref_decode_double True True 
+ref_decode_float True True 
+paper3_listing3 True True 
+paper3_grouped_openmp True True 
+paper3_grouped_openacc True True 
+paper3_append_openmp True True 
+paper3_append_openacc True True 
+VALIDATED p4_norm_ffn_gpu
+VALIDATED p3_decode_cpu
+VALIDATED p4_block_cpu
+VALIDATED p4_block_gpu
+VALIDATED p4_rmsnorm_cpu
+VALIDATED p4_ffn_cpu
+VALIDATED p1_forward_cpu
+VALIDATED p1_forward_gpu
+VALIDATED p2_backward_cpu
+VALIDATED p2_backward_gpu
+VALIDATED p2_fused_cpu
+VALIDATED p2_fused_gpu
+VALIDATED p3_decode_gpu
+VALIDATED p4_rmsnorm_verify
+VALIDATED p4_ffn_verify
+VALIDATED p4_block_verify_cpu
+VALIDATED p4_block_verify_gpu
+VALIDATED p4_chain_bench_gpu
+VALIDATED p2_fused_atomic_gpu
+VALIDATED original_forward_dnf
+VALIDATED original_forward_onf
+VALIDATED original_backward_dnf
+VALIDATED original_backward_onf
+VALIDATED original_fused_dnf
+VALIDATED original_fused_onf
+VALIDATED ref_forward_cpu
+VALIDATED ref_forward_gpu
+VALIDATED ref_backward_forward
+VALIDATED ref_backward_serial
+VALIDATED ref_backward_gpu_forward
+VALIDATED ref_backward_gpu_serial
+VALIDATED ref_fused_forward
+VALIDATED ref_fused_backward
+VALIDATED ref_fused_gpu_forward
+VALIDATED ref_fused_gpu_backward
+VALIDATED ref_fused_v3_forward
+VALIDATED ref_fused_v3_backward
+VALIDATED ref_decode_double
+VALIDATED ref_decode_float
+VALIDATED paper3_listing3
+VALIDATED paper3_grouped_openmp
+VALIDATED paper3_grouped_openacc
+VALIDATED paper3_append_openmp
+VALIDATED paper3_append_openacc
+{"profiles": 44, "finite_checks": 138, "helpers": 27, "defects_rejected": 109, "corrected_entry_contracts": 5}

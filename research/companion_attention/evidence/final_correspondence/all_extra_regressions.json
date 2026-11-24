@@ -1,0 +1,77 @@
+[
+  {
+    "algorithm": "forward",
+    "defect": "tile_stride",
+    "rejected": true
+  },
+  {
+    "algorithm": "forward",
+    "defect": "tile_extent",
+    "rejected": true
+  },
+  {
+    "algorithm": "forward",
+    "defect": "adjoint_or_output_sign",
+    "rejected": true
+  },
+  {
+    "algorithm": "backward",
+    "defect": "tile_stride",
+    "rejected": true
+  },
+  {
+    "algorithm": "backward",
+    "defect": "tile_extent",
+    "rejected": true
+  },
+  {
+    "algorithm": "backward",
+    "defect": "adjoint_or_output_sign",
+    "rejected": true
+  },
+  {
+    "algorithm": "fused",
+    "defect": "tile_stride",
+    "rejected": true
+  },
+  {
+    "algorithm": "fused",
+    "defect": "tile_extent",
+    "rejected": true
+  },
+  {
+    "algorithm": "fused",
+    "defect": "adjoint_or_output_sign",
+    "rejected": true
+  },
+  {
+    "algorithm": "grouped",
+    "defect": "group_modulo",
+    "rejected": true
+  },
+  {
+    "algorithm": "grouped",
+    "defect": "normalizer",
+    "rejected": true
+  },
+  {
+    "algorithm": "append",
+    "defect": "prefix_overwrite",
+    "rejected": true
+  },
+  {
+    "algorithm": "append",
+    "defect": "hidden_prefix_store",
+    "rejected": true
+  },
+  {
+    "algorithm": "append",
+    "defect": "state_increment",
+    "rejected": true
+  },
+  {
+    "algorithm": "paper3_listing3",
+    "defect": "inverse_normalizer",
+    "rejected": true
+  }
+]

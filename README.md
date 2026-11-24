@@ -1,32 +1,48 @@
-# Mathematics of Arrays compiler research
+# Mathematics of Arrays compiler: consolidated research release
 
-Our goal is a **universal intermediate representation for array languages**, with
-portable, scalable, predictable and validated designs grounded in MoA.
+MoA is being developed as a universal intermediate representation for array
+languages, with portable, scalable, predictable and validated designs.
 
-- **[Architecture, scope and compiler usage](docs/MOA-UNIVERSAL-IR.md)**
-- **[24 November correctness audit and verified results](docs/COMPILER_AUDIT_20261124.md)**
-- **[Attention Papers I–IV correspondence study](https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence)**
+**[Start/resume here](RESUME_HERE.md)** · **[Completed results](docs/HAND_COMPILER_RESULTS.md)** · **[Compiler audit](docs/COMPILER_AUDIT_20261124.md)** · **[Architecture](docs/MOA-UNIVERSAL-IR.md)**
 
-The current extension has a bounded Fortran source adapter, structured versioned
-DNFs, ONFs and logical lifted ONFs for serial, OpenMP, OpenACC and MPI schedules.
-It rejects unsupported source or machine mappings. Numerical expressions are
-lowered from their actual ASTs; schedule templates remain an explicit trusted
-basis. MATLAB generation is available but was not executed in this audit.
+## Completed attention correspondence
+
+The Papers I–IV C-emission study is closed: all 39 numerical regions in 20 pinned
+hand C files have compiler counterparts. All 44 paired cases and all 246 end-DNF
+component comparisons pass; paired addressed ONFs, computational C structures and
+common-admissible-machine lifted structures match. All 138 untimed pair checks
+have zero difference. Source provenance and initialization premises are explicit.
+
+## One release interface
 
 ```bash
-python -m pip install numpy pytest
-python scripts/validate_compiler.py --with-fortran
+python -m pip install -r requirements-validation.txt
+python moa.py status
+python moa.py attention --case p1_forward_cpu --out build/forward
+python moa.py fortran fortran_frontend/examples/matmul.f90 --target mpi --owners 3 --out build/matmul
+python moa.py validate --with-fortran --out validation_results/unified
 ```
 
-The full replay needs GCC, gfortran and MPI development tools. OpenACC is tested
-on the host, not on a physical GPU. No new hardware timing was performed.
+Exports contain DNF, ONF, lifted ONF, generated code and hash-bound certificates.
+The attention adapter reuses the completed study after verifying its recipe and
+operational AST identities. The bounded Fortran adapter retains its own checked
+schema. A unified interface does not imply a general language parser or a fully
+shared cross-family AST. Existing source contracts and proof boundaries remain.
 
-The five-paper attention suite is the research foundation. Its checked
-correspondence, hardware measurements and predictive results have separate
-contracts; they do not automatically certify a new frontend or solver.
-The ten-field machine property array remains append-only extensible.
+GCC is required for attention execution. Full Fortran/MPI replay additionally
+requires GFortran, MPI development libraries and `mpirun`. OpenACC execution in
+this replay is explicitly host-only. It submits no jobs and performs no new
+hardware performance experiment.
 
-Historical manuscripts, raw logs and measurements remain available. Cost-only
-examples have moved to `archive/illustrative_cost_demos/` and are not correctness
-or hardware evidence. Generated build clutter and exact duplicate documents were
-removed; the audit records the cleanup.
+## Evidence and continuity
+
+- [Evidence index](continuity/EVIDENCE_INDEX.md)
+- [Machine-readable completed/pending state](continuity/PROJECT_STATE.json)
+- [Manuscript status](continuity/MANUSCRIPT_STATUS.md)
+- [Archived material and cleanup](archive/README.md)
+
+The five-paper attention suite remains the research foundation. Earlier Paper I
+compiler hardware results and Paper V hand-realization measurements are retained
+with their original identities. Missing build/source bindings limit quantitative
+timing transfer; mathematical correspondence itself is completed in the stated
+scope. The ten-field machine property record remains append-only extensible.

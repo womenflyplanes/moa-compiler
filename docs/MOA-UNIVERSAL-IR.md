@@ -1,3 +1,5 @@
+> **Consolidated release:** `python moa.py` dispatches to the completed attention correspondence exporter and the bounded Fortran adapter. Shared stage names do not imply a fully shared cross-family AST. See `RESUME_HERE.md` and the evidence index.
+
 # MoA universal intermediate representation: goal and current implementation
 
 The goal is a common mathematical representation for array languages, supporting

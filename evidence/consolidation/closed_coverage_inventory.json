@@ -1,0 +1,958 @@
+{
+  "scope": "all numerical C computational implementations in the pinned 20-file hand C archive; mathematical helpers matched; test/IO/timing drivers classified separately",
+  "files": 20,
+  "certified_numerical_regions": 39,
+  "all_profile_cases": 44,
+  "uncovered_numerical_routines": [],
+  "inventory": [
+    {
+      "source": "attention/moa_attention.c",
+      "function": "fill_random",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_forward_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_forward_dnf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_backward_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_backward_dnf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_fused_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_fused_dnf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_forward_onf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_forward_onf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_backward_onf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_backward_onf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "moa_fused_onf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "original_fused_onf"
+      ],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "max_abs_diff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "print_vec",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_attention.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "a03809f46a5ebd20d49430fd29cf9aa88bbc8c8ce9789cec6851613b6b24afec"
+    },
+    {
+      "source": "attention/moa_decode_bench.c",
+      "function": "now",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "b380bb4823cf82a9f0d35faad4f2cf9aff9e946cc679b0a64e0dc565e1704118"
+    },
+    {
+      "source": "attention/moa_decode_bench.c",
+      "function": "fill_inputs",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "b380bb4823cf82a9f0d35faad4f2cf9aff9e946cc679b0a64e0dc565e1704118"
+    },
+    {
+      "source": "attention/moa_decode_bench.c",
+      "function": "moa_decode_omp",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p3_decode_cpu"
+      ],
+      "source_sha256": "b380bb4823cf82a9f0d35faad4f2cf9aff9e946cc679b0a64e0dc565e1704118"
+    },
+    {
+      "source": "attention/moa_decode_bench.c",
+      "function": "moa_decode_seq",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_decode_float"
+      ],
+      "source_sha256": "b380bb4823cf82a9f0d35faad4f2cf9aff9e946cc679b0a64e0dc565e1704118"
+    },
+    {
+      "source": "attention/moa_decode_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "b380bb4823cf82a9f0d35faad4f2cf9aff9e946cc679b0a64e0dc565e1704118"
+    },
+    {
+      "source": "benchmarking/full_block_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "493482eeaea0d4bbce0f3260eed0e7c37ba2b462a5dc9c9b271218d17a568d83"
+    },
+    {
+      "source": "benchmarking/full_block_bench.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "493482eeaea0d4bbce0f3260eed0e7c37ba2b462a5dc9c9b271218d17a568d83"
+    },
+    {
+      "source": "benchmarking/full_block_bench.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "493482eeaea0d4bbce0f3260eed0e7c37ba2b462a5dc9c9b271218d17a568d83"
+    },
+    {
+      "source": "benchmarking/full_block_bench.c",
+      "function": "full_block_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_block_cpu"
+      ],
+      "source_sha256": "493482eeaea0d4bbce0f3260eed0e7c37ba2b462a5dc9c9b271218d17a568d83"
+    },
+    {
+      "source": "benchmarking/full_block_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "493482eeaea0d4bbce0f3260eed0e7c37ba2b462a5dc9c9b271218d17a568d83"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "full_block_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_block_gpu"
+      ],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/full_block_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "a5f7ceeb35e6995b441532179d2a75c67c184f5e0d42ea03a53184c93aec258d"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "fused_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_chain_bench_gpu"
+      ],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/fused_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "eb6d932baf94f007f3329d65f588b4c12e87f45d8beea060fb36ffbe65291a0e"
+    },
+    {
+      "source": "benchmarking/mlp_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "6a4bf60cea53c47ef34975f91f628edbada39f037ad7b9b3082029e48e669ed9"
+    },
+    {
+      "source": "benchmarking/mlp_bench.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "6a4bf60cea53c47ef34975f91f628edbada39f037ad7b9b3082029e48e669ed9"
+    },
+    {
+      "source": "benchmarking/mlp_bench.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "6a4bf60cea53c47ef34975f91f628edbada39f037ad7b9b3082029e48e669ed9"
+    },
+    {
+      "source": "benchmarking/mlp_bench.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_ffn_cpu"
+      ],
+      "source_sha256": "6a4bf60cea53c47ef34975f91f628edbada39f037ad7b9b3082029e48e669ed9"
+    },
+    {
+      "source": "benchmarking/rmsnorm_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "df490e74bc9ce51ba90a8e1195066dbeb817fde47d1e2201617c614009d99478"
+    },
+    {
+      "source": "benchmarking/rmsnorm_bench.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_rmsnorm_cpu"
+      ],
+      "source_sha256": "df490e74bc9ce51ba90a8e1195066dbeb817fde47d1e2201617c614009d99478"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "forward_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_backward_forward"
+      ],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "backward_dnf_omp",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p2_backward_cpu"
+      ],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "backward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_backward_serial"
+      ],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "985ef09e5eb5234235d11e575bb2235c7fd74a58d27bf5e69449657534cbeace"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "forward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_backward_gpu_forward"
+      ],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "backward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_backward_gpu_serial"
+      ],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "backward_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p2_backward_gpu"
+      ],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/backward_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "4bb2918177e1ba6057b040e4bc38b4a3090d291fc134eb355ac20dd886848308"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "decode_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_decode_double"
+      ],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "decode_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p3_decode_gpu"
+      ],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/decode_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "1a10dff3730e0ffdb795c50180f84624560556f00c120a16fd7d39b40988bdae"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "forward_dnf_omp",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p1_forward_cpu"
+      ],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "forward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_forward_cpu"
+      ],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "5e0be059283efcec5cb0f56e597af33034fdc652433f18cf6fa292e130e4f612"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "forward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_forward_gpu"
+      ],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "forward_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p1_forward_gpu"
+      ],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/forward_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "bf72948fbfc0ae77928e1370b30847ddb951ee1a13d7cf1f620390c9feea3d15"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "forward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_gpu_forward"
+      ],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "backward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_gpu_backward"
+      ],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "fused_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p2_fused_gpu"
+      ],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "f6a18d5a4f10b1314a53303a634f8fee66ac5fe03fb1360fbd1cf7413915e99a"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "wall_time",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "forward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_v3_forward"
+      ],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "backward_dnf_serial",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_v3_backward"
+      ],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "fused_once",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p2_fused_atomic_gpu"
+      ],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_attn_gpu_bench_v3atomic.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "394611251db80ba9af8565f3ae7483fd93ac1f3db1a8b0b21f22407e558fa5f2"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "alloc_rand",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "softmax_row",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "forward_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_forward"
+      ],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "backward_dnf",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "ref_fused_backward"
+      ],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "fused_dnf_omp",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p2_fused_cpu"
+      ],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "maxdiff",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "experiments/fused_bench.c",
+      "function": "main",
+      "status": "ORCHESTRATION_AND_VERIFICATION_DRIVER",
+      "profiles": [],
+      "source_sha256": "25859b49170d9494adc8afdcfd8921708d8d92b3600dce0a70c5617ff0a60807"
+    },
+    {
+      "source": "verification/full_block_gpu_kernel.c",
+      "function": "load_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "22a300310abb828644e1824e7c9ccad5abc65fa2d01055d903f02b050edec1ed"
+    },
+    {
+      "source": "verification/full_block_gpu_kernel.c",
+      "function": "save_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "22a300310abb828644e1824e7c9ccad5abc65fa2d01055d903f02b050edec1ed"
+    },
+    {
+      "source": "verification/full_block_gpu_kernel.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "22a300310abb828644e1824e7c9ccad5abc65fa2d01055d903f02b050edec1ed"
+    },
+    {
+      "source": "verification/full_block_gpu_kernel.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "22a300310abb828644e1824e7c9ccad5abc65fa2d01055d903f02b050edec1ed"
+    },
+    {
+      "source": "verification/full_block_gpu_kernel.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_block_verify_gpu"
+      ],
+      "source_sha256": "22a300310abb828644e1824e7c9ccad5abc65fa2d01055d903f02b050edec1ed"
+    },
+    {
+      "source": "verification/full_block_verify.c",
+      "function": "load_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4cd6f887c95411f7299e612deb8cacb919698a02900752476ba47e7ec91b55e0"
+    },
+    {
+      "source": "verification/full_block_verify.c",
+      "function": "save_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4cd6f887c95411f7299e612deb8cacb919698a02900752476ba47e7ec91b55e0"
+    },
+    {
+      "source": "verification/full_block_verify.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4cd6f887c95411f7299e612deb8cacb919698a02900752476ba47e7ec91b55e0"
+    },
+    {
+      "source": "verification/full_block_verify.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "4cd6f887c95411f7299e612deb8cacb919698a02900752476ba47e7ec91b55e0"
+    },
+    {
+      "source": "verification/full_block_verify.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_block_verify_cpu"
+      ],
+      "source_sha256": "4cd6f887c95411f7299e612deb8cacb919698a02900752476ba47e7ec91b55e0"
+    },
+    {
+      "source": "verification/fused_gpu_kernel.c",
+      "function": "load_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "91d1ce606425e46dddb29ce41eb307d5e38674f795c196c41ae09f45066249d8"
+    },
+    {
+      "source": "verification/fused_gpu_kernel.c",
+      "function": "save_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "91d1ce606425e46dddb29ce41eb307d5e38674f795c196c41ae09f45066249d8"
+    },
+    {
+      "source": "verification/fused_gpu_kernel.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "91d1ce606425e46dddb29ce41eb307d5e38674f795c196c41ae09f45066249d8"
+    },
+    {
+      "source": "verification/fused_gpu_kernel.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "91d1ce606425e46dddb29ce41eb307d5e38674f795c196c41ae09f45066249d8"
+    },
+    {
+      "source": "verification/fused_gpu_kernel.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_norm_ffn_gpu"
+      ],
+      "source_sha256": "91d1ce606425e46dddb29ce41eb307d5e38674f795c196c41ae09f45066249d8"
+    },
+    {
+      "source": "verification/mlp_verify.c",
+      "function": "load_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1f20781d42e7966cbeda026c726aa70a6d47a35ba68f6284f7e192a3de3e6b9e"
+    },
+    {
+      "source": "verification/mlp_verify.c",
+      "function": "save_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1f20781d42e7966cbeda026c726aa70a6d47a35ba68f6284f7e192a3de3e6b9e"
+    },
+    {
+      "source": "verification/mlp_verify.c",
+      "function": "silu",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1f20781d42e7966cbeda026c726aa70a6d47a35ba68f6284f7e192a3de3e6b9e"
+    },
+    {
+      "source": "verification/mlp_verify.c",
+      "function": "silu_grad",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "1f20781d42e7966cbeda026c726aa70a6d47a35ba68f6284f7e192a3de3e6b9e"
+    },
+    {
+      "source": "verification/mlp_verify.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_ffn_verify"
+      ],
+      "source_sha256": "1f20781d42e7966cbeda026c726aa70a6d47a35ba68f6284f7e192a3de3e6b9e"
+    },
+    {
+      "source": "verification/rmsnorm_verify.c",
+      "function": "load_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "afcf0f9846052a5293f57620e324a521006d4043123a0789effb30bfad2b5045"
+    },
+    {
+      "source": "verification/rmsnorm_verify.c",
+      "function": "save_bin",
+      "status": "SUPPORT_OR_MATCHED_MATH_HELPER",
+      "profiles": [],
+      "source_sha256": "afcf0f9846052a5293f57620e324a521006d4043123a0789effb30bfad2b5045"
+    },
+    {
+      "source": "verification/rmsnorm_verify.c",
+      "function": "main",
+      "status": "CERTIFIED_NUMERICAL_REGION",
+      "profiles": [
+        "p4_rmsnorm_verify"
+      ],
+      "source_sha256": "afcf0f9846052a5293f57620e324a521006d4043123a0789effb30bfad2b5045"
+    }
+  ],
+  "paper3_listing_and_derived_references": [
+    {
+      "profile": "paper3_listing3",
+      "reference_file": "moa_decode_acc_listing3.c",
+      "function": "moa_decode_acc",
+      "source_kind": "manual transcription of published C Listing 3",
+      "archived_C_file": false
+    },
+    {
+      "profile": "paper3_grouped_openmp",
+      "reference_file": "grouped_reference.c",
+      "function": "hand_grouped_openmp",
+      "source_kind": "new hand C ONF of published Python Listing 7",
+      "archived_C_file": false
+    },
+    {
+      "profile": "paper3_grouped_openacc",
+      "reference_file": "grouped_reference.c",
+      "function": "hand_grouped_openacc",
+      "source_kind": "new hand C ONF of published Python Listing 7",
+      "archived_C_file": false
+    },
+    {
+      "profile": "paper3_append_openmp",
+      "reference_file": "cache_reference.c",
+      "function": "hand_append_openmp",
+      "source_kind": "new hand C ONF of published Python Listing 5 lifted over cache groups",
+      "archived_C_file": false
+    },
+    {
+      "profile": "paper3_append_openacc",
+      "reference_file": "cache_reference.c",
+      "function": "hand_append_openacc",
+      "source_kind": "new hand C ONF of published Python Listing 5 lifted over cache groups",
+      "archived_C_file": false
+    }
+  ],
+  "language_boundary": "Fortran comparison programs and PyTorch autograd oracles remain historical/reference material; this is a C-emission correspondence study, not a verified Fortran frontend or PyTorch implementation proof."
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "closed attention proof and generation dependencies",
+  "sha256": {
+    "research/companion_attention/evidence/final_correspondence/FINAL_CORRESPONDENCE_CERTIFICATE.json": "db05caff17dcf5f90713f7269fca237455d4b84d35d8bcd01a2ae2ccb6753a8c",
+    "research/companion_attention/evidence/final_correspondence/all_recipe_dnfs.json": "249d58958b526377bb9e1799829d054d94e9318c8de1bba74d970d5f7c7802cb",
+    "research/companion_attention/evidence/final_correspondence/all_lift_certificates.json": "01ba55d3331346eccd614711b937f44ab17a14f653bbdbe161c4ece7c1c684e8",
+    "research/companion_attention/reference_onf/emit.py": "22324ba0344eb742a9c79d5b3131a874461e68d3a261e1675c70837cd4beb471",
+    "research/companion_attention/reference_onf/attention.py": "700f98c534534db7c7531a67bf2b088de41dc9d89abd37da48d0d957a73726f0",
+    "research/companion_attention/reference_onf/block_parts.py": "3581ae336a7e8db31fb2271b7816e123127bf04d197cbfc242e02de1940f2f26",
+    "research/companion_attention/reference_onf/full_block.py": "6361b98339d32fe5b78cbb1a2978567c7e215a75e76c832f3425d7ca8bcbf049",
+    "research/companion_attention/reference_onf/variants.py": "c3769c2de610b7ae1b10d5239b6247dfb0ea9e5db2ec2dffd40efcc424e4a896",
+    "research/companion_attention/reference_onf/legacy.py": "fa06c9929d15a0904d6081f9df9728ea26affd0beb8c8ddabe2fbcad07f0a109",
+    "research/companion_attention/reference_onf/serial_refs.py": "e829acc65dcdb665693fc8af3d8b922efb73eb9b5cf060007e4bc2e177e4fb2f",
+    "research/companion_attention/reference_onf/paper3.py": "4d087825b11161670e42e9a82a89e8be7e28577e6ffb3e4b0ddeec480d5165e3",
+    "research/companion_attention/reference_onf/data.py": "41ee49f7d5d773d32f682947c3bf810f3c76adec5cecb2c701aa23c64e419f29",
+    "research/companion_attention/reference_onf/validate.py": "ac1c3bb783ddbd64e6914efa5cd9199da3d9f9d9eafad3d2270bf5207199ce12",
+    "research/companion_attention/reference_onf/validate_all.py": "ec99d0acdf184908d7d3e575c7f5c7319b45edddd9297a314c975fedd42ff7a7"
+  }
+}

@@ -1,0 +1,10 @@
+*.pdf binary
+*.png binary
+*.tar.gz binary
+# Preserve scientific run output and exact source snapshots byte-for-byte.
+*.log -whitespace
+/evidence/attention_hand/** -whitespace
+# Bundled upstream TeX support files retain their original bytes.
+*.cls -whitespace
+*.bst -whitespace
+/manuscripts/**/binhex.tex -whitespace

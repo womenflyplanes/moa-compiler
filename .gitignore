@@ -9,3 +9,5 @@ __pycache__/
 /validation_results/
 /audit_results/
 /build/
+
+/release_work/

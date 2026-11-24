@@ -1,0 +1,365 @@
+\input{preamble.tex}
+\title{Hand-to-Compiler Correspondence for Papers I--IV\\Final DNFs, ONFs, Lifted ONFs and C}
+\author{Lenore M. Mullin\\College of Nanotechnology, Science and Engineering\\University at Albany\\\texttt{lmullin@albany.edu}}
+\date{Completed correspondence study; consolidated release, 24 November 2026}
+\begin{document}\maketitle
+\textbf{Conclusion.} The recovered hand C implementation inventory is closed.
+Every numerical routine/region in the 20 pinned hand C files has a compiler
+counterpart. All 39 archived regions pass, including the original untiled/tiled
+routines, every numerical serial reference, and all fixed and benchmark variants.
+Paper III adds its printed OpenACC kernel and four explicitly derived C ONFs of
+its grouped-head/cache Python algorithms, giving 44 paired cases.
+
+All 246 independently recovered end-DNF component comparisons pass. All 44 pairs
+have matching addressed operational C ASTs and loop/directive structures. Their
+lifted ONFs are equal for a common admissible machine shape and mapping. All
+138 untimed finite comparisons give zero hand/compiler difference. There are no
+remaining equivalence rows in this declared C-emission study.
+
+\begin{center}\begin{tabular}{lr}\toprule
+Check & Result\\\midrule
+Archived numerical C regions / source files & 39 / 20, all covered\\
+Total paired cases & 44 / 44 pass\\
+Recovered DNF components & 246 / 246 equal\\
+Matched operational and lifted structures & 44 / 44 equal\\
+Untimed finite comparisons & 138 / 138 pass\\
+Matched mathematical helper comparisons & 27 / 27 pass\\
+Deliberately corrupted C ASTs rejected & 109 / 109\\
+Additional mathematical defects rejected & 15 / 15\\
+Owner / tile / grouped-head regressions & 259 / 280 / 119 pass\\
+Corrected paired fresh-device entry contracts & 5 / 5 pass\\\bottomrule
+\end{tabular}\end{center}
+
+The equality is \emph{within each hand/compiler pair}. Different algorithms and
+different hand schedules need not share one DNF or one ONF. Derivation steps may
+differ; the final checked forms agree. This is a restricted, trusted executable
+translation-validation result, with the premises stated below. It does not
+claim a proof-assistant-verified universal compiler or new hardware timing.
+
+\textbf{Documents.} This report states the result and its proof boundary. The
+complete code volume prints all 20 original hand source files, all 88 paired
+kernel translation units, and ten corrected entry-contract units. The AST atlas
+shows all 44 control/ownership summaries. Full expression trees, all 246 formula
+pairs, code, figures and replay tools are in the accompanying package.
+
+\newpage\section{Scope and provenance: nothing left unpaired}
+The numerical inventory is derived from function definitions in every archived
+C file. Each function is classified as a certified numerical region, a matched
+mathematical helper, or input/output, timing and verification support. The tool
+fails on an unclassified numerical function. All 20 files and all 39 numerical
+regions are covered; the seven previously unpaired source files are resolved.
+
+The archived C files are byte-identical to published repository commit
+\texttt{0cf1d1f} (full identity in the evidence). Original files are preserved
+unchanged. Common test adapters expose the numerical region as a kernel API;
+I/O and timing drivers are not asserted byte-identical to those adapters.
+
+Paper III requires an explicit source distinction. Its C/OpenACC Listing 3,
+printed page 8, was manually transcribed and checked against the supplied PDF.
+The grouped GQA/MQA algorithm is published as Python Listing 7, and the
+preallocated cache as Python Listing 5. Their C reference ONFs were independently
+written from those equations/listings and compared with compiler emission.
+They are \emph{new hand C reference derivations}, not fabricated archived C files.
+The source-PDF digest and transcription provenance are supplied. Grouped and
+cache references retain the published default FP32 contract; historical decode
+FP32 and FP64 interfaces remain distinct.
+
+The recovered Fortran comparison programs and PyTorch autograd scripts provide
+historical/oracle context. The closed claim here is C emission for the hand
+algorithm families and contracts; it is not a verified Fortran or PyTorch frontend.
+
+\subsection{Contracts}
+The contracts require legal shapes, contiguous stated layouts, successful
+allocations, valid nonaliasing where required, representable integer address
+intermediates, standard attention scale $1/\sqrt D$, and RMSNorm
+$\epsilon=10^{-6}$. Training C interfaces use the common feature extent $D$.
+Grouped attention requires $G\mid H$. Cache length satisfies $0\le N<C$,
+including the initial empty cache. Tiling requires $T>0$ and $T\mid N$.
+Fixed scratch bounds are enforced as premises: $N\le8192$ where \texttt{MAX\_N}
+is used, and the relevant $D,D_{\rm FF}\le512$ where 512-element arrays are indexed.
+Additive targets require zero entry states where the routine does not assign
+those identities. Five separate-device profiles have matched corrected data
+contracts that supply those identities.
+
+DNF equality is in the exact-real abstraction of the typed operations. The C
+comparison retains floating types and scalar operation order. It establishes
+the same admissible floating-point behavior under common runtime choices, not
+uniform error bounds against real arithmetic. Numerical checks are finite:
+paired error is zero; the largest independent NumPy-oracle difference is about
+$1.40\times10^{-8}$ in the FP32 cases.
+
+\newpage\section{The independently checked denotations}
+The following equalities summarize the final hand and compiler DNFs. Scalar
+abbreviations below stand for substituted expressions, not allocated intermediate
+arrays. All fully expanded/canonical component pairs and digests are supplied.
+For attention, define
+\[
+ s_{bik}=D^{-1/2}\sum_{j=0}^{D-1}(\ps{b,i,j}{Q})(\ps{b,k,j}{K}),
+ \qquad a_{bik}=\frac{e^{s_{bik}}}{\sum_{r=0}^{N-1}e^{s_{bir}}}.
+\]
+The forward output is the same final expression on both paths:
+\[
+ \ps{b,i,d}{Out_{\rm hand}}=\ps{b,i,d}{Out_{\rm compiler}}
+ =\sum_{k=0}^{N-1}a_{bik}(\ps{b,k,d}{V}).
+\]
+For stored-$A$ backward set $w_{bik}=\ps{b,i,k}{A}$; for fused
+forward/backward set $w_{bik}=a_{bik}$. Define
+\[
+ g_{bik}=\sum_{d=0}^{D-1}(\ps{b,i,d}{dO})(\ps{b,k,d}{V}),\quad
+ c_{bi}=\sum_{r=0}^{N-1}w_{bir}g_{bir},\quad
+ z_{bik}=D^{-1/2}w_{bik}(g_{bik}-c_{bi}).
+\]
+Both paths recover
+\begin{align*}
+\ps{b,k,d}{GV}&=\sum_i w_{bik}(\ps{b,i,d}{dO}),\\
+\ps{b,i,j}{GQ}&=\sum_k z_{bik}(\ps{b,k,j}{K}),\\
+\ps{b,k,j}{GK}&=\sum_i z_{bik}(\ps{b,i,j}{Q}).
+\end{align*}
+Every sum has the legal zero-based bound shown in its component record. The
+untiled originals, tiled originals, atomic and atomic-free variants recover
+these same algorithm-specific denotations, while preserving their distinct ONFs.
+
+For grouped decode, $g(h)=\lfloor h/(H/G)\rfloor$, and
+\[
+ u_{hk}=D^{-1/2}\sum_j(\ps{h,j}{Q})(\ps{g(h),k,j}{K}),\qquad
+ \ps{h,d}{Out}=\sum_k\frac{e^{u_{hk}}}{\sum_r e^{u_{hr}}}(\ps{g(h),k,d}{V}).
+\]
+The same expression covers GQA, MQA ($G=1$), MHA ($G=H$), and the singleton
+query-head specialization. The separate rank-one interface keeps $\rho q=\langle D\rangle$;
+it introduces no artificial matrix category for a vector.
+
+Cache append writes only
+\[
+\ps{g,N,j}{K'}=\ps{g,j}{key},\quad
+\ps{g,N,d}{V'}=\ps{g,d}{value},\qquad N'=N+1.
+\]
+All other cache components are unchanged. The proof checks every store, not just
+the final stored rule, so a hidden prefix write is rejected. The empty-cache case
+is included. Capacity remains preallocated; no existing prefix is copied.
+
+\newpage\section{Normalization, FFN and complete-block closure}
+Use token extent $L=BN$ and $\rho X=\langle L,D\rangle$. Define
+\[
+ r_t=\sqrt{D^{-1}\sum_j(\ps{t,j}{X})^2+\epsilon},\quad
+ \widehat x_{td}=(\ps{t,d}{X})/r_t,\quad
+ c_t=\sum_j(\ps{t,j}{GZ})(\ps{j}{\Gamma})\widehat x_{tj}.
+\]
+The hand and compiler normalization components agree:
+\begin{align*}
+\ps{t,d}{Z}&=(\ps{d}{\Gamma})\widehat x_{td},\\
+\ps{t,d}{GX}&=\bigl[(\ps{t,d}{GZ})(\ps{d}{\Gamma})-\widehat x_{td}c_t/D\bigr]/r_t,\\
+\ps{d}{G\Gamma}&=\sum_t(\ps{t,d}{GZ})\widehat x_{td}.
+\end{align*}
+For gated FFN, with hidden extent $F$, let
+\[
+ u_{tf}=\sum_j(\ps{t,j}{X})(\ps{j,f}{Wg}),\quad
+ v_{tf}=\sum_j(\ps{t,j}{X})(\ps{j,f}{Wu}),\quad h_{tf}=\operatorname{silu}(u_{tf})v_{tf}.
+\]
+Then $\ps{t,d}{F_{\rm out}}=\sum_f h_{tf}(\ps{f,d}{Wd})$ on both paths.
+Writing $\eta_{tf}=\sum_d(\ps{t,d}{GF})(\ps{f,d}{Wd})$, the recovered
+local derivatives are $g^v_{tf}=\eta_{tf}\operatorname{silu}(u_{tf})$ and
+$g^u_{tf}=\eta_{tf}v_{tf}\operatorname{silu}'(u_{tf})$. Thus both paths give
+\begin{align*}
+\ps{t,d}{GX}&=\sum_f\bigl[g^u_{tf}(\ps{d,f}{Wg})+g^v_{tf}(\ps{d,f}{Wu})\bigr],\\
+\ps{d,f}{GWg}&=\sum_t(\ps{t,d}{X})g^u_{tf},\qquad
+\ps{d,f}{GWu}=\sum_t(\ps{t,d}{X})g^v_{tf},\\
+\ps{f,d}{GWd}&=\sum_t h_{tf}(\ps{t,d}{GF}).
+\end{align*}
+SiLU and its derivative are expanded algebraically in the component evidence;
+the matched C helper bodies are checked separately.
+
+The complete-block proof is compositional through named producer/consumer cuts.
+Each component is checked before substitution into its consumers. There are
+three 30-node complete-block graphs and a 31-node fixed serial graph; each closes
+all ten roots: $Y$, $GX$, two scale gradients and six weight gradients. Two
+10-node norm--FFN-chain graphs close eight roots each. Extra serial stages and
+retained intermediates are preserved rather than silently fused away.
+
+The original fixed serial complete block has a separate attention output and
+residual, separate FFN projection/output stages, and separate residual-gradient
+seeds. The compiler now reproduces those choices too. Matching the final DNF
+never required those derivation steps to coincide with another implementation's.
+
+\newpage\section{ONFs, gamma addresses and dimension lifting}
+For each pair the comparison retains typed declarations, scalar arithmetic order,
+loops and bounds, local allocation/free positions, data clauses, helpers,
+reductions, atomics and parallel directives. Normalization removes formatting and
+single-statement loop braces, canonicalizes exact decimal spelling, and compares
+integer address polynomials under the no-overflow premise. It does not
+reassociate floating-point sums/products. This proves equality of computational
+C ASTs; entire I/O/timing drivers need not be byte-identical.
+
+For the original tile lift $N=N_TT$,
+\[
+ i=it\,T+tt,\quad 0\le it<N_T,\quad0\le tt<T,
+ \qquad (it,tt)=(\lfloor i/T\rfloor,i\bmod T).
+\]
+Consequently $\rho K_{\rm lifted}=\langle B,N_T,T,D\rangle$ and
+$\tau(K_{\rm lifted})=BN_TTD=BND=\tau(K)$. The addresses agree:
+\[
+\gamma(\langle b,it,tt,d\rangle,\langle B,N_T,T,D\rangle)
+ =(bN+itT+tt)D+d.
+\]
+The interpreter recovers affine tile writes through this inverse and collapses
+the resulting nested finite reductions through the bijection. Tile-stride,
+tile-extent and accumulation defects are rejected. This is a symbolic
+reindexing argument supported by 280 finite tile checks.
+
+For machine owner count $P=\tau(M)$ and phase work cardinality $\ell>0$,
+let $a_r=\lfloor\ell r/P\rfloor$, $b_r=\lfloor\ell(r+1)/P\rfloor$.
+The owner/local-index relation $i=a_r+j$, $0\le j<b_r-a_r$, has inverse
+$r=\lceil P(i+1)/\ell\rceil-1$, $j=i-a_r$. Its count telescopes to $\ell$.
+If $P\mid\ell$, the rectangular lift has shape
+$\rho M\mathbin{+\!+}\langle\ell/P\rangle$ and the same component count.
+Otherwise the certificate uses a segmented legal-index relation; padded storage
+capacity is not incorrectly equated to the original logical $\tau$.
+
+Every loop and directive is independently extracted from both C regions,
+including Listing 3's nested data/vector constructs. The ordered structures
+agree in all 44 cases. Hence, for the same admissible machine shape, binding
+$\mathcal B$, workspace assignment and runtime choices,
+\[
+\Omega_{M,\mathcal B}(ONF_{\rm hand})=
+\Omega_{M,\mathcal B}(ONF_{\rm compiler}).
+\]
+This is equality of a parameterized family. Serial references retain their serial
+binding; a parallel extension requires an admissible private-workspace/reduction
+mapping. No claim of identical independently chosen runtime placements follows.
+The ten-field machine-property order remains
+$\langle U_d,W_d,M_d,t_d,nmax_d,Mcap_d,P_d,X_d,C_d,R_d\rangle$.
+Physical values remain parameters rather than invented measurements.
+
+\newpage\section{Entry repairs and what can be concluded without experiments}
+Five archival GPU profiles need a corrected fresh-device initialization contract:
+the benchmark and fixed complete block, both norm--FFN chain variants, and the
+historical fused-attention atomic variant. Host-zeroed additive targets were
+listed under ordinary \texttt{create}/\texttt{copyout}; those clauses do not
+initialize fresh separate device storage from host zeros. A focused static audit
+identifies the first additive writes and confirms the affected targets.
+
+Both hand and compiler paths now have separately saved corrected variants using
+\texttt{copy} for those host-zeroed accumulators. The arithmetic bodies are
+unchanged. All five corrected pairs have equal operational kernel ASTs and pass
+syntax checks. Original archival source/data contracts remain untouched. The
+DNF proof's zero-entry premise is therefore explicit and realizable under the
+corrected fresh-allocation contract.
+
+The corrections change transfer accounting. For a full block with $L=BN$, FP64
+initial copies add $8(2LD+2D+3D^2+3DF)$ bytes; moving $GQ,GK$ from
+\texttt{create} to \texttt{copy} additionally adds their final $16LD$-byte copy.
+For a norm--FFN chain the added initial payload is $8(D+3DF)$ bytes. The atomic
+fused-attention variant adds the initial $8BND$ bytes for $GK$. These are logical
+data-clause payloads under fresh separate allocations, not measured DRAM traffic.
+No new device execution is claimed.
+
+\subsection{Connection to Paper V and Paper I}
+Paper V's hand-realization measurements and diagnostics remain the empirical
+foundation. The present result establishes compiler correspondence to the pinned
+hand implementations and documented contracts. Its published source snapshot
+matches all 20 recovered C files. The Paper I A100 job 137615 archive also passes
+all 403 frozen-file/runner/compiler binding checks. Those observations keep their
+original implementation and machine identities.
+
+Some older Paper V jobs lack an immutable executed-source digest and build
+identity in the recovered records. Atomic and atomic-free revisions differ. Those historical
+measurements are not relabeled as executions of the current reference compiler
+or the corrected entry profiles. Quantitative transfer requires the measured
+source, precision, outputs, machine, mapping and measurement boundary to match.
+The source correspondence supports carrying the mathematical operation and
+logical-access analysis across a matched realization. The cost analysis must
+retain each version's actual AROW/GS storage and atomic updates. A DNF alone does not
+supply an absolute runtime, energy, bandwidth or occupancy prediction.
+
+\textbf{Study conclusion.} The hand-to-compiler normal-form/code correspondence
+study is complete for the recovered C implementation inventory and the stated
+Paper III source contracts. New timing experiments are unnecessary to establish
+these equalities. Any later device/performance experiments test machine/runtime
+assumptions or new empirical claims; they are not an outstanding equivalence gate.
+This result closes the reproduction study while leaving the broader predictive
+performance research program free to proceed on its own evidence.
+
+\newpage\section{Final coverage ledger}
+Every row below has matching DNF components, addressed ONF/C structure and
+common-machine lifted structure. ``Arch.'' denotes a pinned archived C region,
+``Print'' the transcribed printed C listing, and ``Deriv.'' an explicitly derived
+C ONF of a published Python algorithm. ``Repair'' means that a matched corrected
+fresh-device entry pair is included alongside the archival pair.
+\small\begin{longtable}{p{2.9in}lrlp{.65in}}\toprule
+Case & Origin & DNFs & Entry & Status\\\midrule\endhead
+\texttt{p4\_\allowbreak norm\_\allowbreak ffn\_\allowbreak gpu} & Arch. & 10 & Repair & Pass\\
+\texttt{p3\_\allowbreak decode\_\allowbreak cpu} & Arch. & 1 & Std. & Pass\\
+\texttt{p4\_\allowbreak block\_\allowbreak cpu} & Arch. & 30 & Std. & Pass\\
+\texttt{p4\_\allowbreak block\_\allowbreak gpu} & Arch. & 30 & Repair & Pass\\
+\texttt{p4\_\allowbreak rmsnorm\_\allowbreak cpu} & Arch. & 3 & Std. & Pass\\
+\texttt{p4\_\allowbreak ffn\_\allowbreak cpu} & Arch. & 5 & Std. & Pass\\
+\texttt{p1\_\allowbreak forward\_\allowbreak cpu} & Arch. & 2 & Std. & Pass\\
+\texttt{p1\_\allowbreak forward\_\allowbreak gpu} & Arch. & 2 & Std. & Pass\\
+\texttt{p2\_\allowbreak backward\_\allowbreak cpu} & Arch. & 3 & Std. & Pass\\
+\texttt{p2\_\allowbreak backward\_\allowbreak gpu} & Arch. & 3 & Std. & Pass\\
+\texttt{p2\_\allowbreak fused\_\allowbreak cpu} & Arch. & 4 & Std. & Pass\\
+\texttt{p2\_\allowbreak fused\_\allowbreak gpu} & Arch. & 4 & Std. & Pass\\
+\texttt{p3\_\allowbreak decode\_\allowbreak gpu} & Arch. & 1 & Std. & Pass\\
+\texttt{p4\_\allowbreak rmsnorm\_\allowbreak verify} & Arch. & 3 & Std. & Pass\\
+\texttt{p4\_\allowbreak ffn\_\allowbreak verify} & Arch. & 5 & Std. & Pass\\
+\texttt{p4\_\allowbreak block\_\allowbreak verify\_\allowbreak cpu} & Arch. & 31 & Std. & Pass\\
+\texttt{p4\_\allowbreak block\_\allowbreak verify\_\allowbreak gpu} & Arch. & 30 & Repair & Pass\\
+\texttt{p4\_\allowbreak chain\_\allowbreak bench\_\allowbreak gpu} & Arch. & 10 & Repair & Pass\\
+\texttt{p2\_\allowbreak fused\_\allowbreak atomic\_\allowbreak gpu} & Arch. & 4 & Repair & Pass\\
+\texttt{original\_\allowbreak forward\_\allowbreak dnf} & Arch. & 2 & Std. & Pass\\
+\texttt{original\_\allowbreak forward\_\allowbreak onf} & Arch. & 2 & Std. & Pass\\
+\texttt{original\_\allowbreak backward\_\allowbreak dnf} & Arch. & 3 & Std. & Pass\\
+\texttt{original\_\allowbreak backward\_\allowbreak onf} & Arch. & 3 & Std. & Pass\\
+\texttt{original\_\allowbreak fused\_\allowbreak dnf} & Arch. & 4 & Std. & Pass\\
+\texttt{original\_\allowbreak fused\_\allowbreak onf} & Arch. & 4 & Std. & Pass\\
+\texttt{ref\_\allowbreak forward\_\allowbreak cpu} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak forward\_\allowbreak gpu} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak backward\_\allowbreak forward} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak backward\_\allowbreak serial} & Arch. & 3 & Std. & Pass\\
+\texttt{ref\_\allowbreak backward\_\allowbreak gpu\_\allowbreak forward} & Arch. & 1 & Std. & Pass\\
+\texttt{ref\_\allowbreak backward\_\allowbreak gpu\_\allowbreak serial} & Arch. & 3 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak forward} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak backward} & Arch. & 3 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak gpu\_\allowbreak forward} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak gpu\_\allowbreak backward} & Arch. & 3 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak v3\_\allowbreak forward} & Arch. & 2 & Std. & Pass\\
+\texttt{ref\_\allowbreak fused\_\allowbreak v3\_\allowbreak backward} & Arch. & 3 & Std. & Pass\\
+\texttt{ref\_\allowbreak decode\_\allowbreak double} & Arch. & 1 & Std. & Pass\\
+\texttt{ref\_\allowbreak decode\_\allowbreak float} & Arch. & 1 & Std. & Pass\\
+\texttt{paper3\_\allowbreak listing3} & Print & 1 & Std. & Pass\\
+\texttt{paper3\_\allowbreak grouped\_\allowbreak openmp} & Deriv. & 3 & Std. & Pass\\
+\texttt{paper3\_\allowbreak grouped\_\allowbreak openacc} & Deriv. & 3 & Std. & Pass\\
+\texttt{paper3\_\allowbreak append\_\allowbreak openmp} & Deriv. & 5 & Std. & Pass\\
+\texttt{paper3\_\allowbreak append\_\allowbreak openacc} & Deriv. & 5 & Std. & Pass\\
+\bottomrule\end{longtable}\normalsize
+\section{Reproducibility and final files}
+Run \texttt{replay\_all.sh} to regenerate and check all pairs, formula/graph
+records, helper matches, deliberate defects, lifting certificates, coverage
+classification and the final seal. It builds untimed local kernels, explicitly
+using OpenACC host fallback. It submits no job and records no performance.
+Run \texttt{build.sh} to compile this report, the complete code volume and AST
+atlas. The latter's diagrams summarize control and ownership; full arithmetic
+and expression ASTs are supplied as text/JSON for every case.
+
+The trusted basis is visible: independently entered hand equations and source
+transcriptions, the restricted recipe interpreter and reindexing rules, SymPy
+exact algebra, helper matching, C parsing and the stated execution contracts.
+The result is an executable, fail-closed correspondence certificate for this
+implementation family, not a universal proof about all future compiler inputs.
+
+\nocite{paper1,paper2,paper3,paper4,paper5,openacc}
+
+\section{Consolidation: preserve the completed result}
+The 44-pair study above is already complete. The November 24 release brings its existing emitter, independent checkers, pinned hand sources and certificates together with the separate compiler-audit branch. A shared command exports each attention case's existing DNF, addressed ONF, common-machine lifted record and generated C after checking recipe and operational-AST identity. These are integration checks, not a new derivation study. Corrected entry profiles are the default where fresh device storage needs explicit zero-state transfer.
+
+The newer bounded Fortran extension has its own structured arithmetic and versioned-state schema. Its serial, OpenMP, OpenACC host and MPI numerical checks do not replace the attention evidence. In particular, lexicographic and snapshot-island sweeps have different finite-sweep state semantics. A common command interface is not yet a universal parser or a fully shared cross-family AST.
+
+The persistent release ledger marks completed work separately from remaining language, target and predictive-model extensions. Paper I's historical physical-device evidence and Paper V's original measurements retain their own implementation/build/machine identities. No new GPU timing is added by consolidating these sources.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\par Published hand source: \href{https://github.com/womenflyplanes/moa-attention-verified-mullin}{pinned implementation repository}.
+Compiler and replay checks: \href{https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence}{completed correspondence branch}.
+
+\textbf{Acknowledgment.} University at Albany computational resources and support
+are acknowledged. This correspondence replay ran no new work on UA or ACCESS.
+\end{document}

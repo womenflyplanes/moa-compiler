@@ -1,3 +1,5 @@
+> This dated audit is integrated into the current `main` release. Historical archive paths described below can be recovered using `archive/README.md`; current locations are listed in `docs/REPOSITORY_GUIDE.md`.
+
 # Compiler correctness audit and bounded semantic lowering
 
 Reviewed source: `develop/mac-compiler-integration` at

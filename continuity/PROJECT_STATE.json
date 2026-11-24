@@ -2,7 +2,7 @@
   "schema": "moa.project_state.v1",
   "updated": "2026-11-24",
   "purpose": "Preserve completed work and distinguish release consolidation from new derivations",
-  "canonical_branch": "codex/unified-moa-release-20261124",
+  "canonical_branch": "main",
   "sources": {
     "attention_correspondence_commit": "3f0741d31a8cda70a75f36698c713a54445828cf",
     "compiler_audit_commit": "6c87e9707650ae002b5d533638547ac8fbee6b1f",
@@ -77,5 +77,12 @@
     "attention_finite_checks": 138,
     "fortran_full_fields": 48,
     "historical_bindings": 403
+  },
+  "repository_cleanup": {
+    "status": "ESSENTIAL_CHECKOUT",
+    "recovery_commit": "484a5ac37ac6d8e63006a268d6c53dfcf8e69de6",
+    "removed_files": 206,
+    "removed_bytes": 60648525,
+    "raw_sources_and_proof_dependencies_preserved": true
   }
 }

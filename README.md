@@ -3,7 +3,7 @@
 MoA is being developed as a universal intermediate representation for array
 languages, with portable, scalable, predictable and validated designs.
 
-**[Start/resume here](RESUME_HERE.md)** · **[Completed results](docs/HAND_COMPILER_RESULTS.md)** · **[Compiler audit](docs/COMPILER_AUDIT_20261124.md)** · **[Architecture](docs/MOA-UNIVERSAL-IR.md)**
+**[Start/resume here](RESUME_HERE.md)** · **[Completed results](docs/HAND_COMPILER_RESULTS.md)** · **[Compiler audit](docs/COMPILER_AUDIT_20261124.md)** · **[Architecture](docs/MOA-UNIVERSAL-IR.md)** · **[Repository guide](docs/REPOSITORY_GUIDE.md)**
 
 ## Completed attention correspondence
 
@@ -46,3 +46,11 @@ compiler hardware results and Paper V hand-realization measurements are retained
 with their original identities. Missing build/source bindings limit quantitative
 timing transfer; mathematical correspondence itself is completed in the stated
 scope. The ten-field machine property record remains append-only extensible.
+
+## Repository hygiene
+
+`main` is the canonical current compiler and manuscript tree. Superseded drafts,
+unused screenshots, bundled ZIPs, duplicate evidence trees and obsolete launchers
+are removed from the current checkout; exact recovery hashes remain in
+`continuity/ESSENTIAL_CLEANUP.json`. Required source and validation records are
+preserved. See the repository guide for the essential directory layout.

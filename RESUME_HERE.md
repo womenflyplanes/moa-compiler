@@ -57,3 +57,9 @@ vectors, τ invariants, machine-shape-dependent Ω, and the ten-field record ord
 
 This release consolidates earlier branch checkpoints without erasing their
 history. The source commits and artifact hashes are in the continuity records.
+
+## Canonical repository
+
+Use `main` for the current compiler, papers and evidence. The essential checkout
+cleanup is recorded in `continuity/ESSENTIAL_CLEANUP.json`; removed historical
+files remain recoverable from its immutable pre-cleanup commit.

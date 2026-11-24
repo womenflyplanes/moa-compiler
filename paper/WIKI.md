@@ -5,7 +5,7 @@ portable, scalable, predictable and validated designs grounded in MoA.
 
 - [Current architecture and compiler commands](../docs/MOA-UNIVERSAL-IR.md)
 - [Correctness audit, repairs and validation status](../docs/COMPILER_AUDIT_20261124.md)
-- [Attention Papers I–IV correspondence evidence](https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence)
+- [Attention Papers I–IV correspondence evidence](https://github.com/womenflyplanes/moa-compiler/tree/main/research/companion_attention)
 
 The current source adapter is a bounded Fortran subset, not a general frontend.
 DNF, ONF and lifted ONF records are explicit. Parallel island variants have an

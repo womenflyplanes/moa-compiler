@@ -56,28 +56,3 @@ not alone establish identical binaries, runtime schedules or measured timing.
 Some historical Paper V executed-source hashes remain unavailable, limiting
 unconditional quantitative timing transfer. No Fortran/PyTorch frontend
 certification is claimed.
-
-## LinkedIn announcement draft
-
-From hand-derived mathematics to compiler-generated AI kernels: a completed MoA correspondence milestone.
-
-Across our four attention and Transformer studies, we have now checked that the compiler reproduces the recovered hand-derived C implementations.
-
-• 39 numerical routines/regions across 20 archived C files: all covered.
-• 44 paired implementation cases, including explicitly identified Paper III references.
-• 246 end-DNF component comparisons: all match.
-• Matching operational normal forms, addressed C computation trees, and lifted ONFs under the same admissible machine mapping.
-• 138 untimed numerical comparisons: zero hand/compiler difference.
-
-The coverage includes forward and backward attention, fused variants, decode and grouped-query attention, KV-cache append, RMSNorm, feed-forward networks, and Transformer-block variants, with OpenMP and OpenACC implementations.
-
-Why does this matter? Expert hand derivations can become reproducible compiler outputs while preserving the checked mathematics and operational structure. The derivation steps may differ; the final normal forms must agree.
-
-This establishes implementation correspondence and connects the compiler to our earlier hand-derived hardware studies. It does not claim new GPU measurements or automatic transfer of historical timings.
-
-Code, certificates, provenance, and reproduction instructions:
-https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence
-
-AI is our first application domain. The longer-term goal is mathematically grounded, verifiable, portable, scalable, and predictable compilation of array algorithms.
-
-#CompilerConstruction #MathematicsOfArrays #AI #HPC #OpenMP #OpenACC

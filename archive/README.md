@@ -1,12 +1,16 @@
-# Historical material, excluded from current validation claims
+# Historical records and recovery
 
-- `illustrative_cost_demos/`: printed cost-model/empty-loop examples, not attention implementation or hardware evidence.
-- `historical_prototypes/`: legacy demonstration compiler snippets and illustrative GUI. Their original claims are not re-certified.
-- `reported_poisson_runs/`: aggregate CSV, plots, manuscript drafts and incomplete external-cluster script. Exact executed source pairs, checker and raw repeated logs are absent, so these reported speedups cannot yet be reproduced from this checkout.
-- `manuscript_drafts/`: earlier architecture drafts, retained for provenance.
+Superseded manuscripts, screenshots, cost-only demonstrations and legacy launchers
+have been removed from the current checkout. They remain available, byte-for-byte,
+in the immutable pre-cleanup commit:
 
-Paths inside archived documents may describe their original checkout. Current
-entry points and results are in `README.md`, `docs/MOA-UNIVERSAL-IR.md`, and
-`docs/COMPILER_AUDIT_20261124.md`. Original source bytes for archived files remain
-unchanged; `docs/compiler_audit_20261124/cleanup.json` records all moves/removals.
-Actual raw experiment logs elsewhere remain preserved as historical records.
+[484a5ac37ac6d8e63006a268d6c53dfcf8e69de6](https://github.com/womenflyplanes/moa-compiler/tree/484a5ac37ac6d8e63006a268d6c53dfcf8e69de6).
+
+`continuity/ESSENTIAL_CLEANUP.json` lists every removed path, size, hash, Git blob
+and reason, plus the canonical location of retained historical logs. No Git
+history was rewritten. For local recovery, use `git show COMMIT:PATH` with the
+commit above and a path from the manifest.
+
+Current manuscripts are in `manuscripts/`; current sources, certificates, run logs
+and required historical archive bindings remain in the research/evidence trees.
+Old model-output demonstrations are not current compiler or hardware evidence.

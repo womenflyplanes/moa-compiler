@@ -1,15 +1,19 @@
 {
   "cc27/author": {
-    "pages": 10,
+    "pages": 11,
     "references_start_page": 10,
     "overfull": [],
-    "anonymous_author_metadata": null
+    "anonymous_author_metadata": null,
+    "AI_disclosure_page": 10,
+    "main_text_and_figures_within_ten_pages": true
   },
   "cc27/anonymous": {
     "pages": 10,
     "references_start_page": 10,
     "overfull": [],
-    "anonymous_author_metadata": ""
+    "anonymous_author_metadata": "",
+    "AI_disclosure_page": 10,
+    "main_text_and_figures_within_ten_pages": true
   },
   "correspondence": {
     "pages": 8,

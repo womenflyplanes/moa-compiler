@@ -10,11 +10,11 @@
   "evidence/consolidated_release/validate_all.log": "d6c897109b55436d9a6077541610f47ce83113ec8bb036eba1828ae8b352ad30",
   "evidence/consolidated_release/check_all_lifts.log": "75c6d863101d59231523456b4746fecfa2ddd08c1c8f00f9cdc25d1c0a4fc5d1",
   "evidence/consolidated_release/core_tests.log": "aa14f5124146ccb67d660ffa2d82df42bbc87b92583c39c9af1c307099aaca47",
-  "evidence/consolidated_release/MANUSCRIPT_BUILD.json": "4ed0752f4ff6d0a5c995d130c0965f5831d64af98847e5f603a8c382ae2af630",
+  "evidence/consolidated_release/MANUSCRIPT_BUILD.json": "23fd4964b1c5f2337782f62c52ae3f4747222a4f47e0057f89c0b921b2cfffdd",
   "evidence/consolidated_release/seal_all.log": "31eae729a0ad20e767fd2f66781280806d739f94024925aa29b0adeaf7af39a8",
   "evidence/consolidated_release/compiler.log": "d7da7ae2662afce4bdd54a03762438b4572b6fc95f73d26c04afd2fee0c2241b",
   "evidence/consolidated_release/check_all_dnfs.log": "0b718d055a85b3fcf476e68142059bcbc032b211b44fbf768eb1f112bc428c82",
-  "manuscripts/cc27/anonymous/main.pdf": "bd5b088e434dc511da639ee7b0bea8f4f5751299069abdd497c42c0b6ad98f94",
-  "manuscripts/cc27/author/main.pdf": "70db098aab610c1398d4c5839942dd46e4916e4c9b17409b7a181a250fd346c7",
+  "manuscripts/cc27/anonymous/main.pdf": "39e3a5bf2e5a345d593388b8c7ef3aa10db00022f7037d63bf4fdbac9ed0f841",
+  "manuscripts/cc27/author/main.pdf": "715cffd136297ad07db7cc5f3a318a3a6832cc105d16a58d4258c352ff683fc1",
   "manuscripts/correspondence/main.pdf": "52c5d42c5d03511fe57c8ea04d057adb7511de86203059aae227c8326de41f92"
 }

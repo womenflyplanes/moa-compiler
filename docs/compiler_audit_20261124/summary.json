@@ -1,0 +1,50 @@
+[
+  {
+    "check": "python_syntax",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "core_and_semantic_tests",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "attention_numerical",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "test_index_dnf_onf",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "test_structured",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "test_machine_mapping",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "test_psi_onf_attention",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "full_fields",
+    "status": "PASS",
+    "returncode": 0
+  },
+  {
+    "check": "MATLAB execution",
+    "status": "NOT_RUN: requires MATLAB/Octave"
+  },
+  {
+    "check": "physical GPU execution",
+    "status": "NOT_RUN: this entry point is host-only"
+  }
+]

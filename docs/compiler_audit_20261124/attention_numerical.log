@@ -1,0 +1,5 @@
+PASS B=2 N=4 D=8 Dv=8 tiles=2,2 P=5.551e-17 O=2.220e-16
+PASS B=2 N=5 D=3 Dv=2 tiles=2,3 P=5.551e-17 O=1.110e-16
+PASS B=1 N=7 D=4 Dv=5 tiles=3,4 P=5.551e-17 O=1.110e-16
+PASS B=2 N=9 D=8 Dv=3 tiles=4,5 P=5.551e-17 O=6.939e-17
+TRACE moa_codegen_validation_v1.json

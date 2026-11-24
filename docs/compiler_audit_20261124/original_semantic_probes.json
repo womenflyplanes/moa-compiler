@@ -1,0 +1,64 @@
+{
+  "coefficient": {
+    "same_dnf_as_original": true,
+    "classified": {
+      "is_jacobi": true,
+      "is_island": false,
+      "is_rbgs": false,
+      "is_matmul": false
+    },
+    "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col"
+  },
+  "uppercase": {
+    "same_dnf_as_original": false,
+    "classified": {
+      "is_jacobi": false,
+      "is_island": false,
+      "is_rbgs": false,
+      "is_matmul": false
+    },
+    "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col"
+  },
+  "empty": {
+    "same_dnf_as_original": false,
+    "classified": {
+      "is_jacobi": false,
+      "is_island": false,
+      "is_rbgs": false,
+      "is_matmul": false
+    },
+    "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col"
+  },
+  "removed_source": {
+    "same_dnf_as_original": true,
+    "classified": {
+      "is_jacobi": true,
+      "is_island": false,
+      "is_rbgs": false,
+      "is_matmul": false
+    },
+    "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col"
+  },
+  "backend_mutation": {
+    "gen_fortran_island": true,
+    "gen_fortran_jacobi": true,
+    "gen_fortran_matmul": true,
+    "gen_fortran_rbgs": true,
+    "gen_gpu_island": true,
+    "gen_gpu_jacobi": true,
+    "gen_gpu_matmul": true,
+    "gen_gpu_rbgs": true,
+    "gen_matlab_island": true,
+    "gen_matlab_jacobi": true,
+    "gen_matlab_matmul": true,
+    "gen_matlab_rbgs": true,
+    "gen_mpi_island": true,
+    "gen_mpi_jacobi": true,
+    "gen_mpi_matmul": true,
+    "gen_mpi_rbgs": true,
+    "gen_openmp_island": true,
+    "gen_openmp_jacobi": true,
+    "gen_openmp_matmul": true,
+    "gen_openmp_rbgs": true
+  }
+}

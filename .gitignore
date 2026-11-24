@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.mod
+*.o
+*.so
+*.dylib
+.DS_Store
+/validation_results/
+/audit_results/
+/build/

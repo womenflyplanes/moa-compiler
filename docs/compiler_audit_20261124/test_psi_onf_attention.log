@@ -1,0 +1,4 @@
+PASS threads=4 N=4 psi-ONF seq/openmp/reference/prior
+PASS threads=4 N=5 psi-ONF seq/openmp/reference/prior
+PASS threads=4 N=7 psi-ONF seq/openmp/reference/prior
+PASS threads=4 N=9 psi-ONF seq/openmp/reference/prior

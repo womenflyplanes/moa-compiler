@@ -1,12 +1,12 @@
 ! Generated MPI Fortran ONF - poisson_rbgs - from DNF
-! DNF: u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col
+! DNF: ⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=red_then_black
 ! ONF RBGS MPI: slab over j, halo exchange per color phase = barrier
 ! Red phase: halo exchange, compute red, halo exchange, compute black
 program poisson_rbgs_mpi
   use mpi
   implicit none
   integer, parameter :: nx = 64, ny = 64, niter = 100
-  real, parameter :: h = 1.0 / 63.0
+  real, parameter :: h = 0.01587301678955555
   real, allocatable :: u(:,:), f(:,:)
   integer :: ierr, rank, nprocs, ny_local, j0_global, j1_global
   integer :: i, j, it, color, up, down
@@ -14,9 +14,14 @@ program poisson_rbgs_mpi
   call MPI_Init(ierr)
   call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
   call MPI_Comm_size(MPI_COMM_WORLD, nprocs, ierr)
+  if (nprocs > ny) then
+    if (rank == 0) print *, 'Unsupported: more MPI ranks than owned rows'
+    call MPI_Abort(MPI_COMM_WORLD, 2, ierr)
+  end if
   ny_local = ny / nprocs
-  j0_global = rank*ny_local + 1
-  j1_global = (rank+1)*ny_local
+  if (rank < mod(ny, nprocs)) ny_local = ny_local + 1
+  j0_global = rank*(ny/nprocs) + min(rank, mod(ny, nprocs)) + 1
+  j1_global = j0_global + ny_local - 1
   allocate(u(0:nx+1, 0:ny_local+1), f(0:nx+1, 0:ny_local+1))
   f = 1.0; u = 0.0
   up = rank - 1; if (up < 0) up = MPI_PROC_NULL
@@ -24,12 +29,14 @@ program poisson_rbgs_mpi
   t0 = MPI_Wtime()
   do it = 1, niter
     do color = 0, 1
-      call MPI_Sendrecv(u(1,1), nx, MPI_REAL, up, 0, u(1,ny_local+1), nx, MPI_REAL, down, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-      call MPI_Sendrecv(u(1,ny_local), nx, MPI_REAL, down, 1, u(1,0), nx, MPI_REAL, up, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+      call MPI_Sendrecv(u(1,1), nx, MPI_REAL, up, 0, u(1,ny_local+1), nx, MPI_REAL, down, 0, MPI_COMM_WORLD, &
+    & MPI_STATUS_IGNORE, ierr)
+      call MPI_Sendrecv(u(1,ny_local), nx, MPI_REAL, down, 1, u(1,0), nx, MPI_REAL, up, 1, MPI_COMM_WORLD, &
+    & MPI_STATUS_IGNORE, ierr)
       do j = 1, ny_local
         do i = 1, nx
           if (mod(i + (j + j0_global - 1), 2) == color) then
-            u(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+            u(i,j) = (0.25*((((u(i-1,j)+u(i+1,j))+u(i,j-1))+u(i,j+1))+((h*h)*f(i,j))))
           end if
         end do
       end do

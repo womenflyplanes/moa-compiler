@@ -1,11 +1,10 @@
-# MoA as Universal IR: One Meaning, Many Backends, With Proof
-For Critical Software Where Testing is NOT Verification
+# Historical SC27 materials
 
-This work used NCSA Delta (A100/MI100), TACC Stampede3 (Max1550 pvc), PSC Bridges-2 (V100/H100) through allocation CIS261342 from ACCESS (NSF #2138259 #2138286 #2138307 #2137603 #2138296). Chameleon bare-metal Max1550 CHI-261724. UA SUNY Batch GPU A40 + staff.
+The SC27 manuscripts and logs in this repository are historical research records.
+They are not the current compiler release or a blanket correctness/performance
+certificate. Source/cost demonstrations and actual numerical/hardware evidence
+must be distinguished.
 
-Math first -> DNF FIXED ivec ψ A ≡ (rav A)[γ(ivec,ρA)] -> asks language/cost ($,bytes,times,energy,heat) -> (Πρ)_data must be (Πρ)_machines -> reached(d) ✓
-
-Think in MoA -> faster, formal, beautiful. Save human, machine, energy.
-
-Code: moa_compiler/paper45_validation.py --reference
-Repo: https://github.com/womenflyplanes/moa-compiler
+Use [the current architecture](docs/MOA-UNIVERSAL-IR.md) and
+[24 November audit](docs/COMPILER_AUDIT_20261124.md). Existing paper PDFs are
+retained for provenance and have not been silently rewritten or re-certified.

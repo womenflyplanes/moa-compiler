@@ -1,0 +1,15 @@
+=== Poisson DNF gate: Fortran vs Python reference ===
+JACOBI:
+  JACOBI u(32,32): Fortran=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  JACOBI u(1,1): Fortran=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+ISLAND:
+  ISLAND u(32,32): Fortran=1.25835231e-02 Python_ref=1.25835283e-02 rel_err=4.12e-07 -> PASS
+  ISLAND u(1,1): Fortran=4.22816112e-04 Python_ref=4.22816172e-04 rel_err=1.41e-07 -> PASS
+RBGS:
+  RBGS u(32,32): Fortran=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  RBGS u(1,1): Fortran=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+MATMUL:
+  MATMUL C(32,32): Fortran=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  MATMUL C(1,1): Fortran=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+
+GATE: PASS - Fortran matches Python reference from same DNF

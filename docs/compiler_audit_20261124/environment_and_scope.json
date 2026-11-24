@@ -1,0 +1,13 @@
+{
+  "reviewed_commit": "885cdb00f3537fa39b2088296ba6271122bf6132",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "fortran": "GFortran 14.2; OpenACC explicitly host-only",
+  "mpi": "OpenMPI local processes; no cluster jobs",
+  "pytest_expected": 297,
+  "pytest_skipped": 1,
+  "subtests": 84,
+  "full_fields_expected": 48,
+  "physical_gpu": false,
+  "matlab_execution": false
+}

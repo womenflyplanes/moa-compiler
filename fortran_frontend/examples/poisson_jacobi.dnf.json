@@ -1,34 +1,95 @@
 {
+  "schema": "moa.fortran.subset.v1",
   "source": "fortran_frontend/examples/poisson_jacobi.f90",
-  "shape": {
-    "u": "0:nx+1, 0:ny+1"
+  "source_sha256": "03c9ae21d61057a70acd4861bb00100d3de520a0caadfa1887070d1da5970384",
+  "family": "jacobi",
+  "parameters": {
+    "nx": 64,
+    "ny": 64,
+    "niter": 100,
+    "h": 0.01587301678955555
   },
-  "neighbours": [
-    [
-      -1,
-      0
-    ],
-    [
-      1,
-      0
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      1
-    ]
-  ],
-  "is_jacobi": true,
-  "is_island": false,
-  "island": {},
-  "is_rbgs": false,
-  "is_matmul": false,
-  "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col",
-  "onf": "ONF Jacobi: same DNF, one phase, all ivec in parallel, two arrays u / u_new, variable swap only, gamma_col",
-  "gamma": "gamma_col(ivec, rho) = ivec[0] + ivec[1]*rho[0]  # gamma_col=7",
-  "rav": "rav A = A(:) in column-major order",
-  "psi": "ivec psi A = (rav A)[gamma(ivec, rho A)]"
+  "update": {
+    "op": "mul",
+    "left": {
+      "op": "literal",
+      "value": "0.25"
+    },
+    "right": {
+      "op": "add",
+      "left": {
+        "op": "add",
+        "left": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i-1",
+                "j"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i+1",
+                "j"
+              ]
+            }
+          },
+          "right": {
+            "op": "select",
+            "array": "u",
+            "indices": [
+              "i",
+              "j-1"
+            ]
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "u",
+          "indices": [
+            "i",
+            "j+1"
+          ]
+        }
+      },
+      "right": {
+        "op": "mul",
+        "left": {
+          "op": "mul",
+          "left": {
+            "op": "scalar",
+            "name": "h"
+          },
+          "right": {
+            "op": "scalar",
+            "name": "h"
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "f",
+          "indices": [
+            "i",
+            "j"
+          ]
+        }
+      }
+    }
+  },
+  "state_semantics": "previous_sweep",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_u": 0,
+    "forcing": 1,
+    "boundaries": 0
+  },
+  "layout": "column_major",
+  "index_origin": 0,
+  "dnf": "⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=previous_sweep"
 }

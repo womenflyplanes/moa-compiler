@@ -51,7 +51,7 @@ def ref_matmul():
     return 64.0, 64.0
 
 def run_fortran(bin_path, src):
-    subprocess.run(["gfortran","-O2","-o",bin_path,src], check=True, capture_output=True)
+    subprocess.run(["gfortran","-O2","-ffree-line-length-none","-o",bin_path,src], check=True, capture_output=True)
     out = subprocess.run([bin_path], capture_output=True, text=True, check=True).stdout
     # JACOBI u(32,32)= 6.298...  u(1,1)= 3.77...
     m = re.search(r"u\(32,32\)=\s*([0-9.E+-]+)\s+u\(1,1\)=\s*([0-9.E+-]+)", out)

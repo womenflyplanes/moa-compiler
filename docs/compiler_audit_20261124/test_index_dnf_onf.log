@@ -1,0 +1,6 @@
+PASS shape=() layouts=row/column prefix=all
+PASS shape=(5,) layouts=row/column prefix=all
+PASS shape=(2, 3) layouts=row/column prefix=all
+PASS shape=(2, 3, 4) layouts=row/column prefix=all
+PASS shape=(2, 0, 3) layouts=row/column prefix=all
+PASS invalid-index rejection

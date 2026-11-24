@@ -1,5 +1,5 @@
 ! Generated Fortran ONF - poisson_island_gauss - from DNF
-! DNF: u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col
+! DNF: ⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=lexicographic_islands
 ! MoA: Same DNF, many ONFs - Fortran backend, gamma_col=7
 ! ONF Island Gauss: parallel over islands (ix,iy), sequential inside island, in-place, halo
 program poisson_island_gauss_out
@@ -7,13 +7,13 @@ program poisson_island_gauss_out
   integer, parameter :: nx = 64, ny = 64, niter = 100
   integer, parameter :: isx = 16, isy = 16
   integer, parameter :: nix = nx / isx, niy = ny / isy
-  real, parameter :: h = 1.0 / 63.0
+  real, parameter :: h = 0.01587301678955555
   real :: u(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
   integer :: i, j, it, ix, iy, i0, j0, i1, j1
   f = 1.0
   u = 0.0
   do it = 1, niter
-    ! islands are independent in this sweep - this loop is the parallel loop
+    ! Lexicographic island order is part of this DNF state contract
     do iy = 1, niy
       do ix = 1, nix
         i0 = (ix-1)*isx + 1
@@ -23,7 +23,7 @@ program poisson_island_gauss_out
         ! inside island: sequential Gauss-Seidel - use newest u
         do j = j0, j1
           do i = i0, i1
-            u(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
+            u(i,j) = (0.25*((((u(i-1,j)+u(i+1,j))+u(i,j-1))+u(i,j+1))+((h*h)*f(i,j))))
           end do
         end do
       end do

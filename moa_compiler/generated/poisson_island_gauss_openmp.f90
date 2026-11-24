@@ -1,5 +1,5 @@
 ! Generated OpenMP Fortran ONF - poisson_island_gauss - from DNF
-! DNF: u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col
+! DNF: ⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=snapshot_islands
 ! ONF Island Gauss PARALLEL: parallel over islands, sequential inside island
 ! HALO-SAFE: u_old = halo snapshot at start of sweep
 ! Neighbour inside island -> read u (newest, Gauss-Seidel)
@@ -11,7 +11,7 @@ program poisson_island_gauss_omp
   integer, parameter :: nx = 64, ny = 64, niter = 100
   integer, parameter :: isx = 16, isy = 16
   integer, parameter :: nix = nx / isx, niy = ny / isy
-  real, parameter :: h = 1.0 / 63.0
+  real, parameter :: h = 0.01587301678955555
   real :: u(0:nx+1, 0:ny+1), u_old(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
   real :: ul, ur, ud, uu
   integer :: i, j, it, ix, iy, i0, j0, i1, j1
@@ -49,7 +49,7 @@ program poisson_island_gauss_omp
             else
               uu = u(i,j+1)
             end if
-            u(i,j) = 0.25 * (ul + ur + ud + uu + h*h*f(i,j))
+            u(i,j) = (0.25*((((ul+ur)+ud)+uu)+((h*h)*f(i,j))))
           end do
         end do
       end do

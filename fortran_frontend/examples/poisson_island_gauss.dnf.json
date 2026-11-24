@@ -1,37 +1,99 @@
 {
+  "schema": "moa.fortran.subset.v1",
   "source": "fortran_frontend/examples/poisson_island_gauss.f90",
-  "shape": {
-    "u": "0:nx+1, 0:ny+1"
-  },
-  "neighbours": [
-    [
-      -1,
-      0
-    ],
-    [
-      1,
-      0
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      1
-    ]
-  ],
-  "is_jacobi": false,
-  "is_island": true,
-  "island": {
+  "source_sha256": "1ca17ffbc72c862d73cfcaff6d222e8524f1deef1f561a9d735750dcddf1fe36",
+  "family": "island",
+  "parameters": {
+    "nx": 64,
+    "ny": 64,
+    "niter": 100,
     "isx": 16,
-    "isy": 16
+    "isy": 16,
+    "nix": 4,
+    "niy": 4,
+    "h": 0.01587301678955555
   },
-  "is_rbgs": false,
-  "is_matmul": false,
-  "dnf": "u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col",
-  "onf": "ONF Island Gauss: same DNF, parallel over islands (ix,iy), island size {'isx': 16, 'isy': 16}, sequential Gauss-Seidel inside island (i,j), in-place, one array, halo at island boundaries, gamma_col",
-  "gamma": "gamma_col(ivec, rho) = ivec[0] + ivec[1]*rho[0]  # gamma_col=7",
-  "rav": "rav A = A(:) in column-major order",
-  "psi": "ivec psi A = (rav A)[gamma(ivec, rho A)]"
+  "update": {
+    "op": "mul",
+    "left": {
+      "op": "literal",
+      "value": "0.25"
+    },
+    "right": {
+      "op": "add",
+      "left": {
+        "op": "add",
+        "left": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i-1",
+                "j"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i+1",
+                "j"
+              ]
+            }
+          },
+          "right": {
+            "op": "select",
+            "array": "u",
+            "indices": [
+              "i",
+              "j-1"
+            ]
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "u",
+          "indices": [
+            "i",
+            "j+1"
+          ]
+        }
+      },
+      "right": {
+        "op": "mul",
+        "left": {
+          "op": "mul",
+          "left": {
+            "op": "scalar",
+            "name": "h"
+          },
+          "right": {
+            "op": "scalar",
+            "name": "h"
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "f",
+          "indices": [
+            "i",
+            "j"
+          ]
+        }
+      }
+    }
+  },
+  "state_semantics": "lexicographic_islands",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_u": 0,
+    "forcing": 1,
+    "boundaries": 0
+  },
+  "layout": "column_major",
+  "index_origin": 0,
+  "dnf": "⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=lexicographic_islands"
 }

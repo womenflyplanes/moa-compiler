@@ -18,9 +18,9 @@ def ref_island_parallel():
                 for j in range(j0, j1):
                     for i in range(i0, i1):
                         ul = u_old[i-1,j] if i-1 < i0 else u[i-1,j]
-                        ur = u_old[i+1,j] if i+1 > i1 else u[i+1,j]
+                        ur = u_old[i+1,j] if i+1 >= i1 else u[i+1,j]
                         ud = u_old[i,j-1] if j-1 < j0 else u[i,j-1]
-                        uu = u_old[i,j+1] if j+1 > j1 else u[i,j+1]
+                        uu = u_old[i,j+1] if j+1 >= j1 else u[i,j+1]
                         u[i,j] = 0.25*(ul+ur+ud+uu + H*H*f[i,j])
     return u[32,32], u[1,1]
 def ref_rbgs():
@@ -35,7 +35,7 @@ def ref_rbgs():
 def ref_matmul():
     return 64.0, 64.0
 def run(bin_path, src, ranks):
-    subprocess.run(["mpifort","-O2","-o",bin_path,src], check=True, capture_output=True)
+    subprocess.run(["mpifort","-O2","-ffree-line-length-none","-o",bin_path,src], check=True, capture_output=True)
     out = subprocess.run(["mpirun","-np",str(ranks),bin_path], capture_output=True, text=True, check=True).stdout
     m = re.search(r"u\(32,32\)=\s*([0-9.E+-]+)\s+u\(1,1\)=\s*([0-9.E+-]+)", out)
     if not m:

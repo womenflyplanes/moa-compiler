@@ -1,0 +1,775 @@
+{
+  "schema": "moa.fortran.subset.v1",
+  "source": "fortran_frontend/examples/poisson_jacobi.f90",
+  "source_sha256": "03c9ae21d61057a70acd4861bb00100d3de520a0caadfa1887070d1da5970384",
+  "family": "jacobi",
+  "parameters": {
+    "nx": 64,
+    "ny": 64,
+    "niter": 100,
+    "h": 0.01587301678955555
+  },
+  "update": {
+    "op": "mul",
+    "left": {
+      "op": "literal",
+      "value": "0.25"
+    },
+    "right": {
+      "op": "add",
+      "left": {
+        "op": "add",
+        "left": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i-1",
+                "j"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i+1",
+                "j"
+              ]
+            }
+          },
+          "right": {
+            "op": "select",
+            "array": "u",
+            "indices": [
+              "i",
+              "j-1"
+            ]
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "u",
+          "indices": [
+            "i",
+            "j+1"
+          ]
+        }
+      },
+      "right": {
+        "op": "mul",
+        "left": {
+          "op": "mul",
+          "left": {
+            "op": "scalar",
+            "name": "h"
+          },
+          "right": {
+            "op": "scalar",
+            "name": "h"
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "f",
+          "indices": [
+            "i",
+            "j"
+          ]
+        }
+      }
+    }
+  },
+  "state_semantics": "previous_sweep",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_u": 0,
+    "forcing": 1,
+    "boundaries": 0
+  },
+  "layout": "column_major",
+  "index_origin": 0,
+  "dnf": "⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=previous_sweep",
+  "stages": {
+    "dnf": {
+      "schema": "moa.dnf.v1",
+      "family": "jacobi",
+      "result_index": [
+        "i",
+        "j"
+      ],
+      "domain_inclusive": {
+        "i": [
+          1,
+          64
+        ],
+        "j": [
+          1,
+          64
+        ]
+      },
+      "array_shapes": {
+        "u": [
+          66,
+          66
+        ],
+        "f": [
+          66,
+          66
+        ]
+      },
+      "entry_contract": {
+        "precision": "real32",
+        "initial_u": 0,
+        "forcing": 1,
+        "boundaries": 0
+      },
+      "parameters": {
+        "nx": 64,
+        "ny": 64,
+        "niter": 100,
+        "h": 0.01587301678955555
+      },
+      "expression": {
+        "op": "mul",
+        "left": {
+          "op": "literal",
+          "value": "0.25"
+        },
+        "right": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i-1",
+                    "j"
+                  ],
+                  "version": {
+                    "kind": "previous_sweep"
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i+1",
+                    "j"
+                  ],
+                  "version": {
+                    "kind": "previous_sweep"
+                  }
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j-1"
+                ],
+                "version": {
+                  "kind": "previous_sweep"
+                }
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i",
+                "j+1"
+              ],
+              "version": {
+                "kind": "previous_sweep"
+              }
+            }
+          },
+          "right": {
+            "op": "mul",
+            "left": {
+              "op": "mul",
+              "left": {
+                "op": "scalar",
+                "name": "h"
+              },
+              "right": {
+                "op": "scalar",
+                "name": "h"
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "f",
+              "indices": [
+                "i",
+                "j"
+              ]
+            }
+          }
+        }
+      },
+      "state_semantics": "previous_sweep",
+      "sweeps": 100,
+      "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+    },
+    "onf": {
+      "schema": "moa.onf.v1",
+      "dnf_sha256": "d086e4ed89e36bd67959036e33ddb844929cde45fd93bced96a3191580201881",
+      "dnf": {
+        "schema": "moa.dnf.v1",
+        "family": "jacobi",
+        "result_index": [
+          "i",
+          "j"
+        ],
+        "domain_inclusive": {
+          "i": [
+            1,
+            64
+          ],
+          "j": [
+            1,
+            64
+          ]
+        },
+        "array_shapes": {
+          "u": [
+            66,
+            66
+          ],
+          "f": [
+            66,
+            66
+          ]
+        },
+        "entry_contract": {
+          "precision": "real32",
+          "initial_u": 0,
+          "forcing": 1,
+          "boundaries": 0
+        },
+        "parameters": {
+          "nx": 64,
+          "ny": 64,
+          "niter": 100,
+          "h": 0.01587301678955555
+        },
+        "expression": {
+          "op": "mul",
+          "left": {
+            "op": "literal",
+            "value": "0.25"
+          },
+          "right": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i-1",
+                      "j"
+                    ],
+                    "version": {
+                      "kind": "previous_sweep"
+                    }
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i+1",
+                      "j"
+                    ],
+                    "version": {
+                      "kind": "previous_sweep"
+                    }
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j-1"
+                  ],
+                  "version": {
+                    "kind": "previous_sweep"
+                  }
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j+1"
+                ],
+                "version": {
+                  "kind": "previous_sweep"
+                }
+              }
+            },
+            "right": {
+              "op": "mul",
+              "left": {
+                "op": "mul",
+                "left": {
+                  "op": "scalar",
+                  "name": "h"
+                },
+                "right": {
+                  "op": "scalar",
+                  "name": "h"
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "f",
+                "indices": [
+                  "i",
+                  "j"
+                ]
+              }
+            }
+          }
+        },
+        "state_semantics": "previous_sweep",
+        "sweeps": 100,
+        "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+      },
+      "target": "openmp",
+      "phases": [
+        {
+          "operation": "map",
+          "domain": [
+            "j",
+            "i"
+          ],
+          "parallel_axes": [
+            "j",
+            "i"
+          ],
+          "reads": "u_previous",
+          "writes": "u_new",
+          "boundary": "zero, retained"
+        },
+        {
+          "operation": "commit_sweep",
+          "after": "map_complete",
+          "implementation": "copy/swap equal logical state"
+        }
+      ],
+      "layouts": {
+        "u": {
+          "shape": [
+            66,
+            66
+          ],
+          "origin": [
+            0,
+            0
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        },
+        "f": {
+          "shape": [
+            66,
+            66
+          ],
+          "origin": [
+            0,
+            0
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        }
+      },
+      "precision": "real32",
+      "arithmetic_tree": {
+        "op": "mul",
+        "left": {
+          "op": "literal",
+          "value": "0.25"
+        },
+        "right": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i-1",
+                    "j"
+                  ]
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i+1",
+                    "j"
+                  ]
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j-1"
+                ]
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i",
+                "j+1"
+              ]
+            }
+          },
+          "right": {
+            "op": "mul",
+            "left": {
+              "op": "mul",
+              "left": {
+                "op": "scalar",
+                "name": "h"
+              },
+              "right": {
+                "op": "scalar",
+                "name": "h"
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "f",
+              "indices": [
+                "i",
+                "j"
+              ]
+            }
+          }
+        }
+      },
+      "obligations": [
+        "shape and index validity",
+        "entry-state validity",
+        "ordered arithmetic preserved",
+        "state-version reads preserved",
+        "write independence for parallel domain",
+        "barriers precede dependent phases"
+      ],
+      "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+    },
+    "lifted_onf": {
+      "schema": "moa.lifted_onf.v1",
+      "onf_sha256": "7a6db444d030e1a96ed743fde76429dea92ed11223d27cc6121ac4404790aef9",
+      "onf": {
+        "schema": "moa.onf.v1",
+        "dnf_sha256": "d086e4ed89e36bd67959036e33ddb844929cde45fd93bced96a3191580201881",
+        "dnf": {
+          "schema": "moa.dnf.v1",
+          "family": "jacobi",
+          "result_index": [
+            "i",
+            "j"
+          ],
+          "domain_inclusive": {
+            "i": [
+              1,
+              64
+            ],
+            "j": [
+              1,
+              64
+            ]
+          },
+          "array_shapes": {
+            "u": [
+              66,
+              66
+            ],
+            "f": [
+              66,
+              66
+            ]
+          },
+          "entry_contract": {
+            "precision": "real32",
+            "initial_u": 0,
+            "forcing": 1,
+            "boundaries": 0
+          },
+          "parameters": {
+            "nx": 64,
+            "ny": 64,
+            "niter": 100,
+            "h": 0.01587301678955555
+          },
+          "expression": {
+            "op": "mul",
+            "left": {
+              "op": "literal",
+              "value": "0.25"
+            },
+            "right": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "add",
+                    "left": {
+                      "op": "select",
+                      "array": "u",
+                      "indices": [
+                        "i-1",
+                        "j"
+                      ],
+                      "version": {
+                        "kind": "previous_sweep"
+                      }
+                    },
+                    "right": {
+                      "op": "select",
+                      "array": "u",
+                      "indices": [
+                        "i+1",
+                        "j"
+                      ],
+                      "version": {
+                        "kind": "previous_sweep"
+                      }
+                    }
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i",
+                      "j-1"
+                    ],
+                    "version": {
+                      "kind": "previous_sweep"
+                    }
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j+1"
+                  ],
+                  "version": {
+                    "kind": "previous_sweep"
+                  }
+                }
+              },
+              "right": {
+                "op": "mul",
+                "left": {
+                  "op": "mul",
+                  "left": {
+                    "op": "scalar",
+                    "name": "h"
+                  },
+                  "right": {
+                    "op": "scalar",
+                    "name": "h"
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "f",
+                  "indices": [
+                    "i",
+                    "j"
+                  ]
+                }
+              }
+            }
+          },
+          "state_semantics": "previous_sweep",
+          "sweeps": 100,
+          "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+        },
+        "target": "openmp",
+        "phases": [
+          {
+            "operation": "map",
+            "domain": [
+              "j",
+              "i"
+            ],
+            "parallel_axes": [
+              "j",
+              "i"
+            ],
+            "reads": "u_previous",
+            "writes": "u_new",
+            "boundary": "zero, retained"
+          },
+          {
+            "operation": "commit_sweep",
+            "after": "map_complete",
+            "implementation": "copy/swap equal logical state"
+          }
+        ],
+        "layouts": {
+          "u": {
+            "shape": [
+              66,
+              66
+            ],
+            "origin": [
+              0,
+              0
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          },
+          "f": {
+            "shape": [
+              66,
+              66
+            ],
+            "origin": [
+              0,
+              0
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          }
+        },
+        "precision": "real32",
+        "arithmetic_tree": {
+          "op": "mul",
+          "left": {
+            "op": "literal",
+            "value": "0.25"
+          },
+          "right": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i-1",
+                      "j"
+                    ]
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i+1",
+                      "j"
+                    ]
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j-1"
+                  ]
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j+1"
+                ]
+              }
+            },
+            "right": {
+              "op": "mul",
+              "left": {
+                "op": "mul",
+                "left": {
+                  "op": "scalar",
+                  "name": "h"
+                },
+                "right": {
+                  "op": "scalar",
+                  "name": "h"
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "f",
+                "indices": [
+                  "i",
+                  "j"
+                ]
+              }
+            }
+          }
+        },
+        "obligations": [
+          "shape and index validity",
+          "entry-state validity",
+          "ordered arithmetic preserved",
+          "state-version reads preserved",
+          "write independence for parallel domain",
+          "barriers precede dependent phases"
+        ],
+        "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+      },
+      "target": "openmp",
+      "owners": null,
+      "physical_execution_certified": false,
+      "ownership_domain": "independent (j,i) points within each phase",
+      "binding": "runtime-assigned; logical work domain only, no physical placement assertion",
+      "communication": "shared-address-space phase barriers; OpenACC data region around sweeps",
+      "workspace": "u_old snapshot for island; u_new for Jacobi; in-place phased u for RBGS; independent c per output for matmul",
+      "tau_work_before": 4096,
+      "tau_work_after": 4096,
+      "bijection": "(i,j) ↔ i + extent_i*j on zero-based work indices"
+    }
+  },
+  "emission": {
+    "mode": "openmp",
+    "generated_sha256": "ca00ca4c822ee77174b64dc872ba0e74be3c5f858ed2d66d6472b3d61a0e8816",
+    "lowering_modules_sha256": {
+      "semantic_ir.py": "1c25af3cc09f4f807201033212185be8e269a3086abc005a173963b398aceea5",
+      "moa_stages.py": "51122fbe4d3ad32e2a7bb3e43aa80230e57b4e8fd1df21ff9f1f9652b0ffdf80",
+      "lower_semantic_ir.py": "2eb980c4fa0bd19dee9146ac7bbef00cebc58e05facaf212f7bf19e1ba94fb29",
+      "poisson_backend.py": "2a947a50702a2a6ec00520d18c1d9855fefd9b7e1143bdbfa89ea4bd6edade40"
+    }
+  }
+}

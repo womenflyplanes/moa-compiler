@@ -1,0 +1,4 @@
+PASS threads=4 N=4 tiles=2,2 seq/openmp/reference
+PASS threads=4 N=5 tiles=2,3 seq/openmp/reference
+PASS threads=4 N=7 tiles=3,4 seq/openmp/reference
+PASS threads=4 N=9 tiles=4,5 seq/openmp/reference

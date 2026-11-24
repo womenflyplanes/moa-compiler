@@ -1,0 +1,17 @@
+=== GPU gate: OpenACC Fortran vs Python reference ===
+Mac: -fopenacc host fallback. Delta: same .f90 with nvfortran -acc = real GPU
+Island uses halo-safe parallel reference, others use serial reference
+JACOBI-GPU:
+  u(32,32): GPU=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): GPU=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+ISLAND-GPU:
+  u(32,32): GPU=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): GPU=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+RBGS-GPU:
+  u(32,32): GPU=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): GPU=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+MATMUL-GPU:
+  C(32,32): GPU=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): GPU=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+
+GPU GATE: PASS

@@ -1,5 +1,5 @@
 ! Generated GPU Fortran ONF - poisson_island_gauss - from DNF
-! DNF: u_new psi ivec = 0.25 * sum_{ (di,dj) in {(-1,0),(1,0),(0,-1),(0,1)} } (ivec+(di,dj)) psi u + h^2 * (ivec psi f) # Poisson stencil DNF, rav + gamma_col
+! DNF: ⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=snapshot_islands
 ! ONF Island GPU: parallel over islands, sequential inside island, halo-safe
 ! Halo: u_old snapshot at start of sweep. Inside island -> u, outside -> u_old
 ! OpenACC: parallel loop over ix,iy islands. Do NOT parallelize i,j inside island.
@@ -8,7 +8,7 @@ program poisson_island_gauss_gpu
   integer, parameter :: nx = 64, ny = 64, niter = 100
   integer, parameter :: isx = 16, isy = 16
   integer, parameter :: nix = nx / isx, niy = ny / isy
-  real, parameter :: h = 1.0 / 63.0
+  real, parameter :: h = 0.01587301678955555
   real :: u(0:nx+1, 0:ny+1), u_old(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
   real :: ul, ur, ud, uu
   integer :: i, j, it, ix, iy, i0, j0, i1, j1
@@ -26,7 +26,9 @@ program poisson_island_gauss_gpu
         i1 = ix*isx
         j0 = (iy-1)*isy + 1
         j1 = iy*isy
+        !$ACC LOOP SEQ
         do j = j0, j1
+          !$ACC LOOP SEQ
           do i = i0, i1
             if (i-1 < i0) then
               ul = u_old(i-1,j)
@@ -48,7 +50,7 @@ program poisson_island_gauss_gpu
             else
               uu = u(i,j+1)
             end if
-            u(i,j) = 0.25 * (ul + ur + ud + uu + h*h*f(i,j))
+            u(i,j) = (0.25*((((ul+ur)+ud)+uu)+((h*h)*f(i,j))))
           end do
         end do
       end do

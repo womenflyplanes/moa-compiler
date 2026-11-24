@@ -1,5 +1,5 @@
 ! Generated MPI Fortran ONF - matmul - from DNF
-! DNF: C psi (i,j) = sum_k ( (i,k) psi A ) * ( (k,j) psi B ) # matmul DNF
+! DNF: ⟨i,j⟩ ψ c = (⟨i,j⟩ ψ c+(⟨i,k⟩ ψ a*⟨k,j⟩ ψ b)); state=ordered_k_reduction
 ! ONF matmul MPI: row slab of C, broadcast B, no halo, no per-iteration comm
 program matmul_mpi
   use mpi
@@ -12,8 +12,13 @@ program matmul_mpi
   call MPI_Init(ierr)
   call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
   call MPI_Comm_size(MPI_COMM_WORLD, nprocs, ierr)
+  if (nprocs > n) then
+    if (rank == 0) print *, 'Unsupported: more MPI ranks than owned rows'
+    call MPI_Abort(MPI_COMM_WORLD, 2, ierr)
+  end if
   n_local = n / nprocs
-  i0_global = rank*n_local + 1
+  if (rank < mod(n,nprocs)) n_local = n_local + 1
+  i0_global = rank*(n/nprocs) + min(rank,mod(n,nprocs)) + 1
   allocate(A(n_local,n), B(n,n), C(n_local,n))
   A = 1.0; B = 1.0; C = 0.0
   ! B is same on all ranks in this simple version - broadcast is no-op, kept for ONF clarity
@@ -23,7 +28,7 @@ program matmul_mpi
     do i = 1, n_local
       C(i,j) = 0.0
       do k = 1, n
-        C(i,j) = C(i,j) + A(i,k) * B(k,j)
+        C(i,j) = (c(i,j)+(a(i,k)*b(k,j)))
       end do
     end do
   end do

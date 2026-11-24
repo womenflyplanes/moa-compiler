@@ -1,0 +1,486 @@
+{
+  "schema": "moa.fortran.subset.v1",
+  "source": "fortran_frontend/examples/matmul.f90",
+  "source_sha256": "4fa70c2dd2475523b22b015b14b1c57978817813c052dfc3fee2db52884ee9e6",
+  "family": "matmul",
+  "parameters": {
+    "n": 64
+  },
+  "update": {
+    "op": "add",
+    "left": {
+      "op": "select",
+      "array": "c",
+      "indices": [
+        "i",
+        "j"
+      ]
+    },
+    "right": {
+      "op": "mul",
+      "left": {
+        "op": "select",
+        "array": "a",
+        "indices": [
+          "i",
+          "k"
+        ]
+      },
+      "right": {
+        "op": "select",
+        "array": "b",
+        "indices": [
+          "k",
+          "j"
+        ]
+      }
+    }
+  },
+  "state_semantics": "ordered_k_reduction",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_a": 1,
+    "initial_b": 1,
+    "initial_c": 0
+  },
+  "layout": "column_major",
+  "index_origin": 1,
+  "dnf": "⟨i,j⟩ ψ c = (⟨i,j⟩ ψ c+(⟨i,k⟩ ψ a*⟨k,j⟩ ψ b)); state=ordered_k_reduction",
+  "stages": {
+    "dnf": {
+      "schema": "moa.dnf.v1",
+      "family": "matmul",
+      "result_index": [
+        "i",
+        "j"
+      ],
+      "domain_inclusive": {
+        "i": [
+          1,
+          64
+        ],
+        "j": [
+          1,
+          64
+        ]
+      },
+      "array_shapes": {
+        "a": [
+          64,
+          64
+        ],
+        "b": [
+          64,
+          64
+        ],
+        "c": [
+          64,
+          64
+        ]
+      },
+      "entry_contract": {
+        "precision": "real32",
+        "initial_a": 1,
+        "initial_b": 1,
+        "initial_c": 0
+      },
+      "parameters": {
+        "n": 64
+      },
+      "expression": {
+        "op": "finite_sum",
+        "binder": "k",
+        "lower": 1,
+        "upper": 64,
+        "body": {
+          "op": "mul",
+          "left": {
+            "op": "select",
+            "array": "a",
+            "indices": [
+              "i",
+              "k"
+            ]
+          },
+          "right": {
+            "op": "select",
+            "array": "b",
+            "indices": [
+              "k",
+              "j"
+            ]
+          }
+        }
+      },
+      "state_semantics": "ordered_k_reduction",
+      "sweeps": 1,
+      "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+    },
+    "onf": {
+      "schema": "moa.onf.v1",
+      "dnf_sha256": "d09502e789be89f5b149ce490a79261fb9e44aabe432ce108b607166f86d4f1a",
+      "dnf": {
+        "schema": "moa.dnf.v1",
+        "family": "matmul",
+        "result_index": [
+          "i",
+          "j"
+        ],
+        "domain_inclusive": {
+          "i": [
+            1,
+            64
+          ],
+          "j": [
+            1,
+            64
+          ]
+        },
+        "array_shapes": {
+          "a": [
+            64,
+            64
+          ],
+          "b": [
+            64,
+            64
+          ],
+          "c": [
+            64,
+            64
+          ]
+        },
+        "entry_contract": {
+          "precision": "real32",
+          "initial_a": 1,
+          "initial_b": 1,
+          "initial_c": 0
+        },
+        "parameters": {
+          "n": 64
+        },
+        "expression": {
+          "op": "finite_sum",
+          "binder": "k",
+          "lower": 1,
+          "upper": 64,
+          "body": {
+            "op": "mul",
+            "left": {
+              "op": "select",
+              "array": "a",
+              "indices": [
+                "i",
+                "k"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "b",
+              "indices": [
+                "k",
+                "j"
+              ]
+            }
+          }
+        },
+        "state_semantics": "ordered_k_reduction",
+        "sweeps": 1,
+        "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+      },
+      "target": "openacc",
+      "phases": [
+        {
+          "operation": "map_reduce",
+          "domain": [
+            "j",
+            "i"
+          ],
+          "parallel_axes": [
+            "j",
+            "i"
+          ],
+          "sequential_reduction": {
+            "axis": "k",
+            "initial": "0.0",
+            "order": "increasing"
+          },
+          "write": "c(i,j)"
+        }
+      ],
+      "layouts": {
+        "a": {
+          "shape": [
+            64,
+            64
+          ],
+          "origin": [
+            1,
+            1
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        },
+        "b": {
+          "shape": [
+            64,
+            64
+          ],
+          "origin": [
+            1,
+            1
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        },
+        "c": {
+          "shape": [
+            64,
+            64
+          ],
+          "origin": [
+            1,
+            1
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        }
+      },
+      "precision": "real32",
+      "arithmetic_tree": {
+        "op": "add",
+        "left": {
+          "op": "select",
+          "array": "c",
+          "indices": [
+            "i",
+            "j"
+          ]
+        },
+        "right": {
+          "op": "mul",
+          "left": {
+            "op": "select",
+            "array": "a",
+            "indices": [
+              "i",
+              "k"
+            ]
+          },
+          "right": {
+            "op": "select",
+            "array": "b",
+            "indices": [
+              "k",
+              "j"
+            ]
+          }
+        }
+      },
+      "obligations": [
+        "shape and index validity",
+        "entry-state validity",
+        "ordered arithmetic preserved",
+        "state-version reads preserved",
+        "write independence for parallel domain",
+        "barriers precede dependent phases"
+      ],
+      "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+    },
+    "lifted_onf": {
+      "schema": "moa.lifted_onf.v1",
+      "onf_sha256": "69b60dc0a3788d65efee85f6e57313f7614c8c0de55a3bd42cc9f8432fe94c22",
+      "onf": {
+        "schema": "moa.onf.v1",
+        "dnf_sha256": "d09502e789be89f5b149ce490a79261fb9e44aabe432ce108b607166f86d4f1a",
+        "dnf": {
+          "schema": "moa.dnf.v1",
+          "family": "matmul",
+          "result_index": [
+            "i",
+            "j"
+          ],
+          "domain_inclusive": {
+            "i": [
+              1,
+              64
+            ],
+            "j": [
+              1,
+              64
+            ]
+          },
+          "array_shapes": {
+            "a": [
+              64,
+              64
+            ],
+            "b": [
+              64,
+              64
+            ],
+            "c": [
+              64,
+              64
+            ]
+          },
+          "entry_contract": {
+            "precision": "real32",
+            "initial_a": 1,
+            "initial_b": 1,
+            "initial_c": 0
+          },
+          "parameters": {
+            "n": 64
+          },
+          "expression": {
+            "op": "finite_sum",
+            "binder": "k",
+            "lower": 1,
+            "upper": 64,
+            "body": {
+              "op": "mul",
+              "left": {
+                "op": "select",
+                "array": "a",
+                "indices": [
+                  "i",
+                  "k"
+                ]
+              },
+              "right": {
+                "op": "select",
+                "array": "b",
+                "indices": [
+                  "k",
+                  "j"
+                ]
+              }
+            }
+          },
+          "state_semantics": "ordered_k_reduction",
+          "sweeps": 1,
+          "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+        },
+        "target": "openacc",
+        "phases": [
+          {
+            "operation": "map_reduce",
+            "domain": [
+              "j",
+              "i"
+            ],
+            "parallel_axes": [
+              "j",
+              "i"
+            ],
+            "sequential_reduction": {
+              "axis": "k",
+              "initial": "0.0",
+              "order": "increasing"
+            },
+            "write": "c(i,j)"
+          }
+        ],
+        "layouts": {
+          "a": {
+            "shape": [
+              64,
+              64
+            ],
+            "origin": [
+              1,
+              1
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          },
+          "b": {
+            "shape": [
+              64,
+              64
+            ],
+            "origin": [
+              1,
+              1
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          },
+          "c": {
+            "shape": [
+              64,
+              64
+            ],
+            "origin": [
+              1,
+              1
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          }
+        },
+        "precision": "real32",
+        "arithmetic_tree": {
+          "op": "add",
+          "left": {
+            "op": "select",
+            "array": "c",
+            "indices": [
+              "i",
+              "j"
+            ]
+          },
+          "right": {
+            "op": "mul",
+            "left": {
+              "op": "select",
+              "array": "a",
+              "indices": [
+                "i",
+                "k"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "b",
+              "indices": [
+                "k",
+                "j"
+              ]
+            }
+          }
+        },
+        "obligations": [
+          "shape and index validity",
+          "entry-state validity",
+          "ordered arithmetic preserved",
+          "state-version reads preserved",
+          "write independence for parallel domain",
+          "barriers precede dependent phases"
+        ],
+        "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+      },
+      "target": "openacc",
+      "owners": null,
+      "physical_execution_certified": false,
+      "ownership_domain": "independent (j,i) points within each phase",
+      "binding": "runtime-assigned; logical work domain only, no physical placement assertion",
+      "communication": "shared-address-space phase barriers; OpenACC data region around sweeps",
+      "workspace": "u_old snapshot for island; u_new for Jacobi; in-place phased u for RBGS; independent c per output for matmul",
+      "tau_work_before": 4096,
+      "tau_work_after": 4096,
+      "bijection": "(i,j) ↔ i + extent_i*j on zero-based work indices"
+    }
+  },
+  "emission": {
+    "mode": "gpu",
+    "generated_sha256": "8f50d6cdf3e1ec43a729c111578a76eabf631d55f5a0e95ef95291642eaaeb61",
+    "lowering_modules_sha256": {
+      "semantic_ir.py": "1c25af3cc09f4f807201033212185be8e269a3086abc005a173963b398aceea5",
+      "moa_stages.py": "51122fbe4d3ad32e2a7bb3e43aa80230e57b4e8fd1df21ff9f1f9652b0ffdf80",
+      "lower_semantic_ir.py": "2eb980c4fa0bd19dee9146ac7bbef00cebc58e05facaf212f7bf19e1ba94fb29",
+      "poisson_backend.py": "2a947a50702a2a6ec00520d18c1d9855fefd9b7e1143bdbfa89ea4bd6edade40"
+    }
+  }
+}

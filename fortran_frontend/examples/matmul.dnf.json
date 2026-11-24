@@ -1,17 +1,49 @@
 {
+  "schema": "moa.fortran.subset.v1",
   "source": "fortran_frontend/examples/matmul.f90",
-  "shape": {
-    "A": "n,n"
+  "source_sha256": "4fa70c2dd2475523b22b015b14b1c57978817813c052dfc3fee2db52884ee9e6",
+  "family": "matmul",
+  "parameters": {
+    "n": 64
   },
-  "neighbours": [],
-  "is_jacobi": false,
-  "is_island": false,
-  "island": {},
-  "is_rbgs": false,
-  "is_matmul": true,
-  "dnf": "C psi (i,j) = sum_k ( (i,k) psi A ) * ( (k,j) psi B ) # matmul DNF",
-  "onf": "ONF matmul: loop j, loop i, loop k, gamma_col, F=d*k*n, M=d*k",
-  "gamma": "gamma_col(ivec, rho) = ivec[0] + ivec[1]*rho[0]  # gamma_col=7",
-  "rav": "rav A = A(:) in column-major order",
-  "psi": "ivec psi A = (rav A)[gamma(ivec, rho A)]"
+  "update": {
+    "op": "add",
+    "left": {
+      "op": "select",
+      "array": "c",
+      "indices": [
+        "i",
+        "j"
+      ]
+    },
+    "right": {
+      "op": "mul",
+      "left": {
+        "op": "select",
+        "array": "a",
+        "indices": [
+          "i",
+          "k"
+        ]
+      },
+      "right": {
+        "op": "select",
+        "array": "b",
+        "indices": [
+          "k",
+          "j"
+        ]
+      }
+    }
+  },
+  "state_semantics": "ordered_k_reduction",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_a": 1,
+    "initial_b": 1,
+    "initial_c": 0
+  },
+  "layout": "column_major",
+  "index_origin": 1,
+  "dnf": "⟨i,j⟩ ψ c = (⟨i,j⟩ ψ c+(⟨i,k⟩ ψ a*⟨k,j⟩ ψ b)); state=ordered_k_reduction"
 }

@@ -1,0 +1,28 @@
+=== OpenMP gate: 1 thread vs 4 threads vs Python reference ===
+Island uses halo-safe parallel reference, others use serial reference
+JACOBI-OMP threads=1:
+  u(32,32): OpenMP=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): OpenMP=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+JACOBI-OMP threads=4:
+  u(32,32): OpenMP=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): OpenMP=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+ISLAND-OMP threads=1:
+  u(32,32): OpenMP=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): OpenMP=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+ISLAND-OMP threads=4:
+  u(32,32): OpenMP=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): OpenMP=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+RBGS-OMP threads=1:
+  u(32,32): OpenMP=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): OpenMP=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+RBGS-OMP threads=4:
+  u(32,32): OpenMP=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): OpenMP=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+MATMUL-OMP threads=1:
+  C(32,32): OpenMP=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): OpenMP=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+MATMUL-OMP threads=4:
+  C(32,32): OpenMP=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): OpenMP=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+
+OPENMP GATE: PASS

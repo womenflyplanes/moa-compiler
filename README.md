@@ -1,13 +1,32 @@
-Wiki: https://womenflyplanes.github.io/moa-compiler/
-
 # Mathematics of Arrays compiler research
 
-**Active scope: Paper I / Program 2 (forward attention).** The mathematical pipeline is ψ-indexed specification → DNF → γ/ONF → machine-dependent Ω lifting → generated implementation → prospective prediction → independent validation. Semantic equivalence is the requirement; intermediate derivations need not be textually identical and lifted ONFs depend on machine shape.
+Our goal is a **universal intermediate representation for array languages**, with
+portable, scalable, predictable and validated designs grounded in MoA.
 
-**[Installation, checkpoint preparation, and usage](docs/PAPER_I_USAGE.md)**
+- **[Architecture, scope and compiler usage](docs/MOA-UNIVERSAL-IR.md)**
+- **[24 November correctness audit and verified results](docs/COMPILER_AUDIT_20261124.md)**
+- **[Attention Papers I–IV correspondence study](https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence)**
 
-The documented source/evidence checkpoints are the verified **8 November consolidated manuscript/compiler archive** and **10 November matched-validation archive**, stored separately from GitHub. The former contains `main.tex`/`main.pdf`, figures, typed ASTs, and compiler code; the latter contains the full-(A,O) contract, matched-validation scripts, and original hand-derived evidence. See the guide for exact filenames, SHA256 values, and development-checkout preparation. **The full source/evidence release is not yet synchronized into GitHub**, so this branch alone is not a complete reproduction package.
+The current extension has a bounded Fortran source adapter, structured versioned
+DNFs, ONFs and logical lifted ONFs for serial, OpenMP, OpenACC and MPI schedules.
+It rejects unsupported source or machine mappings. Numerical expressions are
+lowered from their actual ASTs; schedule templates remain an explicit trusted
+basis. MATLAB generation is available but was not executed in this audit.
 
-Keep the O-only online-fold and full-(A,O) interfaces distinct, as well as logical Ω ownership and physical execution. Tests provide finite evidence, not a general correctness proof. Prospective machine-shape selection and absolute-time accuracy are separate claims. Preserve historical failures and original SHA256-frozen evidence. The ten-field machine property array remains append-only extensible. Full Paper I is ongoing; Papers II–IV are out of scope.
+```bash
+python -m pip install numpy pytest
+python scripts/validate_compiler.py --with-fortran
+```
 
-Historical checkpoints and research records should be retained until their provenance and references have been audited; documentation cleanup must not destroy evidence.
+The full replay needs GCC, gfortran and MPI development tools. OpenACC is tested
+on the host, not on a physical GPU. No new hardware timing was performed.
+
+The five-paper attention suite is the research foundation. Its checked
+correspondence, hardware measurements and predictive results have separate
+contracts; they do not automatically certify a new frontend or solver.
+The ten-field machine property array remains append-only extensible.
+
+Historical manuscripts, raw logs and measurements remain available. Cost-only
+examples have moved to `archive/illustrative_cost_demos/` and are not correctness
+or hardware evidence. Generated build clutter and exact duplicate documents were
+removed; the audit records the cleanup.

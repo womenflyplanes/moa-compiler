@@ -1,0 +1,40 @@
+=== MPI gate: 1, 2, 4 ranks vs Python reference ===
+Island uses halo-safe parallel reference, others use serial reference
+JACOBI-MPI ranks=1 time=2.234e-04:
+  u(32,32): MPI=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): MPI=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+JACOBI-MPI ranks=2 time=2.757e-04:
+  u(32,32): MPI=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): MPI=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+JACOBI-MPI ranks=4 time=4.482e-04:
+  u(32,32): MPI=6.29880652e-03 Python_ref=6.29880878e-03 rel_err=3.59e-07 -> PASS
+  u(1,1): MPI=3.77013843e-04 Python_ref=3.77013899e-04 rel_err=1.48e-07 -> PASS
+ISLAND-MPI ranks=1 time=1.110e-03:
+  u(32,32): MPI=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): MPI=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+ISLAND-MPI ranks=2 time=7.572e-04:
+  u(32,32): MPI=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): MPI=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+ISLAND-MPI ranks=4 time=2.056e-03:
+  u(32,32): MPI=1.16506834e-02 Python_ref=1.16506861e-02 rel_err=2.28e-07 -> PASS
+  u(1,1): MPI=4.21483041e-04 Python_ref=4.21483105e-04 rel_err=1.51e-07 -> PASS
+RBGS-MPI ranks=1 time=1.428e-03:
+  u(32,32): MPI=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): MPI=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+RBGS-MPI ranks=2 time=9.131e-04:
+  u(32,32): MPI=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): MPI=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+RBGS-MPI ranks=4 time=2.104e-03:
+  u(32,32): MPI=1.25272544e-02 Python_ref=1.25272586e-02 rel_err=3.38e-07 -> PASS
+  u(1,1): MPI=4.31805674e-04 Python_ref=4.31805746e-04 rel_err=1.66e-07 -> PASS
+MATMUL-MPI ranks=1 time=1.024e-04:
+  C(32,32): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+MATMUL-MPI ranks=2 time=7.751e-05:
+  C(32,32): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+MATMUL-MPI ranks=4 time=9.026e-05:
+  C(32,32): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+  C(1,1): MPI=6.40000000e+01 Python_ref=6.40000000e+01 rel_err=0.00e+00 -> PASS
+
+MPI GATE: PASS

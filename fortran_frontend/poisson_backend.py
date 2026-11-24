@@ -18,63 +18,30 @@ def gen_fortran_jacobi(dnf):
 ! DNF: {dnf}
 ! MoA: Same DNF, many ONFs - Fortran backend, gamma_col=7
 ! ONF Jacobi: one phase, all ivec parallel, two arrays, variable swap only
-! Burkardt problem: 1..nx grid, boundaries = u_exact, f = -pi^2(x^2+y^2)sin(pi x y) interior, u_exact on boundary
 program poisson_jacobi_out
   implicit none
-  integer :: nx, ny, it, it_max, i, j
-  real(kind=8) :: dx, dy, x, y, diff, err_exact, u_mid, pi
-  real(kind=8), allocatable :: u(:,:), u_new(:,:), f(:,:)
-  character(len=32) :: arg
-  logical :: converged
-  pi = 3.141592653589793d0
-  call get_command_argument(1, arg)
-  read(arg, *) nx
-  ny = nx
-  it_max = 20000
-  dx = 1.0d0 / dble(nx-1)
-  dy = dx
-  allocate(u(nx,ny), u_new(nx,ny), f(nx,ny))
-  u = 0.0d0; u_new = 0.0d0; f = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-        f(i,j) = sin(pi*x*y)
-        u(i,j) = f(i,j); u_new(i,j) = f(i,j)
-      else
-        f(i,j) = pi*pi*(x*x+y*y)*sin(pi*x*y)
-      end if
-    end do
-  end do
-  converged = .false.
-  do it = 1, it_max
-    diff = 0.0d0
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_new(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: tmp(0:nx+1, 0:ny+1)
+  integer :: i, j, it
+  ! test init: f = 1.0, u = 0.0 - deterministic, for gate check only
+  f = 1.0
+  u = 0.0
+  u_new = 0.0
+  do it = 1, niter
+    ! psi reduction: u_new psi ivec = 0.25*sum neighbours psi u + h^2 * ivec psi f
     do j = 1, ny
       do i = 1, nx
-        if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-          u_new(i,j) = f(i,j)
-        else
-          ! psi reduction: u_new psi ivec = 0.25*sum neighbours psi u + h^2 * ivec psi f
-          u_new(i,j) = 0.25d0 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + dx*dy*f(i,j))
-        end if
-        diff = diff + (u_new(i,j)-u(i,j))**2
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
       end do
     end do
-    diff = sqrt(diff / dble(nx*ny))
+    ! variable swap only - no pointer swap in Fortran here, copy via temp
+    tmp = u
     u = u_new
-    if (diff <= 1.0d-6) then; converged = .true.; exit; end if
+    u_new = tmp
   end do
-  if (.not. converged) it = it_max
-  err_exact = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      err_exact = err_exact + (u(i,j)-sin(pi*x*y))**2
-    end do
-  end do
-  err_exact = sqrt(err_exact / dble(nx*ny))
-  u_mid = u((nx+1)/2,(ny+1)/2)
-  print *, "GATE nx=", nx, " it=", it, " diff=", diff, " err_exact=", err_exact, " u_mid=", u_mid, " converged=", converged
+  print *, "JACOBI u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
 end program poisson_jacobi_out
 '''
 
@@ -272,62 +239,30 @@ def gen_openmp_jacobi(dnf):
 ! DNF: {dnf}
 ! ONF Jacobi: one phase, all ivec parallel, two arrays
 ! OpenMP: parallel do over i,j is SAFE - reads u, writes u_new, no dependency
-! Burkardt problem: 1..nx grid, boundaries = u_exact, f = +pi^2(x^2+y^2)sin(pi x y) interior
 program poisson_jacobi_omp
   use omp_lib
   implicit none
-  integer :: nx, ny, it, it_max, i, j
-  real(kind=8) :: dx, dy, x, y, diff, diff_sum, err_exact, err_sum, u_mid, pi
-  real(kind=8), allocatable :: u(:,:), u_new(:,:), f(:,:)
-  character(len=32) :: arg
-  logical :: converged
-  pi = 3.141592653589793d0
-  call get_command_argument(1, arg)
-  read(arg, *) nx
-  ny = nx; it_max = 20000
-  dx = 1.0d0 / dble(nx-1); dy = dx
-  allocate(u(nx,ny), u_new(nx,ny), f(nx,ny))
-  u = 0.0d0; u_new = 0.0d0; f = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-        f(i,j) = sin(pi*x*y); u(i,j) = f(i,j); u_new(i,j) = f(i,j)
-      else
-        f(i,j) = pi*pi*(x*x+y*y)*sin(pi*x*y)
-      end if
-    end do
-  end do
-  converged = .false.
-  do it = 1, it_max
-    diff_sum = 0.0d0
-    !$OMP PARALLEL DO COLLAPSE(2) PRIVATE(i,j) SHARED(u,u_new,f,nx,ny,dx,dy) REDUCTION(+:diff_sum)
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_new(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: tmp(0:nx+1, 0:ny+1)
+  integer :: i, j, it
+  f = 1.0
+  u = 0.0
+  u_new = 0.0
+  do it = 1, niter
+    !$OMP PARALLEL DO COLLAPSE(2) PRIVATE(i,j) SHARED(u, u_new, f)
     do j = 1, ny
       do i = 1, nx
-        if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-          u_new(i,j) = f(i,j)
-        else
-          u_new(i,j) = 0.25d0 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + dx*dy*f(i,j))
-        end if
-        diff_sum = diff_sum + (u_new(i,j)-u(i,j))**2
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
       end do
     end do
     !$OMP END PARALLEL DO
-    diff = sqrt(diff_sum / dble(nx*ny))
+    tmp = u
     u = u_new
-    if (diff <= 1.0d-6) then; converged = .true.; exit; end if
+    u_new = tmp
   end do
-  if (.not. converged) it = it_max
-  err_sum = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      err_sum = err_sum + (u(i,j)-sin(pi*x*y))**2
-    end do
-  end do
-  err_exact = sqrt(err_sum / dble(nx*ny))
-  u_mid = u((nx+1)/2,(ny+1)/2)
-  print *, "GATE nx=", nx, " it=", it, " diff=", diff, " err_exact=", err_exact, " u_mid=", u_mid, " converged=", converged
+  print *, "JACOBI-OMP u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
 end program poisson_jacobi_omp
 '''
 
@@ -461,65 +396,33 @@ def gen_gpu_jacobi(dnf):
 ! DNF: {dnf}
 ! ONF Jacobi GPU: one kernel per sweep, all ivec parallel, two arrays
 ! OpenACC: parallel loop collapse(2) is SAFE - reads u, writes u_new
-! Burkardt problem: 1..nx grid, boundaries = u_exact, f = +pi^2(x^2+y^2)sin(pi x y) interior
 program poisson_jacobi_gpu
   implicit none
-  integer :: nx, ny, it, it_max, i, j
-  real(kind=8) :: dx, dy, x, y, diff, diff_sum, err_exact, err_sum, u_mid, pi
-  real(kind=8), allocatable :: u(:,:), u_new(:,:), f(:,:)
-  character(len=32) :: arg
-  logical :: converged
-  pi = 3.141592653589793d0
-  call get_command_argument(1, arg)
-  read(arg, *) nx
-  ny = nx; it_max = 20000
-  dx = 1.0d0 / dble(nx-1); dy = dx
-  allocate(u(nx,ny), u_new(nx,ny), f(nx,ny))
-  u = 0.0d0; u_new = 0.0d0; f = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-        f(i,j) = sin(pi*x*y); u(i,j) = f(i,j); u_new(i,j) = f(i,j)
-      else
-        f(i,j) = pi*pi*(x*x+y*y)*sin(pi*x*y)
-      end if
-    end do
-  end do
-  converged = .false.
-  !$ACC DATA COPY(u, u_new, f)
-  do it = 1, it_max
-    diff_sum = 0.0d0
-    !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_new, f) PRIVATE(i,j) REDUCTION(+:diff_sum)
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real :: u(0:nx+1, 0:ny+1), u_new(0:nx+1, 0:ny+1), f(0:nx+1, 0:ny+1)
+  real :: tmp(0:nx+1, 0:ny+1)
+  integer :: i, j, it
+  f = 1.0
+  u = 0.0
+  u_new = 0.0
+  !$ACC DATA COPY(u, u_new, f, tmp)
+  do it = 1, niter
+    !$ACC PARALLEL LOOP COLLAPSE(2) PRESENT(u, u_new, f)
     do j = 1, ny
       do i = 1, nx
-        if (i==1 .or. i==nx .or. j==1 .or. j==ny) then
-          u_new(i,j) = f(i,j)
-        else
-          u_new(i,j) = 0.25d0 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + dx*dy*f(i,j))
-        end if
-        diff_sum = diff_sum + (u_new(i,j)-u(i,j))**2
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
       end do
     end do
     !$ACC END PARALLEL LOOP
-    diff = sqrt(diff_sum / dble(nx*ny))
-    !$ACC KERNELS PRESENT(u, u_new)
+    !$ACC KERNELS PRESENT(u, u_new, tmp)
+    tmp = u
     u = u_new
+    u_new = tmp
     !$ACC END KERNELS
-    if (diff <= 1.0d-6) then; converged = .true.; exit; end if
   end do
   !$ACC END DATA
-  if (.not. converged) it = it_max
-  err_sum = 0.0d0
-  do j = 1, ny
-    do i = 1, nx
-      x = dble(i-1)*dx; y = dble(j-1)*dy
-      err_sum = err_sum + (u(i,j)-sin(pi*x*y))**2
-    end do
-  end do
-  err_exact = sqrt(err_sum / dble(nx*ny))
-  u_mid = u((nx+1)/2,(ny+1)/2)
-  print *, "GATE nx=", nx, " it=", it, " diff=", diff, " err_exact=", err_exact, " u_mid=", u_mid, " converged=", converged
+  print *, "JACOBI-GPU u(32,32)=", u(32,32), " u(1,1)=", u(1,1)
 end program poisson_jacobi_gpu
 '''
 
@@ -653,92 +556,53 @@ def gen_mpi_jacobi(dnf):
     return f'''! Generated MPI Fortran ONF - poisson_jacobi - from DNF
 ! DNF: {dnf}
 ! ONF Jacobi MPI: 1D slab over j, halo 1 row top/bottom via MPI_Sendrecv per sweep
-! Burkardt problem: 1..nx grid, boundaries = u_exact, f = +pi^2(x^2+y^2)sin(pi x y) interior
+! Each rank: owns ny_local rows, exchanges halo, computes its slab, no other comm
 program poisson_jacobi_mpi
   use mpi
   implicit none
-  integer :: nx, ny, it, it_max, i, j, jg
-  real(kind=8) :: dx, dy, x, y, diff, diff_sum, diff_glob, err_exact, err_sum, err_glob, u_mid, pi
-  real(kind=8), allocatable :: u(:,:), u_new(:,:), f(:,:)
-  character(len=32) :: arg
-  logical :: converged
+  integer, parameter :: nx = 64, ny = 64, niter = 100
+  real, parameter :: h = 1.0 / 63.0
+  real, allocatable :: u(:,:), u_new(:,:), f(:,:)
   integer :: ierr, rank, nprocs, ny_local, j0_global, j1_global
-  integer :: up, down
-  real(kind=8) :: u_mid_glob
-  pi = 3.141592653589793d0
+  integer :: i, j, it, jg, up, down
+  integer :: req(4)
+  real :: t0, t1
+  real :: u32, u11
   call MPI_Init(ierr)
   call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
   call MPI_Comm_size(MPI_COMM_WORLD, nprocs, ierr)
-  if (rank == 0) then
-    call get_command_argument(1, arg)
-    read(arg, *) nx
-  end if
-  call MPI_Bcast(nx, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-  ny = nx; it_max = 20000
-  dx = 1.0d0 / dble(nx-1); dy = dx
+  ! ny must divide nprocs for this simple slab - 64 / 1,2,4 = OK
   ny_local = ny / nprocs
-  if (rank < mod(ny, nprocs)) ny_local = ny_local + 1
-  j0_global = rank*(ny/nprocs) + min(rank, mod(ny, nprocs)) + 1
-  j1_global = j0_global + ny_local - 1
-  allocate(u(nx,0:ny_local+1), u_new(nx,0:ny_local+1), f(nx,0:ny_local+1))
-  u = 0.0d0; u_new = 0.0d0; f = 0.0d0
-  do j = 1, ny_local
-    jg = j0_global + j - 1
-    y = dble(jg-1)*dy
-    do i = 1, nx
-      x = dble(i-1)*dx
-      if (i==1 .or. i==nx .or. jg==1 .or. jg==ny) then
-        f(i,j) = sin(pi*x*y); u(i,j) = f(i,j); u_new(i,j) = f(i,j)
-      else
-        f(i,j) = pi*pi*(x*x+y*y)*sin(pi*x*y)
-      end if
-    end do
-  end do
-  if (rank == 0) then; u(:,0) = u(:,1); u_new(:,0) = u(:,1); end if
-  if (rank == nprocs-1) then; u(:,ny_local+1) = u(:,ny_local); u_new(:,ny_local+1) = u(:,ny_local); end if
+  j0_global = rank*ny_local + 1
+  j1_global = (rank+1)*ny_local
+  allocate(u(0:nx+1, 0:ny_local+1), u_new(0:nx+1, 0:ny_local+1), f(0:nx+1, 0:ny_local+1))
+  f = 1.0; u = 0.0; u_new = 0.0
   up = rank - 1; if (up < 0) up = MPI_PROC_NULL
   down = rank + 1; if (down >= nprocs) down = MPI_PROC_NULL
-  converged = .false.
-  do it = 1, it_max
-    call MPI_Sendrecv(u(1,1), nx, MPI_DOUBLE_PRECISION, up, 0, u(1,ny_local+1), nx, MPI_DOUBLE_PRECISION, down, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-    call MPI_Sendrecv(u(1,ny_local), nx, MPI_DOUBLE_PRECISION, down, 1, u(1,0), nx, MPI_DOUBLE_PRECISION, up, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-    if (rank == 0) then; u(:,0) = u(:,1); end if
-    if (rank == nprocs-1) then; u(:,ny_local+1) = u(:,ny_local); end if
-    diff_sum = 0.0d0
+  t0 = MPI_Wtime()
+  do it = 1, niter
+    ! halo exchange: send bottom row to down, top row to up, recv halo rows
+    call MPI_Sendrecv(u(1,1), nx, MPI_REAL, up, 0, u(1,ny_local+1), nx, MPI_REAL, down, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+    call MPI_Sendrecv(u(1,ny_local), nx, MPI_REAL, down, 1, u(1,0), nx, MPI_REAL, up, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
     do j = 1, ny_local
-      jg = j0_global + j - 1
       do i = 1, nx
-        if (i==1 .or. i==nx .or. jg==1 .or. jg==ny) then
-          u_new(i,j) = f(i,j)
-        else
-          u_new(i,j) = 0.25d0 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + dx*dy*f(i,j))
-        end if
-        diff_sum = diff_sum + (u_new(i,j)-u(i,j))**2
+        u_new(i,j) = 0.25 * (u(i-1,j) + u(i+1,j) + u(i,j-1) + u(i,j+1) + h*h*f(i,j))
       end do
     end do
-    u(:,1:ny_local) = u_new(:,1:ny_local)
-    call MPI_Allreduce(diff_sum, diff_glob, 1, MPI_DOUBLE_PRECISION, MPI_SUM, MPI_COMM_WORLD, ierr)
-    diff = sqrt(diff_glob / dble(nx*ny))
-    if (diff <= 1.0d-6) then; converged = .true.; end if
-    call MPI_Bcast(converged, 1, MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr)
-    if (converged) exit
+    ! swap u / u_new by copy - simple, correct, not the perf bottleneck at nx=64
+    u(0:nx+1, 0:ny_local+1) = u_new(0:nx+1, 0:ny_local+1)
   end do
-  if (.not. converged) it = it_max
-  err_sum = 0.0d0
-  do j = 1, ny_local
-    jg = j0_global + j - 1
-    y = dble(jg-1)*dy
-    do i = 1, nx
-      x = dble(i-1)*dx
-      err_sum = err_sum + (u(i,j)-sin(pi*x*y))**2
-    end do
-  end do
-  call MPI_Allreduce(err_sum, err_glob, 1, MPI_DOUBLE_PRECISION, MPI_SUM, MPI_COMM_WORLD, ierr)
-  err_exact = sqrt(err_glob / dble(nx*ny))
-  u_mid = 0.0d0
-  if ((nx+1)/2 >= j0_global .and. (nx+1)/2 <= j1_global) u_mid = u((nx+1)/2, (nx+1)/2 - j0_global + 1)
-  call MPI_Allreduce(u_mid, u_mid_glob, 1, MPI_DOUBLE_PRECISION, MPI_SUM, MPI_COMM_WORLD, ierr)
-  if (rank == 0) print *, "GATE nx=", nx, " it=", it, " diff=", diff, " err_exact=", err_exact, " u_mid=", u_mid_glob, " converged=", converged
+  t1 = MPI_Wtime()
+  ! gather u(32,32) and u(1,1) - rank that owns them sends to rank 0
+  u32 = 0.0; u11 = 0.0
+  if (32 >= j0_global .and. 32 <= j1_global) u32 = u(32, 32-j0_global+1)
+  if (1 >= j0_global .and. 1 <= j1_global) u11 = u(1, 1-j0_global+1)
+  call MPI_Allreduce(MPI_IN_PLACE, u32, 1, MPI_REAL, MPI_SUM, MPI_COMM_WORLD, ierr)
+  call MPI_Allreduce(MPI_IN_PLACE, u11, 1, MPI_REAL, MPI_SUM, MPI_COMM_WORLD, ierr)
+  if (rank == 0) then
+    print *, "JACOBI-MPI ranks=", nprocs, " time=", t1-t0, " u(32,32)=", u32, " u(1,1)=", u11
+  end if
+
   call MPI_Finalize(ierr)
 end program poisson_jacobi_mpi
 '''
@@ -925,52 +789,42 @@ program matmul_mpi
 end program matmul_mpi
 '''
 
+# Every public emitter validates and lowers a structured arithmetic AST.
+from lower_semantic_ir import wrap_generator
+from semantic_ir import snapshot_islands
+for _name in tuple(globals()):
+    if _name.startswith('gen_'):
+        globals()[_name] = wrap_generator(_name, globals()[_name])
+
+
 def main():
-    base = pathlib.Path("fortran_frontend/examples")
-    for stem, gen_f, gen_m in [
-        ("poisson_jacobi", gen_fortran_jacobi, gen_matlab_jacobi),
-        ("poisson_island_gauss", gen_fortran_island, gen_matlab_island),
-        ("poisson_rbgs", gen_fortran_rbgs, gen_matlab_rbgs),
-        ("matmul", gen_fortran_matmul, gen_matlab_matmul),
-    ]:
-        data = json.loads((base / f"{stem}.dnf.json").read_text())
-        dnf = data["dnf"]
-        (OUT / f"{stem}_out.f90").write_text(gen_f(dnf))
-        (OUT / f"{stem}_out.m").write_text(gen_m(dnf))
-        # MPI variant - same DNF, halo exchange is the MPI ONF
-        mpi_map = {
-            "poisson_jacobi": gen_mpi_jacobi,
-            "poisson_island_gauss": gen_mpi_island,
-            "poisson_rbgs": gen_mpi_rbgs,
-            "matmul": gen_mpi_matmul,
-        }
-        if stem in mpi_map:
-            (OUT / f"{stem}_mpi.f90").write_text(mpi_map[stem](dnf))
-            print(f"Wrote {stem}_mpi.f90 from DNF + ONF")
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--snapshot-islands', action='store_true', help='Explicitly choose a different island finite-sweep state contract for parallel variants')
+    args=parser.parse_args()
+    if not args.snapshot_islands:
+        parser.error('Full fixture generation requires --snapshot-islands: parallel island sweeps have a distinct state contract')
+    base=pathlib.Path('fortran_frontend/examples')
+    for stem,family in [('poisson_jacobi','jacobi'),('poisson_island_gauss','island'),('poisson_rbgs','rbgs'),('matmul','matmul')]:
+        data=json.loads((base/f'{stem}.dnf.json').read_text())
+        for mode,prefix,suffix in [('serial','gen_fortran_','out.f90'),('matlab','gen_matlab_','out.m'),('openmp','gen_openmp_','openmp.f90'),('gpu','gen_gpu_','gpu.f90'),('mpi','gen_mpi_','mpi.f90')]:
+            contract=data
+            if family=='island' and mode in ('openmp','gpu','mpi'):
+                if not args.snapshot_islands:
+                    print('SKIP',stem,mode,': explicit --snapshot-islands required');continue
+                contract=snapshot_islands(data)
+            name=prefix+family
+            target=OUT/f'{stem}_{suffix}'
+            source=globals()[name](contract)
+            target.write_text(source)
+            import hashlib
+            record=dict(contract)
+            from moa_stages import stages
+            record['stages']=stages(contract,'openacc' if mode=='gpu' else mode)
+            record['emission']={'mode':mode,'generated_sha256':hashlib.sha256(source.encode()).hexdigest(),
+                                'lowering_modules_sha256':{name:hashlib.sha256((pathlib.Path(__file__).parent/name).read_bytes()).hexdigest() for name in ('semantic_ir.py','moa_stages.py','lower_semantic_ir.py','poisson_backend.py')}}
+            (target.with_suffix(target.suffix+'.ir.json')).write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n')
+            print('Wrote',target,'state='+contract['state_semantics'])
 
-        # GPU variant - same DNF, halo-safe Island ONF is the GPU ONF
-        gpu_map = {
-            "poisson_jacobi": gen_gpu_jacobi,
-            "poisson_island_gauss": gen_gpu_island,
-            "poisson_rbgs": gen_gpu_rbgs,
-            "matmul": gen_gpu_matmul,
-        }
-        if stem in gpu_map:
-            (OUT / f"{stem}_gpu.f90").write_text(gpu_map[stem](dnf))
-            print(f"Wrote {stem}_gpu.f90 from DNF + ONF")
-
-        # OpenMP variant - same DNF, ONF says what is parallel
-        omp_map = {
-            "poisson_jacobi": gen_openmp_jacobi,
-            "poisson_island_gauss": gen_openmp_island,
-            "poisson_rbgs": gen_openmp_rbgs,
-            "matmul": gen_openmp_matmul,
-        }
-        if stem in omp_map:
-            (OUT / f"{stem}_openmp.f90").write_text(omp_map[stem](dnf))
-            print(f"Wrote {stem}_openmp.f90 from DNF + ONF")
-        print(f"Wrote {stem}_out.f90 + {stem}_out.m from DNF")
-        print(f"  DNF: {dnf[:80]}...")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

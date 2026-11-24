@@ -1,5 +1,5 @@
 ! Generated GPU Fortran ONF - matmul - from DNF
-! DNF: C psi (i,j) = sum_k ( (i,k) psi A ) * ( (k,j) psi B ) # matmul DNF
+! DNF: ⟨i,j⟩ ψ c = (⟨i,j⟩ ψ c+(⟨i,k⟩ ψ a*⟨k,j⟩ ψ b)); state=ordered_k_reduction
 ! ONF matmul GPU: i,j parallel, k sequential
 ! OpenACC: parallel loop over i,j is SAFE - each C(i,j) is independent
 program matmul_gpu
@@ -16,7 +16,7 @@ program matmul_gpu
     do i = 1, n
       C(i,j) = 0.0
       do k = 1, n
-        C(i,j) = C(i,j) + A(i,k) * B(k,j)
+        C(i,j) = (c(i,j)+(a(i,k)*b(k,j)))
       end do
     end do
   end do

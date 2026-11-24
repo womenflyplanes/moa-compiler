@@ -1,0 +1,223 @@
+{
+  "archived_not_deleted": [
+    {
+      "from": "moa_compiler/generated/paper45_matmul.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper45_matmul.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper45_matmul.f90",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper45_matmul.f90"
+    },
+    {
+      "from": "moa_compiler/generated/paper1_exact.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper1_exact.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper2_backward.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper2_backward.py"
+    },
+    {
+      "from": "moa_compiler/generated/paper3_decode.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper3_decode.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper2_backward.f90",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper2_backward.f90"
+    },
+    {
+      "from": "moa_compiler/generated/paper2_backward.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper2_backward.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper3_decode.f90",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper3_decode.f90"
+    },
+    {
+      "from": "moa_compiler/generated/paper45_matmul.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper45_matmul.py"
+    },
+    {
+      "from": "moa_compiler/generated/paper1_exact.f90",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper1_exact.f90"
+    },
+    {
+      "from": "moa_compiler/generated/paper1_exact.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper1_exact.py"
+    },
+    {
+      "from": "moa_compiler/generated/paper45_matmul_openmp.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper45_matmul_openmp.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper3_decode_openmp.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper3_decode_openmp.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper1_exact_openmp.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper1_exact_openmp.c"
+    },
+    {
+      "from": "moa_compiler/generated/paper3_decode.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper3_decode.py"
+    },
+    {
+      "from": "moa_compiler/generated/paper2_backward_openmp.c",
+      "to": "archive/illustrative_cost_demos/moa_compiler/generated/paper2_backward_openmp.c"
+    },
+    {
+      "from": "moa_compiler/moa_to_langs.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/moa_to_langs.py"
+    },
+    {
+      "from": "moa_compiler/run_all_langs.sh",
+      "to": "archive/illustrative_cost_demos/moa_compiler/run_all_langs.sh"
+    },
+    {
+      "from": "moa_compiler/paper45_validation.py",
+      "to": "archive/illustrative_cost_demos/moa_compiler/paper45_validation.py"
+    },
+    {
+      "from": "paper/island_time.png",
+      "to": "archive/reported_poisson_runs/paper/island_time.png"
+    },
+    {
+      "from": "paper/results_island_gauss.csv",
+      "to": "archive/reported_poisson_runs/paper/results_island_gauss.csv"
+    },
+    {
+      "from": "paper/island_iterations.png",
+      "to": "archive/reported_poisson_runs/paper/island_iterations.png"
+    },
+    {
+      "from": "paper/island_speedup.png",
+      "to": "archive/reported_poisson_runs/paper/island_speedup.png"
+    },
+    {
+      "from": "paper/paper1_island_gauss.tex",
+      "to": "archive/reported_poisson_runs/paper/paper1_island_gauss.tex"
+    },
+    {
+      "from": "paper/paper1_moa_universal_ir.tex",
+      "to": "archive/reported_poisson_runs/paper/paper1_moa_universal_ir.tex"
+    },
+    {
+      "from": "paper/run_island_gauss_amd_gpu.sh",
+      "to": "archive/reported_poisson_runs/paper/run_island_gauss_amd_gpu.sh"
+    },
+    {
+      "from": "moa_compiler/moa_compiler.py",
+      "to": "archive/historical_prototypes/moa_compiler/moa_compiler.py"
+    },
+    {
+      "from": "moa_compiler/gui.py",
+      "to": "archive/historical_prototypes/moa_compiler/gui.py"
+    },
+    {
+      "from": "moa_compiler/paper2_backward.py",
+      "to": "archive/historical_prototypes/moa_compiler/paper2_backward.py"
+    },
+    {
+      "from": "moa_compiler/paper1_exact_reproduce.py",
+      "to": "archive/historical_prototypes/moa_compiler/paper1_exact_reproduce.py"
+    },
+    {
+      "from": "moa_compiler/paper3_decode.py",
+      "to": "archive/historical_prototypes/moa_compiler/paper3_decode.py"
+    },
+    {
+      "from": "moa_compiler/gui.html",
+      "to": "archive/historical_prototypes/moa_compiler/gui.html"
+    },
+    {
+      "from": "moa_compiler_architecture_final.pdf",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture_final.pdf"
+    },
+    {
+      "from": "moa_compiler_architecture_1.pdf",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture_1.pdf"
+    },
+    {
+      "from": "moa_compiler_architecture_1.tex",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture_1.tex"
+    },
+    {
+      "from": "moa_compiler_architecture.pdf",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture.pdf"
+    },
+    {
+      "from": "moa_compiler_architecture_final.tex",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture_final.tex"
+    },
+    {
+      "from": "moa_compiler_architecture.tex",
+      "to": "archive/manuscript_drafts/moa_compiler_architecture.tex"
+    }
+  ],
+  "removed": [
+    {
+      "path": ".DS_Store",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "810b8c2b2742fca25c26673bf96fbd594e8d30fea40e8e66fb211d2b7fab983c"
+    },
+    {
+      "path": "moa_SC27_FINAL_WITH_ACK.aux",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "315baa34658714b13011c54d642f468638decfe497caf9754ca9563bc1c6575d"
+    },
+    {
+      "path": "moa_SC27_FINAL_WITH_ACK.out",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "ccdacee002ea553eef3442fd18ca41be714e96f4e6c8cd5de507ff0bb23dc07e"
+    },
+    {
+      "path": "moa_main_with_figs.aux",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "315baa34658714b13011c54d642f468638decfe497caf9754ca9563bc1c6575d"
+    },
+    {
+      "path": "moa_main_with_figs.out",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "ccdacee002ea553eef3442fd18ca41be714e96f4e6c8cd5de507ff0bb23dc07e"
+    },
+    {
+      "path": "moa_paper1_exact.mod",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "09090017b26e3b84388b820e291bcfa6b63512243aa2cb0a6b5ad5f7517a7c0f"
+    },
+    {
+      "path": "moa_paper2_backward.mod",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "b95c8ce2f162a46aadca822c1c0b13df4852705ae54749a1e45786635ee9807d"
+    },
+    {
+      "path": "moa_paper3_decode.mod",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "26d6ec4cab45661e34868686485ff6012e528e13a0dd965c51892093c0336ad2"
+    },
+    {
+      "path": "moa_paper45_matmul.mod",
+      "reason": "regenerable build/desktop artifact",
+      "sha256": "ac362b66c8aa941f849ce1a79b07a50774ddf0e70c7ab401aac5b4ea152d15f3"
+    },
+    {
+      "path": "moa_compiler_architecture_2.tex",
+      "reason": "byte-identical duplicate of moa_compiler_architecture.tex",
+      "sha256": "daf30c99bdee588fb7c4a819a99b65ca578c20829364635d5994aa147bcdfe11"
+    },
+    {
+      "path": "moa_compiler_architecture_3.tex",
+      "reason": "byte-identical duplicate of moa_compiler_architecture.tex",
+      "sha256": "daf30c99bdee588fb7c4a819a99b65ca578c20829364635d5994aa147bcdfe11"
+    },
+    {
+      "path": "moa_compiler_architecture_2.pdf",
+      "reason": "byte-identical duplicate of moa_compiler_architecture.pdf",
+      "sha256": "4d19a4af40ad723add75b10ca528a76228ba7582ebcffdd34febac637255bce8"
+    },
+    {
+      "path": "moa_compiler_architecture_3.pdf",
+      "reason": "byte-identical duplicate of moa_compiler_architecture.pdf",
+      "sha256": "4d19a4af40ad723add75b10ca528a76228ba7582ebcffdd34febac637255bce8"
+    }
+  ]
+}

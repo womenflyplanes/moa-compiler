@@ -1,0 +1,816 @@
+{
+  "schema": "moa.fortran.subset.v1",
+  "source": "fortran_frontend/examples/poisson_rbgs.f90",
+  "source_sha256": "717ca5d0bddae381d8365d7dd306ff355cb276343bac0815b7c29a154205aa83",
+  "family": "rbgs",
+  "parameters": {
+    "nx": 64,
+    "ny": 64,
+    "niter": 100,
+    "h": 0.01587301678955555
+  },
+  "update": {
+    "op": "mul",
+    "left": {
+      "op": "literal",
+      "value": "0.25"
+    },
+    "right": {
+      "op": "add",
+      "left": {
+        "op": "add",
+        "left": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i-1",
+                "j"
+              ]
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i+1",
+                "j"
+              ]
+            }
+          },
+          "right": {
+            "op": "select",
+            "array": "u",
+            "indices": [
+              "i",
+              "j-1"
+            ]
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "u",
+          "indices": [
+            "i",
+            "j+1"
+          ]
+        }
+      },
+      "right": {
+        "op": "mul",
+        "left": {
+          "op": "mul",
+          "left": {
+            "op": "scalar",
+            "name": "h"
+          },
+          "right": {
+            "op": "scalar",
+            "name": "h"
+          }
+        },
+        "right": {
+          "op": "select",
+          "array": "f",
+          "indices": [
+            "i",
+            "j"
+          ]
+        }
+      }
+    }
+  },
+  "state_semantics": "red_then_black",
+  "entry_contract": {
+    "precision": "real32",
+    "initial_u": 0,
+    "forcing": 1,
+    "boundaries": 0
+  },
+  "layout": "column_major",
+  "index_origin": 0,
+  "dnf": "⟨i,j⟩ ψ u_next = (0.25*((((⟨i-1,j⟩ ψ u+⟨i+1,j⟩ ψ u)+⟨i,j-1⟩ ψ u)+⟨i,j+1⟩ ψ u)+((h*h)*⟨i,j⟩ ψ f))); state=red_then_black",
+  "stages": {
+    "dnf": {
+      "schema": "moa.dnf.v1",
+      "family": "rbgs",
+      "result_index": [
+        "i",
+        "j"
+      ],
+      "domain_inclusive": {
+        "i": [
+          1,
+          64
+        ],
+        "j": [
+          1,
+          64
+        ]
+      },
+      "array_shapes": {
+        "u": [
+          66,
+          66
+        ],
+        "f": [
+          66,
+          66
+        ]
+      },
+      "entry_contract": {
+        "precision": "real32",
+        "initial_u": 0,
+        "forcing": 1,
+        "boundaries": 0
+      },
+      "parameters": {
+        "nx": 64,
+        "ny": 64,
+        "niter": 100,
+        "h": 0.01587301678955555
+      },
+      "expression": {
+        "op": "mul",
+        "left": {
+          "op": "literal",
+          "value": "0.25"
+        },
+        "right": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i-1",
+                    "j"
+                  ],
+                  "version": {
+                    "kind": "previous_color_phase",
+                    "phase_order": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i+1",
+                    "j"
+                  ],
+                  "version": {
+                    "kind": "previous_color_phase",
+                    "phase_order": [
+                      0,
+                      1
+                    ]
+                  }
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j-1"
+                ],
+                "version": {
+                  "kind": "previous_color_phase",
+                  "phase_order": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i",
+                "j+1"
+              ],
+              "version": {
+                "kind": "previous_color_phase",
+                "phase_order": [
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "right": {
+            "op": "mul",
+            "left": {
+              "op": "mul",
+              "left": {
+                "op": "scalar",
+                "name": "h"
+              },
+              "right": {
+                "op": "scalar",
+                "name": "h"
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "f",
+              "indices": [
+                "i",
+                "j"
+              ]
+            }
+          }
+        }
+      },
+      "state_semantics": "red_then_black",
+      "sweeps": 100,
+      "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+    },
+    "onf": {
+      "schema": "moa.onf.v1",
+      "dnf_sha256": "052bbdf0d6b005f01ad9b5713304a65ee78f6ec18c7c60b4d4aa985cfa503694",
+      "dnf": {
+        "schema": "moa.dnf.v1",
+        "family": "rbgs",
+        "result_index": [
+          "i",
+          "j"
+        ],
+        "domain_inclusive": {
+          "i": [
+            1,
+            64
+          ],
+          "j": [
+            1,
+            64
+          ]
+        },
+        "array_shapes": {
+          "u": [
+            66,
+            66
+          ],
+          "f": [
+            66,
+            66
+          ]
+        },
+        "entry_contract": {
+          "precision": "real32",
+          "initial_u": 0,
+          "forcing": 1,
+          "boundaries": 0
+        },
+        "parameters": {
+          "nx": 64,
+          "ny": 64,
+          "niter": 100,
+          "h": 0.01587301678955555
+        },
+        "expression": {
+          "op": "mul",
+          "left": {
+            "op": "literal",
+            "value": "0.25"
+          },
+          "right": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i-1",
+                      "j"
+                    ],
+                    "version": {
+                      "kind": "previous_color_phase",
+                      "phase_order": [
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i+1",
+                      "j"
+                    ],
+                    "version": {
+                      "kind": "previous_color_phase",
+                      "phase_order": [
+                        0,
+                        1
+                      ]
+                    }
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j-1"
+                  ],
+                  "version": {
+                    "kind": "previous_color_phase",
+                    "phase_order": [
+                      0,
+                      1
+                    ]
+                  }
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j+1"
+                ],
+                "version": {
+                  "kind": "previous_color_phase",
+                  "phase_order": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            },
+            "right": {
+              "op": "mul",
+              "left": {
+                "op": "mul",
+                "left": {
+                  "op": "scalar",
+                  "name": "h"
+                },
+                "right": {
+                  "op": "scalar",
+                  "name": "h"
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "f",
+                "indices": [
+                  "i",
+                  "j"
+                ]
+              }
+            }
+          }
+        },
+        "state_semantics": "red_then_black",
+        "sweeps": 100,
+        "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+      },
+      "target": "serial",
+      "phases": [
+        {
+          "operation": "color_map",
+          "colors": [
+            0,
+            1
+          ],
+          "barrier_between_colors": true,
+          "domain": [
+            "j",
+            "i"
+          ],
+          "parallel_axes": [
+            "j",
+            "i"
+          ],
+          "membership": "(i+j) mod 2 = color",
+          "writes": "u_current_phase"
+        }
+      ],
+      "layouts": {
+        "u": {
+          "shape": [
+            66,
+            66
+          ],
+          "origin": [
+            0,
+            0
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        },
+        "f": {
+          "shape": [
+            66,
+            66
+          ],
+          "origin": [
+            0,
+            0
+          ],
+          "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+          "order": "column_major"
+        }
+      },
+      "precision": "real32",
+      "arithmetic_tree": {
+        "op": "mul",
+        "left": {
+          "op": "literal",
+          "value": "0.25"
+        },
+        "right": {
+          "op": "add",
+          "left": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i-1",
+                    "j"
+                  ]
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i+1",
+                    "j"
+                  ]
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j-1"
+                ]
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "u",
+              "indices": [
+                "i",
+                "j+1"
+              ]
+            }
+          },
+          "right": {
+            "op": "mul",
+            "left": {
+              "op": "mul",
+              "left": {
+                "op": "scalar",
+                "name": "h"
+              },
+              "right": {
+                "op": "scalar",
+                "name": "h"
+              }
+            },
+            "right": {
+              "op": "select",
+              "array": "f",
+              "indices": [
+                "i",
+                "j"
+              ]
+            }
+          }
+        }
+      },
+      "obligations": [
+        "shape and index validity",
+        "entry-state validity",
+        "ordered arithmetic preserved",
+        "state-version reads preserved",
+        "write independence for parallel domain",
+        "barriers precede dependent phases"
+      ],
+      "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+    },
+    "lifted_onf": {
+      "schema": "moa.lifted_onf.v1",
+      "onf_sha256": "d8412859eeb79ce6e46c3bdb51c925a16e822fc1f8bd963c7439dd57a10bec7f",
+      "onf": {
+        "schema": "moa.onf.v1",
+        "dnf_sha256": "052bbdf0d6b005f01ad9b5713304a65ee78f6ec18c7c60b4d4aa985cfa503694",
+        "dnf": {
+          "schema": "moa.dnf.v1",
+          "family": "rbgs",
+          "result_index": [
+            "i",
+            "j"
+          ],
+          "domain_inclusive": {
+            "i": [
+              1,
+              64
+            ],
+            "j": [
+              1,
+              64
+            ]
+          },
+          "array_shapes": {
+            "u": [
+              66,
+              66
+            ],
+            "f": [
+              66,
+              66
+            ]
+          },
+          "entry_contract": {
+            "precision": "real32",
+            "initial_u": 0,
+            "forcing": 1,
+            "boundaries": 0
+          },
+          "parameters": {
+            "nx": 64,
+            "ny": 64,
+            "niter": 100,
+            "h": 0.01587301678955555
+          },
+          "expression": {
+            "op": "mul",
+            "left": {
+              "op": "literal",
+              "value": "0.25"
+            },
+            "right": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "add",
+                    "left": {
+                      "op": "select",
+                      "array": "u",
+                      "indices": [
+                        "i-1",
+                        "j"
+                      ],
+                      "version": {
+                        "kind": "previous_color_phase",
+                        "phase_order": [
+                          0,
+                          1
+                        ]
+                      }
+                    },
+                    "right": {
+                      "op": "select",
+                      "array": "u",
+                      "indices": [
+                        "i+1",
+                        "j"
+                      ],
+                      "version": {
+                        "kind": "previous_color_phase",
+                        "phase_order": [
+                          0,
+                          1
+                        ]
+                      }
+                    }
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i",
+                      "j-1"
+                    ],
+                    "version": {
+                      "kind": "previous_color_phase",
+                      "phase_order": [
+                        0,
+                        1
+                      ]
+                    }
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j+1"
+                  ],
+                  "version": {
+                    "kind": "previous_color_phase",
+                    "phase_order": [
+                      0,
+                      1
+                    ]
+                  }
+                }
+              },
+              "right": {
+                "op": "mul",
+                "left": {
+                  "op": "mul",
+                  "left": {
+                    "op": "scalar",
+                    "name": "h"
+                  },
+                  "right": {
+                    "op": "scalar",
+                    "name": "h"
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "f",
+                  "indices": [
+                    "i",
+                    "j"
+                  ]
+                }
+              }
+            }
+          },
+          "state_semantics": "red_then_black",
+          "sweeps": 100,
+          "scope": "versioned recurrence for iterative solver; final component finite sum for matmul"
+        },
+        "target": "serial",
+        "phases": [
+          {
+            "operation": "color_map",
+            "colors": [
+              0,
+              1
+            ],
+            "barrier_between_colors": true,
+            "domain": [
+              "j",
+              "i"
+            ],
+            "parallel_axes": [
+              "j",
+              "i"
+            ],
+            "membership": "(i+j) mod 2 = color",
+            "writes": "u_current_phase"
+          }
+        ],
+        "layouts": {
+          "u": {
+            "shape": [
+              66,
+              66
+            ],
+            "origin": [
+              0,
+              0
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          },
+          "f": {
+            "shape": [
+              66,
+              66
+            ],
+            "origin": [
+              0,
+              0
+            ],
+            "gamma": "(i-lower_i) + shape[0]*(j-lower_j)",
+            "order": "column_major"
+          }
+        },
+        "precision": "real32",
+        "arithmetic_tree": {
+          "op": "mul",
+          "left": {
+            "op": "literal",
+            "value": "0.25"
+          },
+          "right": {
+            "op": "add",
+            "left": {
+              "op": "add",
+              "left": {
+                "op": "add",
+                "left": {
+                  "op": "add",
+                  "left": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i-1",
+                      "j"
+                    ]
+                  },
+                  "right": {
+                    "op": "select",
+                    "array": "u",
+                    "indices": [
+                      "i+1",
+                      "j"
+                    ]
+                  }
+                },
+                "right": {
+                  "op": "select",
+                  "array": "u",
+                  "indices": [
+                    "i",
+                    "j-1"
+                  ]
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "u",
+                "indices": [
+                  "i",
+                  "j+1"
+                ]
+              }
+            },
+            "right": {
+              "op": "mul",
+              "left": {
+                "op": "mul",
+                "left": {
+                  "op": "scalar",
+                  "name": "h"
+                },
+                "right": {
+                  "op": "scalar",
+                  "name": "h"
+                }
+              },
+              "right": {
+                "op": "select",
+                "array": "f",
+                "indices": [
+                  "i",
+                  "j"
+                ]
+              }
+            }
+          }
+        },
+        "obligations": [
+          "shape and index validity",
+          "entry-state validity",
+          "ordered arithmetic preserved",
+          "state-version reads preserved",
+          "write independence for parallel domain",
+          "barriers precede dependent phases"
+        ],
+        "trusted_basis": "reviewed schedule template and semantic scalar lowering; not a proof-assistant theorem"
+      },
+      "target": "serial",
+      "owners": null,
+      "physical_execution_certified": false,
+      "binding": "one owner",
+      "communication": []
+    }
+  },
+  "emission": {
+    "mode": "serial",
+    "generated_sha256": "5342679a1d4473bb751654bfaaf477db5deb1fad49767327ed4d9ff17d8f70bc",
+    "lowering_modules_sha256": {
+      "semantic_ir.py": "1c25af3cc09f4f807201033212185be8e269a3086abc005a173963b398aceea5",
+      "moa_stages.py": "51122fbe4d3ad32e2a7bb3e43aa80230e57b4e8fd1df21ff9f1f9652b0ffdf80",
+      "lower_semantic_ir.py": "2eb980c4fa0bd19dee9146ac7bbef00cebc58e05facaf212f7bf19e1ba94fb29",
+      "poisson_backend.py": "2a947a50702a2a6ec00520d18c1d9855fefd9b7e1143bdbfa89ea4bd6edade40"
+    }
+  }
+}

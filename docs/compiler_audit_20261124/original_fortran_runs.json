@@ -1,0 +1,570 @@
+[
+  {
+    "file": "matmul_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_gpu.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " MATMUL-GPU C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": ""
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": "[1795499025.853707] [ddd8a9e059e9:29   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n MATMUL-MPI ranks=           1  time=   1.24111772E-04  C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "run",
+    "ranks": 2,
+    "rc": 0,
+    "stdout": "[1795499026.089971] [ddd8a9e059e9:36   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.111767] [ddd8a9e059e9:35   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n MATMUL-MPI ranks=           2  time=   6.25941902E-05  C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "run",
+    "ranks": 3,
+    "rc": 0,
+    "stdout": "[1795499026.349757] [ddd8a9e059e9:45   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.350713] [ddd8a9e059e9:44   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.352586] [ddd8a9e059e9:46   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n MATMUL-MPI ranks=           3  time=   4.08608466E-05  C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "run",
+    "ranks": 4,
+    "rc": 0,
+    "stdout": "[1795499026.591887] [ddd8a9e059e9:56   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.594782] [ddd8a9e059e9:58   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.595836] [ddd8a9e059e9:57   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.596336] [ddd8a9e059e9:59   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n MATMUL-MPI ranks=           4  time=   3.12849879E-05  C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "matmul_mpi.f90",
+    "action": "run",
+    "ranks": 5,
+    "rc": 0,
+    "stdout": "[1795499026.840839] [ddd8a9e059e9:71   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.842569] [ddd8a9e059e9:74   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.843650] [ddd8a9e059e9:73   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.843740] [ddd8a9e059e9:72   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499026.844569] [ddd8a9e059e9:75   :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n MATMUL-MPI ranks=           5  time=   2.35550106E-05  C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "matmul_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_openmp.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " MATMUL-OMP C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": ""
+  },
+  {
+    "file": "matmul_out.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_out.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "matmul_out.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " MATMUL C(32,32)=   64.0000000      C(1,1)=   64.0000000    \n",
+    "stderr": ""
+  },
+  {
+    "file": "paper1_exact.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper1_exact.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper1_exact.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " paper1_exact F=      786432  M=         768  T ms=   6.21772837E-03\n",
+    "stderr": ""
+  },
+  {
+    "file": "paper2_backward.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper2_backward.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper2_backward.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " paper2_backward F=      786432  M=         768  T ms=   6.21772837E-03\n",
+    "stderr": ""
+  },
+  {
+    "file": "paper3_decode.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper3_decode.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper3_decode.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " paper3_decode F=      786432  M=         768  T ms=   6.21772837E-03\n",
+    "stderr": ""
+  },
+  {
+    "file": "paper45_matmul.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper45_matmul.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "paper45_matmul.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " paper45_matmul F=      786432  M=         768  T ms=   6.21772837E-03\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_gpu.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " ISLAND-GPU u(32,32)=   1.16506834E-02  u(1,1)=   4.21483041E-04\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": "[1795499028.726608] [ddd8a9e059e9:163  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n ISLAND-MPI ranks=           1  time=   1.73658505E-03  u(32,32)=   1.16506834E-02  u(1,1)=   4.21483041E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "run",
+    "ranks": 2,
+    "rc": 0,
+    "stdout": "[1795499028.957538] [ddd8a9e059e9:169  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499028.959023] [ddd8a9e059e9:170  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n ISLAND-MPI ranks=           2  time=   1.15569122E-03  u(32,32)=   1.16506834E-02  u(1,1)=   4.21483041E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "run",
+    "ranks": 3,
+    "rc": 0,
+    "stdout": "[1795499029.195684] [ddd8a9e059e9:180  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.196042] [ddd8a9e059e9:178  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.196136] [ddd8a9e059e9:179  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n ISLAND-MPI ranks=           3  time=   8.79826024E-04  u(32,32)=   9.05112550E-03  u(1,1)=   4.19187068E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "run",
+    "ranks": 4,
+    "rc": 0,
+    "stdout": "[1795499029.435672] [ddd8a9e059e9:190  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.435983] [ddd8a9e059e9:191  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.436066] [ddd8a9e059e9:192  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.436940] [ddd8a9e059e9:193  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n ISLAND-MPI ranks=           4  time=   1.16050988E-03  u(32,32)=   1.16506834E-02  u(1,1)=   4.21483041E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_island_gauss_mpi.f90",
+    "action": "run",
+    "ranks": 5,
+    "rc": 0,
+    "stdout": "[1795499029.680932] [ddd8a9e059e9:205  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.681472] [ddd8a9e059e9:206  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.682691] [ddd8a9e059e9:208  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.689709] [ddd8a9e059e9:207  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499029.689849] [ddd8a9e059e9:209  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n ISLAND-MPI ranks=           5  time=   4.14407626E-03  u(32,32)=   4.67509031E-03  u(1,1)=   3.85275052E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_island_gauss_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_openmp.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " ISLAND-OMP u(32,32)=   1.16506834E-02  u(1,1)=   4.21483041E-04\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_out.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_out.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_island_gauss_out.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " ISLAND u(32,32)=   1.25835231E-02  u(1,1)=   4.22816112E-04\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_gpu.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " GATE nx=          17  it=         470  diff=   9.9797005924956591E-007  err_exact=   2.4632705263511785E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": "[1795499031.413538] [ddd8a9e059e9:261  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n GATE nx=          17  it=         470  diff=   9.9797005924956591E-007  err_exact=   2.4632705263511785E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "run",
+    "ranks": 2,
+    "rc": 0,
+    "stdout": "[1795499031.646452] [ddd8a9e059e9:267  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499031.646472] [ddd8a9e059e9:268  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n GATE nx=          17  it=         470  diff=   9.9797005924956570E-007  err_exact=   2.4632705263511780E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "run",
+    "ranks": 3,
+    "rc": 0,
+    "stdout": "[1795499031.884378] [ddd8a9e059e9:276  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499031.884597] [ddd8a9e059e9:277  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499031.885458] [ddd8a9e059e9:278  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n GATE nx=          17  it=         470  diff=   9.9797005924956570E-007  err_exact=   2.4632705263511774E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "run",
+    "ranks": 4,
+    "rc": 0,
+    "stdout": "[1795499032.121536] [ddd8a9e059e9:289  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.121665] [ddd8a9e059e9:288  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.122619] [ddd8a9e059e9:290  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.122655] [ddd8a9e059e9:291  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n GATE nx=          17  it=         470  diff=   9.9797005924956570E-007  err_exact=   2.4632705263511774E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_jacobi_mpi.f90",
+    "action": "run",
+    "ranks": 5,
+    "rc": 0,
+    "stdout": "[1795499032.364276] [ddd8a9e059e9:303  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.365719] [ddd8a9e059e9:304  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.365861] [ddd8a9e059e9:305  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.366986] [ddd8a9e059e9:306  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499032.367115] [ddd8a9e059e9:307  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n GATE nx=          17  it=         470  diff=   9.9797005924956570E-007  err_exact=   2.4632705263511774E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_jacobi_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_openmp.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " GATE nx=          17  it=         470  diff=   9.9797005924956570E-007  err_exact=   2.4632705263511785E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_out.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_out.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_jacobi_out.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " GATE nx=          17  it=         470  diff=   9.9797005924956591E-007  err_exact=   2.4632705263511785E-004  u_mid=  0.70744218605626896       converged= T\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_gpu.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_gpu.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " RBGS-GPU u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": "f951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/lib/../../fortran/gfortran-mod-15/openmpi\u2019 [-Wmissing-include-dirs]\nf951: Warning: Nonexistent include directory \u2018/usr/lib/x86_64-linux-gnu/openmpi/include\u2019 [-Wmissing-include-dirs]\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": "[1795499033.994733] [ddd8a9e059e9:359  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n RBGS-MPI ranks=           1  time=   9.20770690E-04  u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "run",
+    "ranks": 2,
+    "rc": 0,
+    "stdout": "[1795499034.223024] [ddd8a9e059e9:365  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.223622] [ddd8a9e059e9:366  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n RBGS-MPI ranks=           2  time=   7.53676519E-04  u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "run",
+    "ranks": 3,
+    "rc": 0,
+    "stdout": "[1795499034.466651] [ddd8a9e059e9:375  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.466695] [ddd8a9e059e9:374  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.468802] [ddd8a9e059e9:376  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n RBGS-MPI ranks=           3  time=   1.30084716E-03  u(32,32)=   1.25265224E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "run",
+    "ranks": 4,
+    "rc": 0,
+    "stdout": "[1795499034.709786] [ddd8a9e059e9:386  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.710932] [ddd8a9e059e9:387  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.712078] [ddd8a9e059e9:388  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.712471] [ddd8a9e059e9:389  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n RBGS-MPI ranks=           4  time=   6.59447163E-04  u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_rbgs_mpi.f90",
+    "action": "run",
+    "ranks": 5,
+    "rc": 0,
+    "stdout": "[1795499034.954996] [ddd8a9e059e9:401  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.955132] [ddd8a9e059e9:402  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.956628] [ddd8a9e059e9:403  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.958603] [ddd8a9e059e9:405  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n[1795499034.959215] [ddd8a9e059e9:404  :f]        vfs_fuse.c:413  UCX  ERROR failed to create VFS socket: Operation not permitted\n RBGS-MPI ranks=           5  time=   1.36882439E-03  u(32,32)=   1.25217196E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": "hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.\n"
+  },
+  {
+    "file": "poisson_rbgs_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_openmp.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_openmp.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " RBGS-OMP u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_out.f90",
+    "action": "compile",
+    "unlimited_lines": false,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_out.f90",
+    "action": "compile",
+    "unlimited_lines": true,
+    "rc": 0,
+    "stderr": ""
+  },
+  {
+    "file": "poisson_rbgs_out.f90",
+    "action": "run",
+    "ranks": 1,
+    "rc": 0,
+    "stdout": " RBGS u(32,32)=   1.25272544E-02  u(1,1)=   4.31805674E-04\n",
+    "stderr": ""
+  }
+]

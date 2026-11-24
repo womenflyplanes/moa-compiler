@@ -1,0 +1,8 @@
+{
+  "ranks": 3,
+  "ny": 64,
+  "island_height": 16,
+  "status": "PASS: unsupported mapping rejected",
+  "returncode": 2,
+  "stdout": " Unsupported: MPI slabs must align with island rows\n"
+}

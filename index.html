@@ -1,40 +1,8 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MoA Compiler — Prove by Construction</title>
-<style>body{font-family:-apple-system,system-ui,Helvetica,Arial,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;line-height:1.6;color:#222}h1{font-size:32px}h2{border-bottom:2px solid #4a6fa5;padding-bottom:6px;margin-top:36px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:8px;text-align:left}th{background:#eef2f7}.box{background:#f6f8fa;border-left:4px solid #4a6fa5;padding:12px 16px;margin:16px 0}a{color:#4a6fa5}.tag{display:inline-block;background:#4a6fa5;color:#fff;padding:2px 10px;border-radius:999px;font-size:12px}</style>
-</head><body>
-<span class="tag">MoA Compiler</span>
-<h1>Prove by Construction</h1>
-<p><b>One psi expression &rarr; DNF &rarr; ONF &rarr; dimension lifting &rarr; Serial / OpenMP / MPI / GPU.</b><br>Prove by construction, not by testing alone.</p>
-<p>GitHub: <a href="https://github.com/womenflyplanes/moa-compiler">womenflyplanes/moa-compiler</a> &nbsp; Branch: develop/mac-compiler-integration<br>Zenodo DOI: 10.5281/zenodo.23090349</p>
-<h2>What we can now claim (with proof)</h2>
-<p>Same problem, same stopping rule, same GATE. Burkardt Poisson.</p>
-<h3>Island Gauss — Delta, 12/12 CONVERGED PASS</h3>
-<ul><li>Serial: 1.09x–1.18x</li><li>OpenMP: 1.16x–1.49x</li><li>MPI: 1.02x–1.99x</li><li>nx 51 / 101 / 201 / 401, diff &le; 1e-6</li></ul>
-<h3>Jacobi — Delta</h3>
-<ul><li>Serial: 1.27–1.53x, OpenMP: 1.51–2.29x, MPI: 1.16–2.11x, GPU: 1.18–1.31x</li></ul>
-<h3>GPU for Island Gauss</h3>
-<p>NVIDIA A100 job 24398513, gpuA100x4, queued. AMD MI100 job 24412991, gpuMI100x8, queued. Same GATE when they finish.</p>
-<h2>Multi-language input — honest version</h2>
-<p>Today: Fortran + MoA psi is the source of truth. Fortran frontend takes Poisson Jacobi / Island Gauss / RBGS and derives DNF from psi. Not yet arbitrary C / Python / Fortran in. MoA psi is language-neutral, Fortran is the first frontend proven.</p>
-<h2>Multi-language output — proven</h2>
-<p>From SAME DNF emit Fortran 90, C with OpenMP / OpenACC / OpenMPI, MATLAB .m. One DNF &rarr; many ONFs.</p>
-<h2>Predictive</h2>
-<p>Shape-based cost: T &asymp; &alpha;F + &beta;M, predicts time / bytes / dollars / energy from shape before you run. MoA fuses diff into the sweep, eliminates the separate RMS pass.</p>
-<h2>Extrapolation: Hand &rarr; Compiler</h2>
-<div class="box"><b>Hand-derived ONF = compiler-generated ONF &rarr; hand timings predict compiler timings.</b><br>Do NOT claim compiler was tested on numerous ACCESS supercomputers. Claim: Hand-derived designs were tested on numerous ACCESS machines, Papers 1–4, predictive theory in Paper 5. Compiler now generates the same ONFs automatically. Compiler code proven on Delta, and by ONF equivalence inherits the hand-derived envelope elsewhere.</div>
-<p>Chain: Same psi &rarr; same DNF &rarr; <b>same AST</b> &rarr; same ONF &rarr; same performance envelope. GitHub docs contain hand vs compiler ASTs, equivalent.</p>
-<table><tr><th>Check</th><th>Hand</th><th>Compiler</th></tr>
-<tr><td>Psi</td><td>Papers 1–4</td><td>moa-compiler DNF</td></tr>
-<tr><td>ONF</td><td>Hand ONF</td><td>Generated .f90 — diff, not eyeball</td></tr>
-<tr><td>GATE</td><td>Hand run on ACCESS</td><td>Compiler run on Delta</td></tr>
-<tr><td>T &asymp; &alpha;F+&beta;M</td><td>Hand timings</td><td>Compiler timings, same &alpha;,&beta;</td></tr></table>
-<p>Paper 5: arXiv:2610.22769, One Communicator, Three Vendors. Earlier: arXiv:2306.11148, arXiv:2608.10119.<br>Caveat: Mismatch = compiler bug, not theory failure. MPI halo bug it=786 &rarr; 5988, GATE caught it.</p>
-<h2>Validation</h2>
-<p>GATE: diff &le; 1e-6, check it, diff, err vs sin(&pi;xy) exact, umid centre. Gated against Python + MATLAB R2024a.</p>
-<h2>HPC portable + scalable</h2>
-<p>Delta, ACCESS CIS261396 / CIS261342, NCSA Delta, TACC Stampede3, PSC Bridges-2. Partitions cpu, gpuA100x4, gpuMI100x8. Same DNF scales 51 to 401, Serial to MPI.</p>
-<h2>How to sell it</h2>
-<ol><li>Keep your Fortran, get portable GPU/MPI for free — from one DNF, not four rewrites.</li><li>Proof by construction + GATE — not benchmarks alone.</li><li>AST-equivalent, not just benchmark-equivalent.</li><li>Open, no-fee, reproducible — scripts + CSV + tex on GitHub.</li></ol>
-<p><a href="https://github.com/womenflyplanes/moa-compiler">View the code on GitHub</a></p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mathematics of Arrays compiler</title><style>body{font:18px/1.6 system-ui;max-width:850px;margin:3rem auto;padding:0 1rem;color:#17334a}a{color:#075e84}li{margin:.6rem 0}</style></head><body>
+<h1>Mathematics of Arrays compiler</h1>
+<p>A universal intermediate representation for array languages is the research goal: portable, scalable, predictable and validated designs.</p>
+<p>The current checked path has a bounded Fortran source adapter, structured versioned DNFs, operational forms, logical target lifting, and numerical/rejection checks. Supported generator paradigms include serial Fortran, OpenMP, OpenACC, MPI and MATLAB. Execution coverage is documented separately.</p>
+<ul><li><a href="https://github.com/womenflyplanes/moa-compiler/blob/codex/compiler-correctness-20261124/docs/MOA-UNIVERSAL-IR.md">Architecture, scope and compiler usage</a></li><li><a href="https://github.com/womenflyplanes/moa-compiler/blob/codex/compiler-correctness-20261124/docs/COMPILER_AUDIT_20261124.md">Correctness audit and validation evidence</a></li><li><a href="https://github.com/womenflyplanes/moa-compiler/tree/codex/papers-i-iv-correspondence">Attention Papers I–IV correspondence study</a></li></ul>
+<p>OpenACC host execution does not certify a GPU run. Logical lifting does not certify physical placement or historical timing transfer. General language frontends and broader predictive validation remain research extensions.</p>
 </body></html>

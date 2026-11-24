@@ -19,9 +19,9 @@ def ref_island_parallel():
                 for j in range(j0, j1):
                     for i in range(i0, i1):
                         ul = u_old[i-1,j] if i-1 < i0 else u[i-1,j]
-                        ur = u_old[i+1,j] if i+1 > i1 else u[i+1,j]
+                        ur = u_old[i+1,j] if i+1 >= i1 else u[i+1,j]
                         ud = u_old[i,j-1] if j-1 < j0 else u[i,j-1]
-                        uu = u_old[i,j+1] if j+1 > j1 else u[i,j+1]
+                        uu = u_old[i,j+1] if j+1 >= j1 else u[i,j+1]
                         u[i,j] = 0.25*(ul+ur+ud+uu + H*H*f[i,j])
     return u[32,32], u[1,1]
 def ref_rbgs():
